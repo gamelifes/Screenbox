@@ -80,7 +80,7 @@
                     <StaticResource x:Key="PlayerControlsBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
-            <ctConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <ctConverters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
