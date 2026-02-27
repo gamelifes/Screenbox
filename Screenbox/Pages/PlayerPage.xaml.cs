@@ -15,6 +15,7 @@ using Screenbox.Core.ViewModels;
 using Screenbox.Helpers;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -79,10 +80,9 @@ namespace Screenbox.Pages
             }
         }
 
-        private void MediaPlayer_PositionChanged(IMediaPlayer sender, object? args)
+        private void MediaPlayer_PositionChanged(IMediaPlayer sender, ValueChangedEventArgs<TimeSpan> args)
         {
-            var position = TimeSpan.FromMilliseconds(sender.Position * 1000);
-            ViewModel.UpdateLyricsPosition(position);
+            ViewModel.UpdateLyricsPosition(args.NewValue);
         }
 
         private void NavigationServiceOnNavigated(object sender, EventArgs e)
