@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -52,6 +53,10 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
     [ObservableProperty] private MediaViewModel? _media;
     [ObservableProperty] private bool _showVisualizer;
     [ObservableProperty] private bool _keyTipsVisible;
+    [ObservableProperty] private bool _showLyrics;
+    [ObservableProperty] private string? _currentLyricText;
+    [ObservableProperty] private Lyrics? _lyrics;
+    [ObservableProperty] private int _currentLyricIndex;
 
     [ObservableProperty]
     [NotifyPropertyChangedRecipients]
@@ -75,18 +80,21 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
     private readonly IResourceService _resourceService;
     private readonly IFilesService _filesService;
     private readonly PlayerContext _playerContext;
+    private readonly ILyricsService _lyricsService;
     private bool _visibilityOverride;
     private bool _resizeNext;
     private DateTimeOffset _lastUpdated;
 
     public PlayerPageViewModel(IWindowService windowService, IResourceService resourceService,
-        ISettingsService settingsService, IFilesService filesService, PlayerContext playerContext)
+        ISettingsService settingsService, IFilesService filesService, PlayerContext playerContext,
+        ILyricsService lyricsService)
     {
         _windowService = windowService;
         _resourceService = resourceService;
         _settingsService = settingsService;
         _filesService = filesService;
         _playerContext = playerContext;
+        _lyricsService = lyricsService;
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         _openingTimer = _dispatcherQueue.CreateTimer();
         _controlsVisibilityTimer = _dispatcherQueue.CreateTimer();
@@ -712,6 +720,18 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
         Media = current;
         AudioOnly = current == null || current.MediaType == MediaPlaybackType.Music;
         ShowVisualizer = current != null && AudioOnly && !string.IsNullOrEmpty(_settingsService.LivelyActivePath);
+        
+        // Load lyrics for audio files
+        if (current != null && AudioOnly)
+        {
+            LoadLyrics(current.Location);
+        }
+        else
+        {
+            Lyrics = null;
+            CurrentLyricText = null;
+        }
+        
         if (current != null)
         {
             // Auto-resize player window
@@ -795,5 +815,74 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
         }
 
         return false;
+    }
+
+    [RelayCommand]
+    private void ToggleLyrics()
+    {
+        ShowLyrics = !ShowLyrics;
+    }
+
+    private void LoadLyrics(string mediaPath)
+    {
+        try
+        {
+            string? lrcPath = null;
+            string dir = Path.GetDirectoryName(mediaPath) ?? string.Empty;
+            string fileNameWithoutExt = Path.GetFileNameWithoutExtension(mediaPath);
+
+            if (Directory.Exists(dir))
+            {
+                string[] lrcFiles = Directory.GetFiles(dir, fileNameWithoutExt + ".lrc", SearchOptions.TopDirectoryOnly);
+                if (lrcFiles.Length > 0)
+                {
+                    lrcPath = lrcFiles[0];
+                }
+            }
+
+            if (lrcPath != null)
+            {
+                Lyrics = _lyricsService.LoadLyricsFile(lrcPath);
+            }
+            else
+            {
+                Lyrics = null;
+            }
+            CurrentLyricIndex = -1;
+            CurrentLyricText = null;
+        }
+        catch
+        {
+            Lyrics = null;
+            CurrentLyricText = null;
+        }
+    }
+
+    public void UpdateLyricsPosition(TimeSpan position)
+    {
+        if (Lyrics == null || Lyrics.Lines.Count == 0 || !ShowLyrics)
+        {
+            CurrentLyricText = null;
+            return;
+        }
+
+        int newIndex = -1;
+        for (int i = 0; i < Lyrics.Lines.Count; i++)
+        {
+            if (Lyrics.Lines[i].Time <= position)
+            {
+                newIndex = i;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (newIndex != CurrentLyricIndex)
+        {
+            CurrentLyricIndex = newIndex;
+            CurrentLyricText = newIndex >= 0 ? Lyrics.Lines[newIndex].Text : null;
+        }
     }
 }

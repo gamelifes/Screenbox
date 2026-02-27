@@ -7,7 +7,9 @@ using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Screenbox.Controls;
+using Screenbox.Core.Contexts;
 using Screenbox.Core.Enums;
+using Screenbox.Core.Playback;
 using Screenbox.Core.Services;
 using Screenbox.Core.ViewModels;
 using Screenbox.Helpers;
@@ -60,6 +62,27 @@ namespace Screenbox.Pages
             navigationService.Navigated += NavigationServiceOnNavigated;
 
             AccessKeyManager.IsDisplayModeEnabledChanged += AccessKeyManager_OnIsDisplayModeEnabledChanged;
+
+            var playerContext = Ioc.Default.GetRequiredService<PlayerContext>();
+            playerContext.PropertyChanged += PlayerContext_PropertyChanged;
+        }
+
+        private void PlayerContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(PlayerContext.MediaPlayer))
+            {
+                var playerContext = (PlayerContext)sender!;
+                if (playerContext.MediaPlayer != null)
+                {
+                    playerContext.MediaPlayer.PositionChanged += MediaPlayer_PositionChanged;
+                }
+            }
+        }
+
+        private void MediaPlayer_PositionChanged(IMediaPlayer sender, object? args)
+        {
+            var position = TimeSpan.FromMilliseconds(sender.Position * 1000);
+            ViewModel.UpdateLyricsPosition(position);
         }
 
         private void NavigationServiceOnNavigated(object sender, EventArgs e)

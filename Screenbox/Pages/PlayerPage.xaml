@@ -80,6 +80,7 @@
                     <StaticResource x:Key="PlayerControlsBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+            <ctConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -422,6 +423,31 @@
             </interactivity:Interaction.Behaviors>
         </controls:PlayerElement>
 
+        <Grid
+            x:Name="LyricsOverlay"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0,0,0,80"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Visibility="{x:Bind ViewModel.ShowLyrics, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+            <Border
+                x:Name="LyricsBackground"
+                Padding="24,16"
+                Background="#99000000"
+                CornerRadius="8">
+                <TextBlock
+                    x:Name="LyricsText"
+                    FontSize="24"
+                    FontWeight="SemiBold"
+                    Foreground="White"
+                    HorizontalAlignment="Center"
+                    Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </Border>
+        </Grid>
+
         <Button
             x:Name="HiddenButton"
             Grid.Row="0"
@@ -430,6 +456,22 @@
             Opacity="0"
             Style="{x:Null}"
             Visibility="Collapsed" />
+
+        <Button
+            x:Name="ToggleLyricsButton"
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="0,0,12,12"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Background="Transparent"
+            Command="{x:Bind ViewModel.ToggleLyricsCommand}"
+            Visibility="{x:Bind ViewModel.AudioOnly, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+            <FontIcon
+                FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
+                FontSize="16"
+                Glyph="{StaticResource AudioGlyph}" />
+        </Button>
 
         <ctc:ConstrainedBox
             x:Name="AlbumArtPanel"

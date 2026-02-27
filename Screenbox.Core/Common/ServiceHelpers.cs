@@ -73,5 +73,6 @@ public static class ServiceHelpers
         services.AddSingleton<ILivelyWallpaperService, LivelyWallpaperService>();
         services.AddSingleton<IPlaybackControlService, PlaybackControlService>();
         services.AddSingleton<IPlaylistService, PlaylistService>();
+        services.AddSingleton<ILyricsService, LyricsService>();
     }
 }
