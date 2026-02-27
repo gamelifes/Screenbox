@@ -9,6 +9,7 @@ using CommunityToolkit.WinUI;
 using Screenbox.Controls;
 using Screenbox.Core.Contexts;
 using Screenbox.Core.Enums;
+using Screenbox.Core.Events;
 using Screenbox.Core.Playback;
 using Screenbox.Core.Services;
 using Screenbox.Core.ViewModels;
