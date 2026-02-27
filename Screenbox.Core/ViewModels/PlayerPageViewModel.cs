@@ -833,7 +833,7 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
 
             if (Directory.Exists(dir))
             {
-                string[] lrcFiles = Directory.GetFiles(dir, fileNameWithoutExt + ".lrc", SearchOptions.TopDirectoryOnly);
+                string[] lrcFiles = Directory.GetFiles(dir, fileNameWithoutExt + ".lrc");
                 if (lrcFiles.Length > 0)
                 {
                     lrcPath = lrcFiles[0];
