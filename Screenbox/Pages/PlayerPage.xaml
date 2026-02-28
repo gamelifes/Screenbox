@@ -453,12 +453,12 @@
                     <TextBlock
                         x:Name="LyricsText"
                         HorizontalAlignment="Center"
+                        Margin="0,8,0,8"
                         FontSize="24"
                         FontWeight="SemiBold"
                         Foreground="White"
                         Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
                         TextAlignment="Center"
-                        Margin="0,8,0,8"
                         TextWrapping="Wrap" />
                     <TextBlock
                         x:Name="LyricsNext"
