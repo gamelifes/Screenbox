@@ -487,8 +487,8 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Background="#CC000000"
-                CornerRadius="16"
-                Padding="48,32">
+                Padding="48,32"
+                CornerRadius="16">
                 <TextBlock
                     x:Name="DesktopLyricsText"
                     HorizontalAlignment="Center"
@@ -497,8 +497,8 @@
                     Foreground="White"
                     Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
                     TextAlignment="Center"
-                    MaxWidth="800"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap"
+                    MaxWidth="800" />
             </Border>
         </Grid>
 
