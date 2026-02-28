@@ -487,12 +487,12 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Background="#CC000000"
-                Padding="48,32"
-                CornerRadius="16">
+                CornerRadius="16"
+                Padding="48,32">
                 <TextBlock
                     x:Name="DesktopLyricsText"
-                    HorizontalAlignment="Center"
                     MaxWidth="800"
+                    HorizontalAlignment="Center"
                     FontSize="36"
                     FontWeight="Bold"
                     Foreground="White"
