@@ -446,10 +446,49 @@
                         FontSize="16"
                         FontWeight="Normal"
                         Foreground="#80FFFFFF"
+                        Opacity="0.6"
                         Text="{x:Bind ViewModel.PreviousLyricText, Mode=OneWay}"
                         TextAlignment="Center"
-                        Opacity="0.6"
                         TextWrapping="Wrap" />
+                    <TextBlock
+                        x:Name="LyricsText"
+                        HorizontalAlignment="Center"
+                        Margin="0,8,0,8"
+                        FontSize="24"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        x:Name="LyricsNext"
+                        HorizontalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Normal"
+                        Foreground="#80FFFFFF"
+                        Opacity="0.6"
+                        Text="{x:Bind ViewModel.NextLyricText, Mode=OneWay}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid
+            x:Name="DesktopLyricsOverlay"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0,100,0,100"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Visibility="{x:Bind ViewModel.DesktopLyricsMode, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+            <Border
+                x:Name="DesktopLyricsBackground"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="#CC000000"
+                Padding="48,32"
+                CornerRadius="16">
                 <TextBlock
                     x:Name="DesktopLyricsText"
                     MaxWidth="800"
@@ -460,23 +499,10 @@
                     Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
                     TextAlignment="Center"
                     TextWrapping="Wrap" />
-                    <TextBlock
-                        x:Name="LyricsNext"
-                        HorizontalAlignment="Center"
-                        FontSize="16"
-                        FontWeight="Normal"
-                        Foreground="#80FFFFFF"
-                        Text="{x:Bind ViewModel.NextLyricText, Mode=OneWay}"
-                        TextAlignment="Center"
-                        Opacity="0.6"
-                        TextWrapping="Wrap" />
-                </StackPanel>
             </Border>
         </Grid>
 
-        <Grid
-            x:Name="DesktopLyricsOverlay"
-            Grid.Row="1"
+        <Button
             Grid.Column="0"
             Margin="0,100,0,100"
             HorizontalAlignment="Stretch"
