@@ -34,10 +34,10 @@
 <TextBlock Text="Hello" Opacity="0.5" TextWrapping="Wrap" />
 
 <!-- 错误: Margin 在 TextWrapping 之后 -->
-<TextBlock Text="Hello" TextWrapping="Wrap" Margin="0,8,0,8" />
+<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,8,0,8" />
 
-<!-- 正确: Margin 在 TextWrapping 之前 -->
-<TextBlock Text="Hello" Margin="0,8,0,8" TextWrapping="Wrap" />
+<!-- 正确: Margin 在 HorizontalAlignment 之后 -->
+<TextBlock HorizontalAlignment="Center" Margin="0,8,0,8" TextWrapping="Wrap" />
 
 <!-- 错误: Padding 在 CornerRadius 之后 -->
 <Border CornerRadius="8" Padding="24,16">...</Border>
@@ -149,7 +149,7 @@ if (!int.TryParse(match.Groups[1].Value, out int minutes) ||
 
 **关键规则**:
 - `Opacity` 必须放在 `TextWrapping` 之前
-- `Margin` 必须放在 `TextWrapping` 之前
+- `Margin` 必须放在 `HorizontalAlignment` 之后，`FontSize` 之前
 - `Padding` 必须放在 `CornerRadius` 之后
 - `MaxWidth`/`MinWidth` 必须放在 `HorizontalAlignment` 之前，在 `TextWrapping` 之前
 
