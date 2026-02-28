@@ -124,7 +124,7 @@ public sealed partial class SongsPageViewModel : BaseMusicContentViewModel,
                 m.MediaInfo.MusicProperties.Year > 0
                     ? m.MediaInfo.MusicProperties.Year.ToString()
                     : MediaGroupingHelpers.OtherGroupSymbol)
-            .OrderByDescending(g => g.Key == MediaGroupingHelpers.OtherGroupSymbol ? 0 : uint.Parse(g.Key))
+            .OrderByDescending(g => g.Key == MediaGroupingHelpers.OtherGroupSymbol ? 0 : (uint.TryParse(g.Key, out uint year) ? year : 0))
             .ToList();
         return groups;
     }

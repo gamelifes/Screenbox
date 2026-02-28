@@ -133,7 +133,7 @@ public sealed partial class AlbumsPageViewModel : BaseMusicContentViewModel,
                 a.Year > 0
                     ? a.Year.ToString()
                     : MediaGroupingHelpers.OtherGroupSymbol)
-            .OrderByDescending(g => g.Key == MediaGroupingHelpers.OtherGroupSymbol ? 0 : uint.Parse(g.Key))
+            .OrderByDescending(g => g.Key == MediaGroupingHelpers.OtherGroupSymbol ? 0 : (uint.TryParse(g.Key, out uint year) ? year : 0))
             .ToList();
         return groups;
     }
