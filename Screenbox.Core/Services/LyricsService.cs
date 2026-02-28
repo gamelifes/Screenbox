@@ -101,10 +101,10 @@ public class LyricsService : ILyricsService
     {
         try
         {
-            if (!File.Exists(filePath))
+            if (!System.IO.File.Exists(filePath))
                 return null;
 
-            var content = File.ReadAllText(filePath);
+            var content = System.IO.File.ReadAllText(filePath);
             return ParseLrc(content);
         }
         catch
@@ -117,7 +117,7 @@ public class LyricsService : ILyricsService
     {
         try
         {
-            if (!File.Exists(filePath))
+            if (!System.IO.File.Exists(filePath))
                 return null;
 
             using var file = TagLib.File.Create(filePath);
