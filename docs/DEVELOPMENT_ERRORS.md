@@ -155,6 +155,31 @@ if (!int.TryParse(match.Groups[1].Value, out int minutes) ||
 
 ---
 
+## 4. XAML 解析错误 - 标签嵌套不匹配
+
+**日期**: 2026-02-28
+
+**问题**: 构建失败，XAML 解析错误
+
+**错误信息**:
+```
+Xaml Xml Parsing Error error WMC9997: 
+The 'Button' start tag on line 505 position 10 does not match the end tag of 'Grid'. 
+Line 529, position 11.
+```
+
+**原因**: XAML 文件中存在重复的标签元素，导致开始标签和结束标签不匹配
+
+**修复方法**: 
+- 检查并删除重复的 XAML 元素
+- 确保每个开始标签都有对应的结束标签
+- 使用正确的嵌套结构
+
+**相关文件**:
+- `Screenbox/Pages/PlayerPage.xaml`
+
+---
+
 ## 相关工具命令
 
 ```bash
