@@ -448,8 +448,8 @@
                         Foreground="#80FFFFFF"
                         Text="{x:Bind ViewModel.PreviousLyricText, Mode=OneWay}"
                         TextAlignment="Center"
-                        TextWrapping="Wrap"
-                        Opacity="0.6" />
+                        Opacity="0.6"
+                        TextWrapping="Wrap" />
                     <TextBlock
                         x:Name="LyricsText"
                         HorizontalAlignment="Center"
@@ -458,8 +458,8 @@
                         Foreground="White"
                         Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
                         TextAlignment="Center"
-                        TextWrapping="Wrap"
-                        Margin="0,8,0,8" />
+                        Margin="0,8,0,8"
+                        TextWrapping="Wrap" />
                     <TextBlock
                         x:Name="LyricsNext"
                         HorizontalAlignment="Center"
@@ -468,8 +468,8 @@
                         Foreground="#80FFFFFF"
                         Text="{x:Bind ViewModel.NextLyricText, Mode=OneWay}"
                         TextAlignment="Center"
-                        TextWrapping="Wrap"
-                        Opacity="0.6" />
+                        Opacity="0.6"
+                        TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
         </Grid>
@@ -486,9 +486,9 @@
                 x:Name="DesktopLyricsBackground"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Padding="48,32"
                 Background="#CC000000"
-                CornerRadius="16">
+                CornerRadius="16"
+                Padding="48,32">
                 <TextBlock
                     x:Name="DesktopLyricsText"
                     HorizontalAlignment="Center"
@@ -497,8 +497,8 @@
                     Foreground="White"
                     Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
                     TextAlignment="Center"
-                    TextWrapping="Wrap"
-                    MaxWidth="800" />
+                    MaxWidth="800"
+                    TextWrapping="Wrap" />
             </Border>
         </Grid>
 
