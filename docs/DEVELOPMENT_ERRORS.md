@@ -150,7 +150,7 @@ if (!int.TryParse(match.Groups[1].Value, out int minutes) ||
 **关键规则**:
 - `Opacity` 必须放在 `TextWrapping` 之前
 - `Margin` 必须放在 `HorizontalAlignment` 之后，`FontSize` 之前
-- `Padding` 必须放在 `CornerRadius` 之后
+- `Padding` 必须放在 `CornerRadius` 之前
 - `MaxWidth`/`MinWidth` 必须放在 `HorizontalAlignment` 之前，在 `TextWrapping` 之前
 
 ---
