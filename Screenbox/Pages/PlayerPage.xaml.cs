@@ -574,5 +574,17 @@ namespace Screenbox.Pages
                 args.Handled = true;
             }
         }
+
+        private void ToggleLyricsKeyboardAccelerator_OnInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            ViewModel.ToggleLyricsCommand.Execute(null);
+            args.Handled = true;
+        }
+
+        private void ToggleDesktopLyricsKeyboardAccelerator_OnInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            ViewModel.ToggleDesktopLyricsModeCommand.Execute(null);
+            args.Handled = true;
+        }
     }
 }

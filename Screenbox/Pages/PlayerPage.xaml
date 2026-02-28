@@ -174,6 +174,9 @@
             <KeyboardAccelerator Key="End" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
             <!--  Hide controls  -->
             <KeyboardAccelerator Key="Escape" Invoked="HideControlsKeyboardAccelerator_OnInvoked" />
+            <!--  Lyrics  -->
+            <KeyboardAccelerator Key="F2" Invoked="ToggleLyricsKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="F3" Invoked="ToggleDesktopLyricsKeyboardAccelerator_OnInvoked" />
         </Grid.KeyboardAccelerators>
 
         <Border
@@ -436,15 +439,66 @@
                 Padding="24,16"
                 Background="#99000000"
                 CornerRadius="8">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock
+                        x:Name="LyricsPrevious"
+                        HorizontalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Normal"
+                        Foreground="#80FFFFFF"
+                        Text="{x:Bind ViewModel.PreviousLyricText, Mode=OneWay}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap"
+                        Opacity="0.6" />
+                    <TextBlock
+                        x:Name="LyricsText"
+                        HorizontalAlignment="Center"
+                        FontSize="24"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap"
+                        Margin="0,8,0,8" />
+                    <TextBlock
+                        x:Name="LyricsNext"
+                        HorizontalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Normal"
+                        Foreground="#80FFFFFF"
+                        Text="{x:Bind ViewModel.NextLyricText, Mode=OneWay}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap"
+                        Opacity="0.6" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid
+            x:Name="DesktopLyricsOverlay"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0,100,0,100"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Visibility="{x:Bind ViewModel.DesktopLyricsMode, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+            <Border
+                x:Name="DesktopLyricsBackground"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Padding="48,32"
+                Background="#CC000000"
+                CornerRadius="16">
                 <TextBlock
-                    x:Name="LyricsText"
+                    x:Name="DesktopLyricsText"
                     HorizontalAlignment="Center"
-                    FontSize="24"
-                    FontWeight="SemiBold"
+                    FontSize="36"
+                    FontWeight="Bold"
                     Foreground="White"
                     Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
                     TextAlignment="Center"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap"
+                    MaxWidth="800" />
             </Border>
         </Grid>
 
@@ -457,21 +511,35 @@
             Style="{x:Null}"
             Visibility="Collapsed" />
 
-        <Button
-            x:Name="ToggleLyricsButton"
+        <StackPanel
             Grid.Row="2"
             Grid.Column="0"
             Margin="0,0,12,12"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Background="Transparent"
-            Command="{x:Bind ViewModel.ToggleLyricsCommand}"
+            Orientation="Horizontal"
             Visibility="{x:Bind ViewModel.AudioOnly, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-            <FontIcon
-                FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
-                FontSize="16"
-                Glyph="{StaticResource AudioGlyph}" />
-        </Button>
+            <Button
+                x:Name="ToggleDesktopLyricsButton"
+                Background="Transparent"
+                Command="{x:Bind ViewModel.ToggleDesktopLyricsModeCommand}"
+                ToolTipService.ToolTip="Desktop Lyrics Mode">
+                <FontIcon
+                    FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
+                    FontSize="16"
+                    Glyph="&#xE8D4;" />
+            </Button>
+            <Button
+                x:Name="ToggleLyricsButton"
+                Margin="8,0,0,0"
+                Background="Transparent"
+                Command="{x:Bind ViewModel.ToggleLyricsCommand}">
+                <FontIcon
+                    FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
+                    FontSize="16"
+                    Glyph="{StaticResource AudioGlyph}" />
+            </Button>
+        </StackPanel>
 
         <ctc:ConstrainedBox
             x:Name="AlbumArtPanel"

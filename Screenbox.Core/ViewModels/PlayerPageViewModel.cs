@@ -54,7 +54,11 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
     [ObservableProperty] private bool _showVisualizer;
     [ObservableProperty] private bool _keyTipsVisible;
     [ObservableProperty] private bool _showLyrics;
+    [ObservableProperty] private bool _desktopLyricsMode;
     [ObservableProperty] private string? _currentLyricText;
+    [ObservableProperty] private string? _previousLyricText;
+    [ObservableProperty] private string? _nextLyricText;
+    [ObservableProperty] private double _lyricProgress;
     [ObservableProperty] private Lyrics? _lyrics;
     [ObservableProperty] private int _currentLyricIndex;
 
@@ -823,15 +827,25 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
         ShowLyrics = !ShowLyrics;
     }
 
+    [RelayCommand]
+    private void ToggleDesktopLyricsMode()
+    {
+        DesktopLyricsMode = !DesktopLyricsMode;
+        if (DesktopLyricsMode)
+        {
+            ShowLyrics = true;
+        }
+    }
+
     private void LoadLyrics(string mediaPath)
     {
         try
         {
             string? lrcPath = null;
-            string dir = Path.GetDirectoryName(mediaPath) ?? string.Empty;
+            string? dir = Path.GetDirectoryName(mediaPath);
             string fileNameWithoutExt = Path.GetFileNameWithoutExtension(mediaPath);
 
-            if (Directory.Exists(dir))
+            if (!string.IsNullOrEmpty(dir) && Directory.Exists(dir))
             {
                 string[] lrcFiles = Directory.GetFiles(dir, fileNameWithoutExt + ".lrc");
                 if (lrcFiles.Length > 0)
@@ -846,15 +860,21 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
             }
             else
             {
-                Lyrics = null;
+                Lyrics = _lyricsService.LoadEmbeddedLyrics(mediaPath);
             }
             CurrentLyricIndex = -1;
             CurrentLyricText = null;
+            PreviousLyricText = null;
+            NextLyricText = null;
+            LyricProgress = 0;
         }
         catch
         {
             Lyrics = null;
             CurrentLyricText = null;
+            PreviousLyricText = null;
+            NextLyricText = null;
+            LyricProgress = 0;
         }
     }
 
@@ -863,6 +883,9 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
         if (Lyrics == null || Lyrics.Lines.Count == 0 || !ShowLyrics)
         {
             CurrentLyricText = null;
+            PreviousLyricText = null;
+            NextLyricText = null;
+            LyricProgress = 0;
             return;
         }
 
@@ -883,6 +906,24 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
         {
             CurrentLyricIndex = newIndex;
             CurrentLyricText = newIndex >= 0 ? Lyrics.Lines[newIndex].Text : null;
+            PreviousLyricText = newIndex > 0 ? Lyrics.Lines[newIndex - 1].Text : null;
+            NextLyricText = newIndex >= 0 && newIndex < Lyrics.Lines.Count - 1
+                ? Lyrics.Lines[newIndex + 1].Text
+                : null;
+            LyricProgress = 0;
+        }
+        else if (newIndex >= 0 && newIndex < Lyrics.Lines.Count)
+        {
+            TimeSpan lineStartTime = Lyrics.Lines[newIndex].Time;
+            TimeSpan lineEndTime = newIndex < Lyrics.Lines.Count - 1
+                ? Lyrics.Lines[newIndex + 1].Time
+                : lineStartTime + TimeSpan.FromSeconds(5);
+            double totalDuration = (lineEndTime - lineStartTime).TotalMilliseconds;
+            if (totalDuration > 0)
+            {
+                double elapsed = (position - lineStartTime).TotalMilliseconds;
+                LyricProgress = Math.Min(100, Math.Max(0, elapsed / totalDuration * 100));
+            }
         }
     }
 }

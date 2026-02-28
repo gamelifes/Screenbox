@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-
-namespace Screenbox.Core.Services;
+using TagLib;
 
 public class LyricLine
 {
@@ -26,6 +25,7 @@ public interface ILyricsService
 {
     Lyrics? ParseLrc(string content);
     Lyrics? LoadLyricsFile(string filePath);
+    Lyrics? LoadEmbeddedLyrics(string filePath);
 }
 
 public class LyricsService : ILyricsService
@@ -73,11 +73,18 @@ public class LyricsService : ILyricsService
                 var text = lrcMatches[lrcMatches.Count - 1].Groups[4].Value.Trim();
                 foreach (Match match in lrcMatches)
                 {
-                    var minutes = int.Parse(match.Groups[1].Value);
-                    var seconds = int.Parse(match.Groups[2].Value);
+                    if (!int.TryParse(match.Groups[1].Value, out int minutes) ||
+                        !int.TryParse(match.Groups[2].Value, out int seconds))
+                    {
+                        continue;
+                    }
+
                     var millisecondsStr = match.Groups[3].Value;
-                    var milliseconds = int.Parse(millisecondsStr.PadRight(3, '0'));
-                    
+                    if (!int.TryParse(millisecondsStr.PadRight(3, '0'), out int milliseconds))
+                    {
+                        continue;
+                    }
+
                     if (millisecondsStr.Length == 2)
                         milliseconds *= 10;
 
@@ -99,6 +106,36 @@ public class LyricsService : ILyricsService
 
             var content = File.ReadAllText(filePath);
             return ParseLrc(content);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public Lyrics? LoadEmbeddedLyrics(string filePath)
+    {
+        try
+        {
+            if (!File.Exists(filePath))
+                return null;
+
+            using var file = TagLib.File.Create(filePath);
+            string? lyricsContent = null;
+
+            if (file.Tag.Lyrics != null && !string.IsNullOrWhiteSpace(file.Tag.Lyrics))
+            {
+                lyricsContent = file.Tag.Lyrics;
+            }
+            else if (file.Tag.Comment != null && !string.IsNullOrWhiteSpace(file.Tag.Comment))
+            {
+                lyricsContent = file.Tag.Comment;
+            }
+
+            if (string.IsNullOrWhiteSpace(lyricsContent))
+                return null;
+
+            return ParseLrc(lyricsContent);
         }
         catch
         {
