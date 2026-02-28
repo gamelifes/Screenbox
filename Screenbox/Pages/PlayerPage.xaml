@@ -492,13 +492,13 @@
                 <TextBlock
                     x:Name="DesktopLyricsText"
                     HorizontalAlignment="Center"
+                    MaxWidth="800"
                     FontSize="36"
                     FontWeight="Bold"
                     Foreground="White"
                     Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
                     TextAlignment="Center"
-                    TextWrapping="Wrap"
-                    MaxWidth="800" />
+                    TextWrapping="Wrap" />
             </Border>
         </Grid>
 
