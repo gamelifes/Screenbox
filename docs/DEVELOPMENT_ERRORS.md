@@ -48,8 +48,8 @@
 <!-- 错误: MaxWidth 在 TextWrapping 之后 -->
 <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" MaxWidth="800" />
 
-<!-- 正确: MaxWidth 在 HorizontalAlignment 之后，TextWrapping 之前 -->
-<TextBlock HorizontalAlignment="Center" MaxWidth="800" TextWrapping="Wrap" />
+<!-- 正确: MaxWidth 在 HorizontalAlignment 之前，TextWrapping 之前 -->
+<TextBlock MaxWidth="800" HorizontalAlignment="Center" TextWrapping="Wrap" />
 ```
 
 ---
@@ -151,7 +151,7 @@ if (!int.TryParse(match.Groups[1].Value, out int minutes) ||
 - `Opacity` 必须放在 `TextWrapping` 之前
 - `Margin` 必须放在 `TextWrapping` 之前
 - `Padding` 必须放在 `CornerRadius` 之后
-- `MaxWidth`/`MinWidth` 必须放在 `HorizontalAlignment` 之后，在 `TextWrapping` 之前
+- `MaxWidth`/`MinWidth` 必须放在 `HorizontalAlignment` 之前，在 `TextWrapping` 之前
 
 ---
 
