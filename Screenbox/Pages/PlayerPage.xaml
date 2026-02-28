@@ -503,32 +503,6 @@
         </Grid>
 
         <Button
-            Grid.Column="0"
-            Margin="0,100,0,100"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Visibility="{x:Bind ViewModel.DesktopLyricsMode, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-            <Border
-                x:Name="DesktopLyricsBackground"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Background="#CC000000"
-                Padding="48,32"
-                CornerRadius="16">
-                <TextBlock
-                    x:Name="DesktopLyricsText"
-                    MaxWidth="800"
-                    HorizontalAlignment="Center"
-                    FontSize="36"
-                    FontWeight="Bold"
-                    Foreground="White"
-                    Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap" />
-            </Border>
-        </Grid>
-
-        <Button
             x:Name="HiddenButton"
             Grid.Row="0"
             Grid.Column="0"
