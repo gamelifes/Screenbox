@@ -450,16 +450,16 @@
                         TextAlignment="Center"
                         Opacity="0.6"
                         TextWrapping="Wrap" />
-                    <TextBlock
-                        x:Name="LyricsText"
-                        HorizontalAlignment="Center"
-                        Margin="0,8,0,8"
-                        FontSize="24"
-                        FontWeight="SemiBold"
-                        Foreground="White"
-                        Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap" />
+                <TextBlock
+                    x:Name="DesktopLyricsText"
+                    MaxWidth="800"
+                    HorizontalAlignment="Center"
+                    FontSize="36"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
                     <TextBlock
                         x:Name="LyricsNext"
                         HorizontalAlignment="Center"
