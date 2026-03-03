@@ -3,9 +3,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using TagLib;
+using System.Threading.Tasks;
+using Screenbox.Core.Helpers;
+using Windows.Storage;
+
+
+namespace Screenbox.Core.Services;
 
 public class LyricLine
 {
@@ -26,6 +31,7 @@ public interface ILyricsService
     Lyrics? ParseLrc(string content);
     Lyrics? LoadLyricsFile(string filePath);
     Lyrics? LoadEmbeddedLyrics(string filePath);
+    Task<Lyrics?> LoadEmbeddedLyricsAsync(StorageFile file);
 }
 
 public class LyricsService : ILyricsService
@@ -35,11 +41,17 @@ public class LyricsService : ILyricsService
 
     public Lyrics? ParseLrc(string content)
     {
+        System.Diagnostics.Debug.WriteLine($"[LyricsService] ParseLrc called with content length: {content?.Length ?? 0}");
+        
         if (string.IsNullOrWhiteSpace(content))
+        {
+            System.Diagnostics.Debug.WriteLine("[LyricsService] ParseLrc: content is null or empty, returning null");
             return null;
+        }
 
         var lyrics = new Lyrics();
         var lines = content.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+        System.Diagnostics.Debug.WriteLine($"[LyricsService] ParseLrc: processing {lines.Length} lines");
 
         foreach (var line in lines)
         {
@@ -47,6 +59,7 @@ public class LyricsService : ILyricsService
             if (string.IsNullOrEmpty(trimmedLine))
                 continue;
 
+            // Check for metadata
             var metaMatch = MetaRegex.Match(trimmedLine);
             if (metaMatch.Success)
             {
@@ -67,10 +80,13 @@ public class LyricsService : ILyricsService
                 continue;
             }
 
+            // Check for time-tagged lyrics
             var lrcMatches = LrcLineRegex.Matches(trimmedLine);
             if (lrcMatches.Count > 0)
             {
+                // Get text from the last match (some LRC files have multiple timestamps per line)
                 var text = lrcMatches[lrcMatches.Count - 1].Groups[4].Value.Trim();
+                
                 foreach (Match match in lrcMatches)
                 {
                     if (!int.TryParse(match.Groups[1].Value, out int minutes) ||
@@ -94,6 +110,7 @@ public class LyricsService : ILyricsService
             }
         }
 
+        System.Diagnostics.Debug.WriteLine($"[LyricsService] ParseLrc: parsed {lyrics.Lines.Count} lyric lines");
         return lyrics.Lines.Count > 0 ? lyrics : null;
     }
 
@@ -101,14 +118,24 @@ public class LyricsService : ILyricsService
     {
         try
         {
-            if (!System.IO.File.Exists(filePath))
+            System.Diagnostics.Debug.WriteLine($"[LyricsService] LoadLyricsFile: attempting to load from {filePath}");
+            
+            if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+            {
+                System.Diagnostics.Debug.WriteLine("[LyricsService] LoadLyricsFile: file does not exist");
                 return null;
+            }
 
             var content = System.IO.File.ReadAllText(filePath);
-            return ParseLrc(content);
+            System.Diagnostics.Debug.WriteLine($"[LyricsService] LoadLyricsFile: read {content.Length} characters");
+            
+            var result = ParseLrc(content);
+            System.Diagnostics.Debug.WriteLine($"[LyricsService] LoadLyricsFile: result = {(result != null ? $"{result.Lines.Count} lines" : "null")}");
+            return result;
         }
-        catch
+        catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"[LyricsService] LoadLyricsFile exception: {ex.Message}");
             return null;
         }
     }
@@ -117,8 +144,13 @@ public class LyricsService : ILyricsService
     {
         try
         {
-            if (!System.IO.File.Exists(filePath))
+            System.Diagnostics.Debug.WriteLine($"[LyricsService] LoadEmbeddedLyrics: attempting to load from {filePath}");
+            
+            if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+            {
+                System.Diagnostics.Debug.WriteLine("[LyricsService] LoadEmbeddedLyrics: file does not exist");
                 return null;
+            }
 
             using var file = TagLib.File.Create(filePath);
             string? lyricsContent = null;
@@ -126,19 +158,103 @@ public class LyricsService : ILyricsService
             if (file.Tag.Lyrics != null && !string.IsNullOrWhiteSpace(file.Tag.Lyrics))
             {
                 lyricsContent = file.Tag.Lyrics;
+                System.Diagnostics.Debug.WriteLine("[LyricsService] LoadEmbeddedLyrics: found lyrics in tag");
             }
             else if (file.Tag.Comment != null && !string.IsNullOrWhiteSpace(file.Tag.Comment))
             {
                 lyricsContent = file.Tag.Comment;
+                System.Diagnostics.Debug.WriteLine("[LyricsService] LoadEmbeddedLyrics: found lyrics in comment tag");
             }
 
             if (string.IsNullOrWhiteSpace(lyricsContent))
+            {
+                System.Diagnostics.Debug.WriteLine("[LyricsService] LoadEmbeddedLyrics: no embedded lyrics found");
                 return null;
+            }
 
             return ParseLrc(lyricsContent);
         }
-        catch
+        catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"[LyricsService] LoadEmbeddedLyrics exception: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async Task<Lyrics?> LoadEmbeddedLyricsAsync(StorageFile file)
+    {
+        // Validate parameters first
+        if (file == null)
+        {
+            System.Diagnostics.Debug.WriteLine("[LyricsService] LoadEmbeddedLyricsAsync: file is null");
+            return null;
+        }
+
+        // Capture file properties while still on UI thread
+        string? fileName = null;
+        string? filePath = null;
+        bool isAvailable = false;
+        
+        try
+        {
+            fileName = file.Name;
+            filePath = file.Path;
+            isAvailable = file.IsAvailable;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[LyricsService] LoadEmbeddedLyricsAsync: Error accessing file properties: {ex.Message}");
+            return null;
+        }
+
+        System.Diagnostics.Debug.WriteLine($"[LyricsService] LoadEmbeddedLyricsAsync: file.Name = {fileName}, IsAvailable = {isAvailable}");
+
+        try
+        {
+            if (!isAvailable)
+            {
+                System.Diagnostics.Debug.WriteLine("[LyricsService] LoadEmbeddedLyricsAsync: file is not available");
+                return null;
+            }
+
+            // Open stream for reading
+            using var stream = await file.OpenStreamForReadAsync();
+            var name = string.IsNullOrEmpty(filePath) ? fileName! : filePath;
+            
+            // Create TagLib file with stream abstraction
+            var fileAbstract = new StreamAbstraction(name, stream);
+            using var tagFile = TagLib.File.Create(fileAbstract, ReadStyle.PictureLazy);
+
+            string? lyricsContent = null;
+
+            // Try to get lyrics from various tags
+            if (tagFile.Tag.Lyrics != null && !string.IsNullOrWhiteSpace(tagFile.Tag.Lyrics))
+            {
+                lyricsContent = tagFile.Tag.Lyrics;
+                System.Diagnostics.Debug.WriteLine("[LyricsService] LoadEmbeddedLyricsAsync: found lyrics in LYRICS tag");
+            }
+            else if (tagFile.Tag.Comment != null && !string.IsNullOrWhiteSpace(tagFile.Tag.Comment))
+            {
+                lyricsContent = tagFile.Tag.Comment;
+                System.Diagnostics.Debug.WriteLine("[LyricsService] LoadEmbeddedLyricsAsync: found lyrics in COMMENT tag");
+            }
+
+            if (string.IsNullOrWhiteSpace(lyricsContent))
+            {
+                System.Diagnostics.Debug.WriteLine("[LyricsService] LoadEmbeddedLyricsAsync: no embedded lyrics found in file");
+                return null;
+            }
+
+            System.Diagnostics.Debug.WriteLine($"[LyricsService] LoadEmbeddedLyricsAsync: lyrics content length = {lyricsContent.Length}");
+            
+            var result = ParseLrc(lyricsContent);
+            System.Diagnostics.Debug.WriteLine($"[LyricsService] LoadEmbeddedLyricsAsync: result = {(result != null ? $"{result.Lines.Count} lines" : "null")}");
+            return result;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[LyricsService] LoadEmbeddedLyricsAsync exception: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"[LyricsService] Stack trace: {ex.StackTrace}");
             return null;
         }
     }

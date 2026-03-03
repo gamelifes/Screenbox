@@ -39,6 +39,7 @@ namespace Screenbox.Pages
         internal PlayerPageViewModel ViewModel => (PlayerPageViewModel)DataContext;
 
         private readonly DispatcherQueueTimer _delayFlyoutOpenTimer;
+        private readonly DispatcherQueue _dispatcherQueue;
         private CancellationTokenSource? _animationCancellationTokenSource;
         private bool _startup;
 
@@ -46,7 +47,8 @@ namespace Screenbox.Pages
         {
             this.InitializeComponent();
             DataContext = Ioc.Default.GetRequiredService<PlayerPageViewModel>();
-            _delayFlyoutOpenTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            _delayFlyoutOpenTimer = _dispatcherQueue.CreateTimer();
 
             RegisterSeekBarPointerHandlers();
             UpdatePreviewType();
@@ -83,7 +85,13 @@ namespace Screenbox.Pages
 
         private void MediaPlayer_PositionChanged(IMediaPlayer sender, ValueChangedEventArgs<TimeSpan> args)
         {
-            ViewModel.UpdateLyricsPosition(args.NewValue);
+            // Dispatch to UI thread - VLC events are raised on a background thread
+            // Use fire-and-forget pattern with TryEnqueue for better performance
+            var newValue = args.NewValue;
+            _ = _dispatcherQueue.TryEnqueue(() =>
+            {
+                ViewModel.UpdateLyricsPosition(newValue);
+            });
         }
 
         private void NavigationServiceOnNavigated(object sender, EventArgs e)

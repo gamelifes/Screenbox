@@ -837,49 +837,188 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
         }
     }
 
-    private void LoadLyrics(string mediaPath)
+    private async void LoadLyrics(string mediaPath)
     {
+        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics called with path: {mediaPath}");
+        
         try
         {
-            string? lrcPath = null;
-            string? dir = Path.GetDirectoryName(mediaPath);
-            string fileNameWithoutExt = Path.GetFileNameWithoutExtension(mediaPath);
+            // Clear previous lyrics first
+            Lyrics = null;
+            CurrentLyricIndex = -1;
+            CurrentLyricText = null;
+            PreviousLyricText = null;
+            NextLyricText = null;
+            LyricProgress = 0;
 
-            if (!string.IsNullOrEmpty(dir) && Directory.Exists(dir))
+            if (string.IsNullOrEmpty(mediaPath))
             {
-                string[] lrcFiles = Directory.GetFiles(dir, fileNameWithoutExt + ".lrc");
-                if (lrcFiles.Length > 0)
-                {
-                    lrcPath = lrcFiles[0];
-                }
+                System.Diagnostics.Debug.WriteLine("[PlayerPageViewModel] LoadLyrics: mediaPath is null or empty");
+                return;
             }
 
-            if (lrcPath != null)
+            // Try to find external LRC file first (this is what user wants)
+            string? lrcPath = null;
+            string fileNameWithoutExt = string.Empty;
+            
+            // Get file name without extension
+            try
             {
-                Lyrics = _lyricsService.LoadLyricsFile(lrcPath);
+                fileNameWithoutExt = Path.GetFileNameWithoutExtension(mediaPath);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: error parsing filename: {ex.Message}");
+            }
+
+            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: mediaPath='{mediaPath}'");
+            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: filename='{fileNameWithoutExt}'");
+
+            // Use Windows Storage API to search for LRC files
+            if (Media?.Source is StorageFile storageFile)
+            {
+                try
+                {
+                    // Get the folder containing the media file
+                    StorageFolder? folder = await storageFile.GetParentAsync();
+                    
+                    if (folder != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: folder path = '{folder.Path}'");
+                        
+                        // Try exact match first: song.lrc
+                        string lrcFileName = fileNameWithoutExt + ".lrc";
+                        try
+                        {
+                            StorageFile lrcFile = await folder.GetFileAsync(lrcFileName);
+                            lrcPath = lrcFile.Path;
+                            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: found LRC file (exact match): {lrcPath}");
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            // Exact match not found, try to find any .lrc file with matching name
+                            IReadOnlyList<StorageFile> lrcFiles = await folder.GetFilesAsync();
+                            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: found {lrcFiles.Count} files in folder");
+                            
+                            foreach (StorageFile lrcFile in lrcFiles)
+                            {
+                                if (string.Equals(lrcFile.FileType, ".lrc", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    string lrcName = Path.GetFileNameWithoutExtension(lrcFile.Name);
+                                    if (string.Equals(lrcName, fileNameWithoutExt, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        lrcPath = lrcFile.Path;
+                                        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: found LRC file (case-insensitive): {lrcPath}");
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: error searching folder: {ex.Message}");
+                }
             }
             else
             {
-                Lyrics = _lyricsService.LoadEmbeddedLyrics(mediaPath);
+                // Fallback: try traditional file API (may not work for UWP paths)
+                try
+                {
+                    string? dir = Path.GetDirectoryName(mediaPath);
+                    if (!string.IsNullOrEmpty(dir) && Directory.Exists(dir))
+                    {
+                        string exactMatch = Path.Combine(dir, fileNameWithoutExt + ".lrc");
+                        if (System.IO.File.Exists(exactMatch))
+                        {
+                            lrcPath = exactMatch;
+                        }
+                        else
+                        {
+                            foreach (string lrcFile in Directory.GetFiles(dir, "*.lrc"))
+                            {
+                                string lrcName = Path.GetFileNameWithoutExtension(lrcFile);
+                                if (string.Equals(lrcName, fileNameWithoutExt, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    lrcPath = lrcFile;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: fallback error: {ex.Message}");
+                }
             }
+
+            // Load LRC file if found
+            if (lrcPath != null)
+            {
+                System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: attempting to load LRC file: {lrcPath}");
+                
+                // Use Windows Storage API to read the LRC file
+                try
+                {
+                    StorageFile lrcStorageFile = await StorageFile.GetFileFromPathAsync(lrcPath);
+                    string lrcContent = await FileIO.ReadTextAsync(lrcStorageFile);
+                    Lyrics = _lyricsService.ParseLrc(lrcContent);
+                    System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: LRC file result = {(Lyrics != null ? $"{Lyrics.Lines.Count} lines" : "null")}");
+                    
+                    if (Lyrics != null)
+                    {
+                        // Successfully loaded external LRC file, we're done
+                        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: successfully loaded external LRC file");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: error reading LRC file: {ex.Message}");
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: no external LRC file found");
+            }
+
+            // Fallback: Try to load embedded lyrics (only if no external LRC found)
+            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: trying embedded lyrics, Media.Source type: {Media?.Source?.GetType().Name}");
+            
+            if (Media?.Source is StorageFile sourceForEmbed)
+            {
+                System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: Media.Source is StorageFile, loading...");
+                Lyrics = await _lyricsService.LoadEmbeddedLyricsAsync(sourceForEmbed);
+                System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics: embedded result = {(Lyrics != null ? $"{Lyrics.Lines.Count} lines" : "null")}");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("[PlayerPageViewModel] LoadLyrics: Media.Source is not a StorageFile, skipping embedded lyrics");
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics exception: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] Stack trace: {ex.StackTrace}");
+            
+            Lyrics = null;
             CurrentLyricIndex = -1;
             CurrentLyricText = null;
             PreviousLyricText = null;
             NextLyricText = null;
             LyricProgress = 0;
         }
-        catch
-        {
-            Lyrics = null;
-            CurrentLyricText = null;
-            PreviousLyricText = null;
-            NextLyricText = null;
-            LyricProgress = 0;
-        }
+        
+        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] LoadLyrics completed. Lyrics = {(Lyrics != null ? $"{Lyrics.Lines.Count} lines" : "null")}");
     }
 
     public void UpdateLyricsPosition(TimeSpan position)
     {
+        // Debug logging
+        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] UpdateLyricsPosition: position={position}, Lyrics={(Lyrics != null ? Lyrics.Lines.Count + " lines" : "null")}, ShowLyrics={ShowLyrics}");
+        
         if (Lyrics == null || Lyrics.Lines.Count == 0 || !ShowLyrics)
         {
             CurrentLyricText = null;
@@ -904,6 +1043,7 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
 
         if (newIndex != CurrentLyricIndex)
         {
+            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] UpdateLyricsPosition: index changed {CurrentLyricIndex} -> {newIndex}");
             CurrentLyricIndex = newIndex;
             CurrentLyricText = newIndex >= 0 ? Lyrics.Lines[newIndex].Text : null;
             PreviousLyricText = newIndex > 0 ? Lyrics.Lines[newIndex - 1].Text : null;
