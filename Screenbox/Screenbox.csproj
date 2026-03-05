@@ -215,11 +215,15 @@
     <Compile Include="Controls\VLCLoginDialog.xaml.cs">
       <DependentUpon>VLCLoginDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\VolumeControl.xaml.cs">
+<Compile Include="Controls\VolumeControl.xaml.cs">
       <DependentUpon>VolumeControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DesktopLyricsControl.xaml.cs">
+      <DependentUpon>DesktopLyricsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\CheckBoxToToolTipConverter.cs" />
-    <Compile Include="Converters\DefaultStringConverter.cs" />
+    <Compile Include="Converters\UIntToColorBrushConverter.cs" />
+<Compile Include="Converters\DefaultStringConverter.cs" />
     <Compile Include="Converters\FirstOrDefaultConverter.cs" />
     <Compile Include="Converters\GlyphConverter.cs" />
     <Compile Include="Converters\HumanizedDurationConverter.cs" />
@@ -525,9 +529,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\CompositeTrackPicker.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
+<Page Include="Controls\CompositeTrackPicker.xaml">
+        <SubType>Designer</SubType>
+        <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DesktopLyricsControl.xaml">
+        <SubType>Designer</SubType>
+        <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\CastControl.xaml">
       <SubType>Designer</SubType>

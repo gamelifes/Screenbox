@@ -351,39 +351,45 @@ namespace Screenbox.Core.ViewModels
             Messenger.Send(new ChangeAspectRatioMessage(_aspectRatio));
         }
 
-        [RelayCommand]
-        private async Task ToggleCompactLayoutAsync()
+[RelayCommand]
+    private async Task ToggleCompactLayoutAsync()
+    {
+        if (IsCompact)
         {
-            if (IsCompact)
-            {
-                await _windowService.TryExitCompactLayoutAsync();
-            }
-            else if (MediaPlayer?.NaturalVideoHeight > 0)
-            {
-                double aspectRatio = MediaPlayer.NaturalVideoWidth / (double)MediaPlayer.NaturalVideoHeight;
-                await _windowService.TryEnterCompactLayoutAsync(new Size(240 * aspectRatio, 240));
-            }
-            else
-            {
-                await _windowService.TryEnterCompactLayoutAsync(new Size(240, 240));
-            }
+            await _windowService.TryExitCompactLayoutAsync();
         }
-
-        [RelayCommand]
-        private void ToggleFullscreen()
+        else if (MediaPlayer?.NaturalVideoHeight > 0)
         {
-            if (IsCompact) return;
-            if (IsFullscreen)
-            {
-                _windowService.ExitFullScreen();
-            }
-            else
-            {
-                _windowService.TryEnterFullScreen();
-            }
+            double aspectRatio = MediaPlayer.NaturalVideoWidth / (double)MediaPlayer.NaturalVideoHeight;
+            await _windowService.TryEnterCompactLayoutAsync(new Size(240 * aspectRatio, 240));
         }
+        else
+        {
+            await _windowService.TryEnterCompactLayoutAsync(new Size(240, 240));
+        }
+    }
 
-        [RelayCommand(CanExecute = nameof(HasActiveItem))]
+[RelayCommand]
+    private void ToggleFullscreen()
+    {
+        if (IsCompact) return;
+        if (IsFullscreen)
+        {
+            _windowService.ExitFullScreen();
+        }
+        else
+        {
+            _windowService.TryEnterFullScreen();
+        }
+    }
+
+    [RelayCommand]
+    private void ToggleLyrics()
+    {
+        Messenger.Send(new ToggleLyricsMessage());
+    }
+
+    [RelayCommand(CanExecute = nameof(HasActiveItem))]
         private void PlayPause()
         {
             if (IsPlaying)

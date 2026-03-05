@@ -993,4 +993,7 @@
   <data name="LyricsHighlightColor" xml:space="preserve">
     <value>Lyrics highlight color</value>
   </data>
+  <data name="ShowLyrics" xml:space="preserve">
+    <value>Show lyrics</value>
+  </data>
 </root>

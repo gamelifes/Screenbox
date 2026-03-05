@@ -1,8 +1,9 @@
-﻿#nullable enable
+#nullable enable
 
 using System;
 using System.Collections.Generic;
 using LibVLCSharp.Shared;
+using Screenbox.Core.Messages;
 using Screenbox.Core.Playback;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -133,8 +134,11 @@ public sealed class PlayerService : IPlayerService
         media.Dispose();
     }
 
-    private LibVLC InitializeLibVlc(string[] swapChainOptions)
+private LibVLC InitializeLibVlc(string[] swapChainOptions)
     {
+        // Ensure LibVLC core is initialized before creating LibVLC instance
+        LibVlcInitializer.EnsureInitialized();
+
         List<string> options = new(swapChainOptions.Length + 4)
         {
 #if DEBUG

@@ -39,6 +39,8 @@ public sealed class SettingsService : ISettingsService
     private const string PrivacyPersistPlaybackPosition = "Privacy/PersistPlaybackPosition";
     private const string LyricsHighlightColorKey = "Lyrics/HighlightColor";
     private const string LyricsEnableKaraokeKey = "Lyrics/EnableKaraoke";
+    private const string DesktopLyricsPosXKey = "DesktopLyrics/PositionX";
+    private const string DesktopLyricsPosYKey = "DesktopLyrics/PositionY";
 
     public bool UseIndexer
     {
@@ -185,11 +187,25 @@ public sealed class SettingsService : ISettingsService
         set => SetValue(LyricsHighlightColorKey, value);
     }
     
-    // 是否启用卡拉OK逐字高亮效果
+// 是否启用卡拉OK逐字高亮效果
     public bool EnableKaraokeEffect
     {
         get => GetValue<bool>(LyricsEnableKaraokeKey);
         set => SetValue(LyricsEnableKaraokeKey, value);
+    }
+
+    // 桌面歌词窗口位置 X
+    public double DesktopLyricsPosX
+    {
+        get => GetValue<double>(DesktopLyricsPosXKey);
+        set => SetValue(DesktopLyricsPosXKey, value);
+    }
+
+    // 桌面歌词窗口位置 Y
+    public double DesktopLyricsPosY
+    {
+        get => GetValue<double>(DesktopLyricsPosYKey);
+        set => SetValue(DesktopLyricsPosYKey, value);
     }
 
     public SettingsService()

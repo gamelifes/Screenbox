@@ -5,11 +5,13 @@ using System.ComponentModel;
 using System.Threading;
 using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
 using Screenbox.Controls;
 using Screenbox.Core.Contexts;
 using Screenbox.Core.Enums;
 using Screenbox.Core.Events;
+using Screenbox.Core.Messages;
 using Screenbox.Core.Playback;
 using Screenbox.Core.Services;
 using Screenbox.Core.ViewModels;
@@ -34,7 +36,7 @@ namespace Screenbox.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PlayerPage : Page
+    public sealed partial class PlayerPage : Page, IRecipient<ToggleDesktopLyricsWindowMessage>
     {
         internal PlayerPageViewModel ViewModel => (PlayerPageViewModel)DataContext;
 
@@ -42,6 +44,7 @@ namespace Screenbox.Pages
         private readonly DispatcherQueue _dispatcherQueue;
         private CancellationTokenSource? _animationCancellationTokenSource;
         private bool _startup;
+        private DesktopLyricsControl? _desktopLyricsControl;
 
         public PlayerPage()
         {
@@ -69,6 +72,32 @@ namespace Screenbox.Pages
 
             var playerContext = Ioc.Default.GetRequiredService<PlayerContext>();
             playerContext.PropertyChanged += PlayerContext_PropertyChanged;
+
+            // 注册桌面歌词消息
+            WeakReferenceMessenger.Default.RegisterAll(this);
+        }
+
+        public void Receive(ToggleDesktopLyricsWindowMessage message)
+        {
+            if (message.IsVisible)
+            {
+                ShowDesktopLyrics();
+            }
+            else
+            {
+                HideDesktopLyrics();
+            }
+}
+
+    private void ShowDesktopLyrics()
+        {
+            _desktopLyricsControl ??= new DesktopLyricsControl();
+            _desktopLyricsControl.ShowPopup();
+        }
+
+        private void HideDesktopLyrics()
+        {
+            _desktopLyricsControl?.HidePopup();
         }
 
         private void PlayerContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -104,30 +133,50 @@ namespace Screenbox.Pages
             });
         }
         
-        private void TriggerLyricsAnimation()
+private void TriggerLyricsAnimation()
+    {
+        try
         {
-            try
+            VisualStateManager.GoToState(this, "LyricsChanged", true);
+
+            // 自动滚动到当前歌词
+            ScrollToCurrentLyric();
+
+            // Reset to normal after animation completes using existing timer
+            _delayFlyoutOpenTimer.Interval = TimeSpan.FromMilliseconds(350);
+            _delayFlyoutOpenTimer.Tick += (s, e) =>
             {
-                VisualStateManager.GoToState(this, "LyricsChanged", true);
-                
-                // Reset to normal after animation completes using existing timer
-                _delayFlyoutOpenTimer.Interval = TimeSpan.FromMilliseconds(350);
-                _delayFlyoutOpenTimer.Tick += (s, e) =>
+                _delayFlyoutOpenTimer.Stop();
+                try
                 {
-                    _delayFlyoutOpenTimer.Stop();
-                    try
-                    {
-                        VisualStateManager.GoToState(this, "LyricsNormal", false);
-                    }
-                    catch { }
-                };
-                _delayFlyoutOpenTimer.Start();
-            }
-            catch
-            {
-                // Animation may fail, ignore silently
-            }
+                    VisualStateManager.GoToState(this, "LyricsNormal", false);
+                }
+                catch { }
+            };
+            _delayFlyoutOpenTimer.Start();
         }
+        catch
+        {
+            // Animation may fail, ignore silently
+        }
+    }
+
+    private void ScrollToCurrentLyric()
+    {
+        try
+        {
+            var scrollViewer = GetTemplateChild("LyricsScrollViewer") as ScrollViewer;
+            if (scrollViewer == null) return;
+
+            // 滚动到当前歌词位置
+            // 当前歌词在第一个占位符(80px)之后
+            scrollViewer.ChangeView(null, 80.0, null, true);
+        }
+        catch
+        {
+            // Scroll may fail, ignore silently
+        }
+    }
 
         private void NavigationServiceOnNavigated(object sender, EventArgs e)
         {

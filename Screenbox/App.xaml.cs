@@ -88,15 +88,15 @@ namespace Screenbox
             ServiceCollection services = new();
             ServiceHelpers.PopulateCoreServices(services);
 
-            // View models
-            services.AddTransient<LivelyWallpaperSelectorViewModel>(provider =>
-                new LivelyWallpaperSelectorViewModel(
-                    provider.GetRequiredService<ILivelyWallpaperService>(),
-                    provider.GetRequiredService<IFilesService>(),
-                    provider.GetRequiredService<ISettingsService>(),
-                    Strings.Resources.Default, "ms-appx:///Assets/DefaultAudioVisual.png"));
+// View models
+    services.AddTransient<LivelyWallpaperSelectorViewModel>(provider =>
+        new LivelyWallpaperSelectorViewModel(
+            provider.GetRequiredService<ILivelyWallpaperService>(),
+            provider.GetRequiredService<IFilesService>(),
+            provider.GetRequiredService<ISettingsService>(),
+            Strings.Resources.Default, "ms-appx:///Assets/DefaultAudioVisual.png"));
 
-            // Factories
+    // Factories
             services.AddSingleton<Func<IVlcLoginDialog>>(_ => () => new VLCLoginDialog());
 
             // Services
@@ -149,34 +149,50 @@ namespace Screenbox
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+protected override void OnLaunched(LaunchActivatedEventArgs e)
+    {
+        Frame rootFrame = InitRootFrame();
+
+        if (e.PrelaunchActivated) return;
+        CoreApplication.EnablePrelaunch(true);
+        if (rootFrame.Content == null)
         {
-            Frame rootFrame = InitRootFrame();
-            LibVLCSharp.Shared.Core.Initialize();
-
-            if (e.PrelaunchActivated) return;
-            CoreApplication.EnablePrelaunch(true);
-            if (rootFrame.Content == null)
+            SetMinWindowSize();
+            // Navigate to MainPage asynchronously to avoid blocking UI
+            _ = rootFrame.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                SetMinWindowSize();
                 rootFrame.Navigate(typeof(MainPage));
-            }
+            });
+        }
 
-            // Ensure the current window is active
-            Window.Current.Activate();
+        // Ensure the current window is active
+        Window.Current.Activate();
+
+        // Defer LibVLC initialization to background to speed up startup
+        _ = Task.Run(() =>
+        {
+            try
+            {
+                LibVLCSharp.Shared.Core.Initialize();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"LibVLC initialization error: {ex.Message}");
+            }
+        });
 
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                //DebugSettings.EnableFrameRateCounter = true;
-                //DebugSettings.EnableRedrawRegions = true;
-                //DebugSettings.FailFastOnErrors = true;
-                //DebugSettings.IsBindingTracingEnabled = true;
-                //DebugSettings.IsOverdrawHeatMapEnabled = true;
-                //DebugSettings.IsTextPerformanceVisualizationEnabled = true;
-            }
-#endif
+        if (System.Diagnostics.Debugger.IsAttached)
+        {
+            //DebugSettings.EnableFrameRateCounter = true;
+            //DebugSettings.EnableRedrawRegions = true;
+            //DebugSettings.FailFastOnErrors = true;
+            //DebugSettings.IsBindingTracingEnabled = true;
+            //DebugSettings.IsOverdrawHeatMapEnabled = true;
+            //DebugSettings.IsTextPerformanceVisualizationEnabled = true;
         }
+#endif
+    }
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails

@@ -42,7 +42,8 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
     IRecipient<DragDropMessage>,
     IRecipient<PropertyChangedMessage<LivelyWallpaperModel?>>,
     IRecipient<PropertyChangedMessage<NavigationViewDisplayMode>>,
-    IRecipient<SettingsChangedMessage>
+    IRecipient<SettingsChangedMessage>,
+    IRecipient<ToggleLyricsMessage>
 {
     [ObservableProperty] private bool _controlsHidden;
     [ObservableProperty] private string? _statusMessage;
@@ -114,11 +115,14 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
         _statusMessageTimer = _dispatcherQueue.CreateTimer();
         _playPauseBadgeTimer = _dispatcherQueue.CreateTimer();
         _navigationViewDisplayMode = Messenger.Send<NavigationViewDisplayModeRequestMessage>();
-        _playerVisibility = PlayerVisibilityState.Hidden;
-        _lastUpdated = DateTimeOffset.MinValue;
-        
-        // 初始化歌词设置
-        _lyricsHighlightColor = _settingsService.LyricsHighlightColor;
+_playerVisibility = PlayerVisibilityState.Hidden;
+    _lastUpdated = DateTimeOffset.MinValue;
+
+    // 初始化歌词设置
+    _lyricsHighlightColor = _settingsService.LyricsHighlightColor;
+    
+    // 歌词显示默认开启
+    _showLyrics = true;
 
         FocusManager.GotFocus += FocusManagerOnFocusChanged;
         _windowService.ViewModeChanged += WindowServiceOnViewModeChanged;
@@ -145,19 +149,24 @@ public void Receive(PropertyChangedMessage<LivelyWallpaperModel?> message)
 }
 
 public void Receive(SettingsChangedMessage message)
-{
-    System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] Receive SettingsChangedMessage: {message.SettingsName}");
-    if (message.SettingsName == nameof(ISettingsService.LyricsHighlightColor))
     {
-        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] Before update: LyricsHighlightColor=0x{LyricsHighlightColor:X8}");
-        LyricsHighlightColor = _settingsService.LyricsHighlightColor;
-        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] After update: LyricsHighlightColor=0x{LyricsHighlightColor:X8}");
-        OnPropertyChanged(nameof(LyricsHighlightColor));
-        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] OnPropertyChanged fired");
+        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] Receive SettingsChangedMessage: {message.SettingsName}");
+        if (message.SettingsName == nameof(ISettingsService.LyricsHighlightColor))
+        {
+            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] Before update: LyricsHighlightColor=0x{LyricsHighlightColor:X8}");
+            LyricsHighlightColor = _settingsService.LyricsHighlightColor;
+            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] After update: LyricsHighlightColor=0x{LyricsHighlightColor:X8}");
+            OnPropertyChanged(nameof(LyricsHighlightColor));
+            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] OnPropertyChanged fired");
+        }
     }
-}
 
-public void Receive(TogglePlayerVisibilityMessage message)
+    public void Receive(ToggleLyricsMessage message)
+    {
+        ShowLyrics = !ShowLyrics;
+    }
+
+    public void Receive(TogglePlayerVisibilityMessage message)
     {
         switch (PlayerVisibility)
         {
@@ -1172,9 +1181,12 @@ public void SetLyricsColor(uint color)
                 // 没有EnhancedLines，使用进度百分比
                 CalculateKaraokeByProgress(newIndex, position);
             }
-        }
+}
+
+        // 发送消息更新桌面歌词窗口
+        WeakReferenceMessenger.Default.Send(new UpdateLyricsMessage(HighlightedText, RemainingText));
     }
-    
+
     /// <summary>
     /// 根据进度计算卡拉OK效果（没有逐字时间戳时使用）
     /// </summary>

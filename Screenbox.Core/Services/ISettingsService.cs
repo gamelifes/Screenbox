@@ -43,4 +43,14 @@ public interface ISettingsService
     /// 是否启用卡拉OK逐字高亮效果
     /// </summary>
     bool EnableKaraokeEffect { get; set; }
+
+    /// <summary>
+    /// 桌面歌词窗口位置 X
+    /// </summary>
+    double DesktopLyricsPosX { get; set; }
+
+    /// <summary>
+    /// 桌面歌词窗口位置 Y
+    /// </summary>
+    double DesktopLyricsPosY { get; set; }
 }

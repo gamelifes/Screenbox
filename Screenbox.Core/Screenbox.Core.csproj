@@ -192,8 +192,9 @@
     <Compile Include="Messages\TimeChangeOverrideMessage.cs" />
     <Compile Include="Messages\TogglePlayerVisibilityMessage.cs" />
     <Compile Include="Messages\TogglePlayPauseMessage.cs" />
-    <Compile Include="Messages\UpdateStatusMessage.cs" />
+<Compile Include="Messages\UpdateStatusMessage.cs" />
     <Compile Include="Messages\UpdateVolumeStatusMessage.cs" />
+    <Compile Include="Messages\DesktopLyricsMessages.cs" />
     <Compile Include="Models\IMediaProperties.cs" />
     <Compile Include="Models\Language.cs" />
     <Compile Include="Models\LivelyInfoModel.cs" />
@@ -275,6 +276,7 @@
     <Compile Include="ViewModels\CastControlViewModel.cs" />
     <Compile Include="ViewModels\ChapterViewModel.cs" />
     <Compile Include="ViewModels\CommonViewModel.cs" />
+    <Compile Include="ViewModels\DesktopLyricsViewModel.cs" />
     <Compile Include="ViewModels\FolderListViewPageViewModel.cs" />
     <Compile Include="ViewModels\FolderViewPageViewModel.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />

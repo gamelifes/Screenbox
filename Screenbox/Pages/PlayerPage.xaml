@@ -491,12 +491,24 @@ xmlns:strings="using:Screenbox.Strings"
         </Border.Background>
     </Border>
 
-    <!-- 歌词内容 - 垂直居中 -->
+<!-- 歌词内容 - 支持自动滚动 -->
+<ScrollViewer
+    x:Name="LyricsScrollViewer"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Center"
+    HorizontalScrollMode="Disabled"
+    VerticalScrollMode="Enabled"
+    IsVerticalScrollChainingEnabled="False"
+    VerticalScrollBarVisibility="Hidden">
     <StackPanel
         x:Name="LyricsStackPanel"
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
-        Orientation="Vertical">
+        Orientation="Vertical"
+        Width="600">
+        <!-- 占位元素，用于将当前歌词居中 (约一半高度) -->
+        <Rectangle Height="80" />
+
         <!-- 上一句歌词 -->
         <TextBlock
             x:Name="LyricsPrevious"
@@ -507,12 +519,7 @@ xmlns:strings="using:Screenbox.Strings"
             Foreground="#60FFFFFF"
             Text="{x:Bind ViewModel.PreviousLyricText, Mode=OneWay, FallbackValue={x:Null}}"
             TextAlignment="Center"
-            TextWrapping="Wrap"
-            MaxWidth="600">
-            <TextBlock.RenderTransform>
-                <TranslateTransform x:Name="LyricsPreviousTransform" />
-            </TextBlock.RenderTransform>
-        </TextBlock>
+            TextWrapping="Wrap" />
 
         <!-- 当前歌词 - 卡拉OK效果 -->
         <StackPanel
@@ -549,54 +556,13 @@ xmlns:strings="using:Screenbox.Strings"
             Foreground="#60FFFFFF"
             Text="{x:Bind ViewModel.NextLyricText, Mode=OneWay, FallbackValue={x:Null}}"
             TextAlignment="Center"
-            TextWrapping="Wrap"
-            MaxWidth="600">
-            <TextBlock.RenderTransform>
-<TranslateTransform x:Name="LyricsNextTransform" />
-</TextBlock.RenderTransform>
-</TextBlock>
-</StackPanel>
-</Grid>
+            TextWrapping="Wrap" />
 
-        <Grid
-            x:Name="DesktopLyricsOverlay"
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="0,80,0,80"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Visibility="{x:Bind ViewModel.DesktopLyricsMode, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-            <!-- 桌面歌词 - PotPlayer风格 + 卡拉OK效果 -->
-            <Border
-                x:Name="DesktopLyricsBackground"
-                Padding="64,48"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Background="#00000000">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock
-                        x:Name="DesktopLyricsHighlighted"
-                        MaxWidth="1000"
-                        HorizontalAlignment="Center"
-                        FontSize="48"
-                        FontWeight="Bold"
-                        Foreground="{x:Bind ViewModel.LyricsHighlightColor, Converter={StaticResource UIntToColorBrushConverter}, Mode=OneWay}"
-                        Text="{x:Bind ViewModel.HighlightedText, Mode=OneWay, FallbackValue={x:Null}}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        x:Name="DesktopLyricsRemaining"
-                        MaxWidth="1000"
-                        HorizontalAlignment="Center"
-                        FontSize="48"
-                        FontWeight="Bold"
-                        Foreground="White"
-                        Text="{x:Bind ViewModel.RemainingText, Mode=OneWay, FallbackValue={x:Null}}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap" />
-                </StackPanel>
-            </Border>
-        </Grid>
+        <!-- 占位元素 -->
+        <Rectangle Height="80" />
+    </StackPanel>
+</ScrollViewer>
+</Grid>
 
         <Button
             x:Name="HiddenButton"
@@ -609,25 +575,14 @@ xmlns:strings="using:Screenbox.Strings"
 
         <StackPanel
             Grid.Row="2"
-Grid.Column="0"
-Margin="0,0,12,12"
-HorizontalAlignment="Center"
-VerticalAlignment="Bottom"
-Orientation="Horizontal"
-Visibility="{x:Bind ViewModel.AudioOnly, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-<Button
-    x:Name="ToggleDesktopLyricsButton"
-    Background="Transparent"
-    Command="{x:Bind ViewModel.ToggleDesktopLyricsModeCommand}"
-    ToolTipService.ToolTip="Desktop Lyrics Mode">
-    <FontIcon
-        FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
-        FontSize="16"
-        Glyph="&#xE8D4;" />
-</Button>
+ Grid.Column="0"
+ Margin="0,0,12,12"
+ HorizontalAlignment="Center"
+ VerticalAlignment="Bottom"
+ Orientation="Horizontal"
+ Visibility="{x:Bind ViewModel.AudioOnly, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 <Button
     x:Name="ToggleLyricsButton"
-    Margin="8,0,0,0"
     Background="Transparent"
     Command="{x:Bind ViewModel.ToggleLyricsCommand}">
     <FontIcon
