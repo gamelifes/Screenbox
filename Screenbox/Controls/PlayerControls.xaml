@@ -293,9 +293,55 @@
                     Icon="{ui:FontIcon Glyph=&#xE714;}"
                     IsEnabled="{x:Bind ViewModel.HasVideo, Mode=OneWay}"
                     Text="{x:Bind strings:Resources.VideoSettings}">
-                </MenuFlyoutSubItem>-->
+</MenuFlyoutSubItem>-->
+<MenuFlyoutSubItem
+    x:Name="LyricsColorSubMenu"
+    AccessKey="{strings:KeyboardResources Key=MenuItemLyricsColorKey}"
+    Icon="{ui:FontIcon Glyph=&#xE790;}"
+    Text="{strings:Resources Key=LyricsHighlightColor}">
+    <MenuFlyoutItem Text="Green" Click="OnLyricsColorMenuClick" Tag="0xFF1DB954">
+        <MenuFlyoutItem.Icon>
+            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE3A9;" Foreground="#1DB954" />
+        </MenuFlyoutItem.Icon>
+    </MenuFlyoutItem>
+    <MenuFlyoutItem Text="Coral" Click="OnLyricsColorMenuClick" Tag="0xFFFF6B6B">
+        <MenuFlyoutItem.Icon>
+            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE3A9;" Foreground="#FF6B6B" />
+        </MenuFlyoutItem.Icon>
+    </MenuFlyoutItem>
+    <MenuFlyoutItem Text="Teal" Click="OnLyricsColorMenuClick" Tag="0xFF4ECDC4">
+        <MenuFlyoutItem.Icon>
+            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE3A9;" Foreground="#4ECDC4" />
+        </MenuFlyoutItem.Icon>
+    </MenuFlyoutItem>
+    <MenuFlyoutItem Text="Yellow" Click="OnLyricsColorMenuClick" Tag="0xFFFFD93D">
+        <MenuFlyoutItem.Icon>
+            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE3A9;" Foreground="#FFD93D" />
+        </MenuFlyoutItem.Icon>
+    </MenuFlyoutItem>
+    <MenuFlyoutItem Text="Purple" Click="OnLyricsColorMenuClick" Tag="0xFF6C5CE7">
+        <MenuFlyoutItem.Icon>
+            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE3A9;" Foreground="#6C5CE7" />
+        </MenuFlyoutItem.Icon>
+    </MenuFlyoutItem>
+    <MenuFlyoutItem Text="Pink" Click="OnLyricsColorMenuClick" Tag="0xFFFD79A8">
+        <MenuFlyoutItem.Icon>
+            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE3A9;" Foreground="#FD79A8" />
+        </MenuFlyoutItem.Icon>
+    </MenuFlyoutItem>
+    <MenuFlyoutItem Text="Cyan" Click="OnLyricsColorMenuClick" Tag="0xFF00CEC9">
+        <MenuFlyoutItem.Icon>
+            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE3A9;" Foreground="#00CEC9" />
+        </MenuFlyoutItem.Icon>
+    </MenuFlyoutItem>
+    <MenuFlyoutItem Text="Orange" Click="OnLyricsColorMenuClick" Tag="0xFFE17055">
+        <MenuFlyoutItem.Icon>
+            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE3A9;" Foreground="#E17055" />
+        </MenuFlyoutItem.Icon>
+    </MenuFlyoutItem>
+</MenuFlyoutSubItem>
 
-                <MenuFlyoutItem
+<MenuFlyoutItem
                     AccessKey="{strings:KeyboardResources Key=MenuItemAdvancedKey}"
                     CommandParameter="{x:Bind ViewModel.Playlist.CurrentItem, Mode=OneWay}"
                     Icon="{ui:SymbolIcon Symbol=Setting}"

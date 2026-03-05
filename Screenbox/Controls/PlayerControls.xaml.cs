@@ -1,10 +1,14 @@
 ﻿#nullable enable
 
 using System;
+using System.Globalization;
 using System.Linq;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
+using Screenbox.Core.Messages;
+using Screenbox.Core.Services;
 using Screenbox.Core.ViewModels;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -34,18 +38,20 @@ namespace Screenbox.Controls
 
         internal PlayerControlsViewModel ViewModel => (PlayerControlsViewModel)DataContext;
 
-        internal CommonViewModel Common { get; }
+internal CommonViewModel Common { get; }
 
-        private Flyout? _castFlyout;
+private Flyout? _castFlyout;
+private readonly ISettingsService _settingsService;
 
-        public PlayerControls()
-        {
-            this.InitializeComponent();
-            DataContext = Ioc.Default.GetRequiredService<PlayerControlsViewModel>();
-            Common = Ioc.Default.GetRequiredService<CommonViewModel>();
-            AudioTrackSubtitlePicker.ShowSubtitleOptionsCommand = new RelayCommand(ShowSubtitleOptions);
-            AudioTrackSubtitlePicker.ShowAudioOptionsCommand = new RelayCommand(ShowAudioOptions);
-        }
+public PlayerControls()
+{
+    this.InitializeComponent();
+    DataContext = Ioc.Default.GetRequiredService<PlayerControlsViewModel>();
+    Common = Ioc.Default.GetRequiredService<CommonViewModel>();
+    _settingsService = Ioc.Default.GetRequiredService<ISettingsService>();
+    AudioTrackSubtitlePicker.ShowSubtitleOptionsCommand = new RelayCommand(ShowSubtitleOptions);
+    AudioTrackSubtitlePicker.ShowAudioOptionsCommand = new RelayCommand(ShowAudioOptions);
+}
 
         private void ShowSubtitleOptions()
         {
@@ -134,14 +140,39 @@ namespace Screenbox.Controls
                 matchItem.IsChecked = true;
                 matchItem.Command?.Execute(matchItem.CommandParameter);
             }
-            else
-            {
-                CustomAspectRatioMenuItem.IsChecked = true;
-                ViewModel.SetAspectRatioCommand.Execute(aspectRatio);
-            }
-        }
+else
+    {
+        CustomAspectRatioMenuItem.IsChecked = true;
+        ViewModel.SetAspectRatioCommand.Execute(aspectRatio);
+    }
+}
 
-        private void PlayPauseKeyboardAccelerator_OnInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+private void OnLyricsColorMenuClick(object sender, RoutedEventArgs e)
+{
+    System.Diagnostics.Debug.WriteLine($"[PlayerControls] OnLyricsColorMenuClick called, sender={sender?.GetType().Name}");
+    if (sender is MenuFlyoutItem item && item.Tag is string colorString)
+    {
+        System.Diagnostics.Debug.WriteLine($"[PlayerControls] Color string: '{colorString}', Length={colorString?.Length}");
+        // Remove 0x prefix if present
+        if (colorString.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+        {
+            colorString = colorString.Substring(2);
+            System.Diagnostics.Debug.WriteLine($"[PlayerControls] After removing prefix: '{colorString}'");
+        }
+        bool parseResult = uint.TryParse(colorString, NumberStyles.HexNumber, null, out uint color);
+        System.Diagnostics.Debug.WriteLine($"[PlayerControls] TryParse result: {parseResult}");
+        if (parseResult)
+        {
+            System.Diagnostics.Debug.WriteLine($"[PlayerControls] Parsed color: 0x{color:X8}");
+            _settingsService.LyricsHighlightColor = color;
+            System.Diagnostics.Debug.WriteLine($"[PlayerControls] Saved to settings: 0x{_settingsService.LyricsHighlightColor:X8}");
+            WeakReferenceMessenger.Default.Send(new SettingsChangedMessage(nameof(ISettingsService.LyricsHighlightColor), typeof(PlayerControls)));
+            System.Diagnostics.Debug.WriteLine($"[PlayerControls] Messenger message sent");
+        }
+    }
+}
+
+private void PlayPauseKeyboardAccelerator_OnInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             // Ignore the play/pause shortcut when the spacebar is pressed in mini-player visual state.
             if (args.KeyboardAccelerator.Key == VirtualKey.Space && ViewModel.IsMinimal) return;

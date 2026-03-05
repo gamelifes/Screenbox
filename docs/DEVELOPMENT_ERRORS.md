@@ -449,6 +449,193 @@ string content = await FileIO.ReadTextAsync(lrcFile);
 
 ---
 
+## 9. XAML 编译错误 - UWP 不支持 Shadow 元素属性
+
+**日期**: 2026-03-03
+
+**问题**: 编译失败，XAML 中的 Shadow 元素属性无法识别
+
+**错误信息**:
+```
+XamlCompiler error WMC0011: Unknown member 'BlurRadius' on element 'Shadow'
+XamlCompiler error WMC0011: Unknown member 'Color' on element 'Shadow'
+XamlCompiler error WMC0011: Unknown member 'Opacity' on element 'Shadow'
+```
+
+**原因**:
+- UWP/WinUI 的 XAML 不支持 `Shadow` 元素的 `BlurRadius`、`Color`、`Opacity` 属性
+- 这些是 WPF 的属性，在 UWP 中不可用
+
+**相关文件**:
+- `Screenbox/Pages/PlayerPage.xaml`
+
+**问题代码**:
+```xaml
+<!-- 错误: UWP 不支持这些属性 -->
+<TextBlock.Shadow>
+    <Shadow BlurRadius="20" Color="Black" Opacity="0.5" />
+</TextBlock.Shadow>
+
+<Border.Shadow>
+    <Shadow BlurRadius="30" Color="Black" Opacity="0.8" />
+</Border.Shadow>
+```
+
+**修复代码**:
+```xaml
+<!-- 修复后: 移除阴影效果 -->
+<TextBlock Text="歌词内容" />
+```
+
+**UWP 替代方案**:
+1. 使用 `ThemeShadow` (需要 Windows 11)
+2. 使用 `DropShadow` (WinUI 2.x)
+3. 使用图片作为阴影
+4. 放弃阴影效果 (最简单的方案)
+
+**防范措施**:
+1. 避免在 UWP XAML 中使用 WPF 特有的属性
+2. 使用 WinUI 文档检查 API 兼容性
+3. 先小范围测试 XAML 再大范围使用
+
+---
+
+## 10. XAML 解析错误 - 标签不匹配
+
+**日期**: 2026-03-03
+
+**问题**: 编译失败，XAML 标签开始和结束不匹配
+
+**错误信息**:
+```
+Xaml Xml Parsing Error error WMC9997:
+第 453 行，位置 14 上的开始标记"StackPanel"与结束标记"TextBlock"不匹配。
+第 481 行，位置 19。
+```
+
+**原因**:
+- XAML 编辑时误添加了多余的结束标签
+- 标签嵌套错误
+- 复制粘贴代码时遗漏了部分标签
+
+**相关文件**:
+- `Screenbox/Pages/PlayerPage.xaml`
+
+**问题代码**:
+```xaml
+<!-- 错误: 多了一个 </TextBlock> 结束标签 -->
+<StackPanel>
+    <TextBlock x:Name="LyricsText" Text="歌词" />
+    </TextBlock>  <!-- ❌ 多余的结束标签 -->
+</StackPanel>
+```
+
+**修复代码**:
+```xaml
+<!-- 正确: 标签匹配 -->
+<StackPanel>
+    <TextBlock x:Name="LyricsText" Text="歌词" />
+</StackPanel>
+```
+
+### 如何避免 XAML 标签不匹配问题
+
+1. **使用 Visual Studio XAML 编辑器**
+   - XAML 设计器会自动提示语法错误
+   - 实时显示错误标记
+
+2. **保持代码格式化**
+   - 每次编辑后使用 `Ctrl+K, Ctrl+D` 格式化代码
+   - 缩进整齐更容易发现标签问题
+
+3. **小步提交**
+   - 每次修改少量代码后立即构建
+   - 尽早发现错误，避免错误累积
+
+4. **使用 XAML Styler**
+   - 运行 `dotnet tool run xstyler format <file>` 格式化
+   - 自动规范化标签顺序和缩进
+
+5. **复制粘贴注意事项**
+   - 复制代码块时确保完整复制
+   - 检查开始和结束标签是否成对
+
+6. **构建前检查**
+   - 每次修改 XAML 后立即构建
+   - 观察输出窗口的错误提示
+
+---
+
+## 11. XAML 绑定错误 - FallbackValue 不支持空字符串
+
+**日期**: 2026-03-03
+
+**问题**: 编译失败，x:Bind 绑定中的 FallbackValue 属性赋值无效
+
+**错误信息**:
+```
+XamlCompiler error WMC1121: Invalid binding assignment : 
+Only string and {x:Null} are supported for FallbackValue
+```
+
+**原因**:
+- 在 x:Bind 绑定中，`FallbackValue` 属性只支持字符串和 `{x:Null}`
+- 不能使用空字符串 `FallbackValue=` 或其他类型
+
+**相关文件**:
+- `Screenbox/Pages/PlayerPage.xaml`
+
+**问题代码**:
+```xaml
+<!-- 错误: FallbackValue= 无效 -->
+<TextBlock Text="{x:Bind ViewModel.LyricsText, FallbackValue=}" />
+
+<!-- 错误: 数字也不支持 -->
+<TextBlock Text="{x:Bind ViewModel.LyricsText, FallbackValue=0}" />
+```
+
+**修复代码**:
+```xaml
+<!-- 正确: 使用 {x:Null} -->
+<TextBlock Text="{x:Bind ViewModel.LyricsText, FallbackValue={x:Null}}" />
+
+<!-- 正确: 使用字符串 -->
+<TextBlock Text="{x:Bind ViewModel.LyricsText, FallbackValue='暂无歌词'}" />
+```
+
+### x:Bind 与 Binding 的区别
+
+| 特性 | x:Bind | Binding |
+|------|--------|---------|
+| FallbackValue | 仅支持字符串和 `{x:Null}` | 支持任意类型 |
+| Mode | 默认 OneTime | 默认 OneWay |
+| 性能 | 更快 | 稍慢 |
+
+### 避免类似问题的措施
+
+1. **x:Bind vs Binding 选择**
+   - 简单显示用 `x:Bind`
+   - 需要复杂转换用 `Binding`
+
+2. **使用 Converter 处理空值**
+   ```xaml
+   <!-- 定义Converter -->
+   <converters:NullToTextConverter x:Key="NullToTextConverter" />
+   
+   <!-- 使用 -->
+   <TextBlock Text="{x:Bind ViewModel.LyricsText, Converter={StaticResource NullToTextConverter}}" />
+   ```
+
+3. **始终使用正确的 FallbackValue 语法**
+   - `{x:Null}` - 表示 null
+   - `'字符串'` - 表示字符串
+
+4. **小步构建测试**
+   - 每次修改绑定后立即构建
+   - 观察错误提示
+
+---
+
 ## 相关工具命令
 
 ```bash

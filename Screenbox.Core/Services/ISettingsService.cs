@@ -33,4 +33,14 @@ public interface ISettingsService
     /// and restored between sessions.
     /// </summary>
     bool PersistPlaybackPosition { get; set; }
+    
+    /// <summary>
+    /// 卡拉OK高亮颜色 (ARGB format, e.g., 0xFF1DB954)
+    /// </summary>
+    uint LyricsHighlightColor { get; set; }
+    
+    /// <summary>
+    /// 是否启用卡拉OK逐字高亮效果
+    /// </summary>
+    bool EnableKaraokeEffect { get; set; }
 }

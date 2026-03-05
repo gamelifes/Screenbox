@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -39,7 +41,8 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
     IRecipient<OverrideControlsHideDelayMessage>,
     IRecipient<DragDropMessage>,
     IRecipient<PropertyChangedMessage<LivelyWallpaperModel?>>,
-    IRecipient<PropertyChangedMessage<NavigationViewDisplayMode>>
+    IRecipient<PropertyChangedMessage<NavigationViewDisplayMode>>,
+    IRecipient<SettingsChangedMessage>
 {
     [ObservableProperty] private bool _controlsHidden;
     [ObservableProperty] private string? _statusMessage;
@@ -61,6 +64,12 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
     [ObservableProperty] private double _lyricProgress;
     [ObservableProperty] private Lyrics? _lyrics;
     [ObservableProperty] private int _currentLyricIndex;
+    
+    // 卡拉OK逐字高亮相关
+    [ObservableProperty] private int _highlightedCharCount;  // 当前行已高亮的字符数
+    [ObservableProperty] private string? _highlightedText;   // 已高亮部分（卡拉OK效果）
+    [ObservableProperty] private string? _remainingText;     // 未高亮部分
+    [ObservableProperty] private uint _lyricsHighlightColor = 0xFF1DB954;  // 卡拉OK高亮颜色
 
     [ObservableProperty]
     [NotifyPropertyChangedRecipients]
@@ -107,6 +116,9 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
         _navigationViewDisplayMode = Messenger.Send<NavigationViewDisplayModeRequestMessage>();
         _playerVisibility = PlayerVisibilityState.Hidden;
         _lastUpdated = DateTimeOffset.MinValue;
+        
+        // 初始化歌词设置
+        _lyricsHighlightColor = _settingsService.LyricsHighlightColor;
 
         FocusManager.GotFocus += FocusManagerOnFocusChanged;
         _windowService.ViewModeChanged += WindowServiceOnViewModeChanged;
@@ -126,13 +138,26 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
         await OnDropAsync(message.Data);
     }
 
-    public void Receive(PropertyChangedMessage<LivelyWallpaperModel?> message)
-    {
-        if (message.NewValue == null) return;
-        ShowVisualizer = AudioOnly && !string.IsNullOrEmpty(message.NewValue.Path);
-    }
+public void Receive(PropertyChangedMessage<LivelyWallpaperModel?> message)
+{
+    if (message.NewValue == null) return;
+    ShowVisualizer = AudioOnly && !string.IsNullOrEmpty(message.NewValue.Path);
+}
 
-    public void Receive(TogglePlayerVisibilityMessage message)
+public void Receive(SettingsChangedMessage message)
+{
+    System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] Receive SettingsChangedMessage: {message.SettingsName}");
+    if (message.SettingsName == nameof(ISettingsService.LyricsHighlightColor))
+    {
+        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] Before update: LyricsHighlightColor=0x{LyricsHighlightColor:X8}");
+        LyricsHighlightColor = _settingsService.LyricsHighlightColor;
+        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] After update: LyricsHighlightColor=0x{LyricsHighlightColor:X8}");
+        OnPropertyChanged(nameof(LyricsHighlightColor));
+        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] OnPropertyChanged fired");
+    }
+}
+
+public void Receive(TogglePlayerVisibilityMessage message)
     {
         switch (PlayerVisibility)
         {
@@ -836,6 +861,47 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
             ShowLyrics = true;
         }
     }
+    
+[RelayCommand]
+private void SetLyricsHighlightColor(string colorString)
+{
+    if (uint.TryParse(colorString, NumberStyles.HexNumber, null, out uint color))
+    {
+        LyricsHighlightColor = color;
+        _settingsService.LyricsHighlightColor = color;
+    }
+}
+    
+// 预设颜色列表
+private static readonly uint[] LyricsColorPresets = new[]
+{
+    0xFF1DB954, // 网易云绿
+    0xFFFF6B6B, // 珊瑚红
+    0xFF4ECDC4, // 青色
+    0xFFFFD93D, // 黄色
+    0xFF6C5CE7, // 紫色
+    0xFFFD79A8, // 粉色
+    0xFF00CEC9, // 蓝绿色
+    0xFFE17055, // 橙色
+};
+
+[RelayCommand]
+private void SetLyricsHighlightColorFromString(string colorString)
+{
+    if (uint.TryParse(colorString, NumberStyles.HexNumber, null, out uint color))
+    {
+        LyricsHighlightColor = color;
+        _settingsService.LyricsHighlightColor = color;
+        System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] Color set to: 0x{color:X8}");
+    }
+}
+
+public void SetLyricsColor(uint color)
+{
+    LyricsHighlightColor = color;
+    _settingsService.LyricsHighlightColor = color;
+    OnPropertyChanged(nameof(LyricsHighlightColor));
+}
 
     private async void LoadLyrics(string mediaPath)
     {
@@ -1025,6 +1091,7 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
             PreviousLyricText = null;
             NextLyricText = null;
             LyricProgress = 0;
+            HighlightedCharCount = 0;
             return;
         }
 
@@ -1051,18 +1118,102 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
                 ? Lyrics.Lines[newIndex + 1].Text
                 : null;
             LyricProgress = 0;
+            HighlightedCharCount = 0;
+            HighlightedText = string.Empty;
+            RemainingText = CurrentLyricText ?? string.Empty;
         }
-        else if (newIndex >= 0 && newIndex < Lyrics.Lines.Count)
+        
+        // 计算卡拉OK逐字高亮
+        if (newIndex >= 0 && newIndex < Lyrics.Lines.Count)
         {
-            TimeSpan lineStartTime = Lyrics.Lines[newIndex].Time;
-            TimeSpan lineEndTime = newIndex < Lyrics.Lines.Count - 1
-                ? Lyrics.Lines[newIndex + 1].Time
-                : lineStartTime + TimeSpan.FromSeconds(5);
-            double totalDuration = (lineEndTime - lineStartTime).TotalMilliseconds;
-            if (totalDuration > 0)
+            string currentText = Lyrics.Lines[newIndex].Text ?? string.Empty;
+            
+            // 优先使用EnhancedLines的逐字时间戳
+            if (Lyrics.EnhancedLines != null && Lyrics.EnhancedLines.Count > 0)
             {
-                double elapsed = (position - lineStartTime).TotalMilliseconds;
-                LyricProgress = Math.Min(100, Math.Max(0, elapsed / totalDuration * 100));
+                var enhancedLine = Lyrics.EnhancedLines.FirstOrDefault(e => e.StartTime == Lyrics.Lines[newIndex].Time);
+                if (enhancedLine != null && enhancedLine.Chars.Count > 0)
+                {
+                    int highlightedCount = 0;
+                    foreach (var lyricChar in enhancedLine.Chars)
+                    {
+                        if (position >= lyricChar.EndTime)
+                            highlightedCount++;
+                        else
+                            break;
+                    }
+                    HighlightedCharCount = highlightedCount;
+                    
+                    // 分割已高亮和未高亮的文本
+                    if (highlightedCount > 0 && highlightedCount <= currentText.Length)
+                    {
+                        HighlightedText = currentText.Substring(0, highlightedCount);
+                        RemainingText = currentText.Substring(highlightedCount);
+                    }
+                    else if (highlightedCount > currentText.Length)
+                    {
+                        HighlightedText = currentText;
+                        RemainingText = string.Empty;
+                    }
+                    else
+                    {
+                        HighlightedText = string.Empty;
+                        RemainingText = currentText;
+                    }
+                }
+                else
+                {
+                    // 没有逐字时间戳，使用进度百分比
+                    CalculateKaraokeByProgress(newIndex, position);
+                }
+            }
+            else
+            {
+                // 没有EnhancedLines，使用进度百分比
+                CalculateKaraokeByProgress(newIndex, position);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 根据进度计算卡拉OK效果（没有逐字时间戳时使用）
+    /// </summary>
+    private void CalculateKaraokeByProgress(int newIndex, TimeSpan position)
+    {
+        if (Lyrics == null || newIndex < 0 || newIndex >= Lyrics.Lines.Count)
+            return;
+            
+        string currentText = Lyrics.Lines[newIndex].Text ?? string.Empty;
+        TimeSpan lineStartTime = Lyrics.Lines[newIndex].Time;
+        TimeSpan lineEndTime = newIndex < Lyrics.Lines.Count - 1
+            ? Lyrics.Lines[newIndex + 1].Time
+            : lineStartTime + TimeSpan.FromSeconds(5);
+            
+        double totalDuration = (lineEndTime - lineStartTime).TotalMilliseconds;
+        if (totalDuration > 0)
+        {
+            double elapsed = (position - lineStartTime).TotalMilliseconds;
+            LyricProgress = Math.Min(100, Math.Max(0, elapsed / totalDuration * 100));
+            
+            // 根据进度分割文本
+            int charCount = (int)(currentText.Length * LyricProgress / 100);
+            if (charCount > 0 && charCount <= currentText.Length)
+            {
+                HighlightedText = currentText.Substring(0, charCount);
+                RemainingText = currentText.Substring(charCount);
+                HighlightedCharCount = charCount;
+            }
+            else if (charCount > currentText.Length)
+            {
+                HighlightedText = currentText;
+                RemainingText = string.Empty;
+                HighlightedCharCount = currentText.Length;
+            }
+            else
+            {
+                HighlightedText = string.Empty;
+                RemainingText = currentText;
+                HighlightedCharCount = 0;
             }
         }
     }

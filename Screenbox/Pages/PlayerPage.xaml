@@ -13,9 +13,9 @@
     xmlns:helpers="using:Screenbox.Helpers"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:media="using:Microsoft.UI.Xaml.Media"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:strings="using:Screenbox.Strings"
+xmlns:media="using:Microsoft.UI.Xaml.Media"
+xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+xmlns:strings="using:Screenbox.Strings"
     xmlns:ui="using:CommunityToolkit.WinUI"
     d:DesignHeight="720"
     d:DesignWidth="1280"
@@ -29,6 +29,7 @@
 
     <Page.Resources>
         <ResourceDictionary>
+            <converters:UIntToColorBrushConverter x:Key="UIntToColorBrushConverter" />
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Default">
                     <Color x:Key="BackgroundAcrylicTintColor">#202020</Color>
@@ -79,10 +80,9 @@
                     <StaticResource x:Key="HeaderBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
                     <StaticResource x:Key="PlayerControlsBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
                 </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-            <ctConverters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        </ResourceDictionary>
-    </Page.Resources>
+</ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
+</Page.Resources>
 
     <Grid
         x:Name="LayoutRoot"
@@ -176,7 +176,6 @@
             <KeyboardAccelerator Key="Escape" Invoked="HideControlsKeyboardAccelerator_OnInvoked" />
             <!--  Lyrics  -->
             <KeyboardAccelerator Key="F2" Invoked="ToggleLyricsKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="F3" Invoked="ToggleDesktopLyricsKeyboardAccelerator_OnInvoked" />
         </Grid.KeyboardAccelerators>
 
         <Border
@@ -422,83 +421,180 @@
             <interactivity:Interaction.Behaviors>
                 <interactivity:EventTriggerBehavior EventName="DoubleTapped">
                     <interactivity:InvokeCommandAction Command="{x:Bind PlayerControls.ViewModel.ToggleFullscreenCommand}" />
-                </interactivity:EventTriggerBehavior>
-            </interactivity:Interaction.Behaviors>
-        </controls:PlayerElement>
+</interactivity:EventTriggerBehavior>
+</interactivity:Interaction.Behaviors>
+</controls:PlayerElement>
 
-        <Grid
-            x:Name="LyricsOverlay"
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="0,0,0,80"
+<Grid
+    x:Name="LyricsOverlay"
+    Grid.Row="1"
+    Grid.Column="0"
+    Margin="0"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    Visibility="{x:Bind ViewModel.ShowLyrics, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+    <Grid.RenderTransform>
+        <TranslateTransform x:Name="LyricsTranslateTransform" />
+    </Grid.RenderTransform>
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="LyricsStates">
+            <VisualState x:Name="LyricsNormal" />
+            <VisualState x:Name="LyricsChanged">
+                <Storyboard>
+                    <!-- 当前歌词淡入 -->
+                    <DoubleAnimation
+                        Storyboard.TargetName="LyricsHighlighted"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.3">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                    <!-- 上一句上移消失 -->
+                    <DoubleAnimation
+                        Storyboard.TargetName="LyricsPreviousTransform"
+                        Storyboard.TargetProperty="Y"
+                        From="0"
+                        To="-30"
+                        Duration="0:0:0.3">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                    <!-- 下一句下移出现 -->
+                    <DoubleAnimation
+                        Storyboard.TargetName="LyricsNextTransform"
+                        Storyboard.TargetProperty="Y"
+                        From="30"
+                        To="0"
+                        Duration="0:0:0.3">
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
+    <!-- 渐变背景 -->
+    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#00000000" />
+                <GradientStop Offset="0.3" Color="#CC000000" />
+                <GradientStop Offset="0.7" Color="#CC000000" />
+                <GradientStop Offset="1" Color="#00000000" />
+            </LinearGradientBrush>
+        </Border.Background>
+    </Border>
+
+    <!-- 歌词内容 - 垂直居中 -->
+    <StackPanel
+        x:Name="LyricsStackPanel"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Orientation="Vertical">
+        <!-- 上一句歌词 -->
+        <TextBlock
+            x:Name="LyricsPrevious"
+            Margin="0,0,0,16"
             HorizontalAlignment="Center"
-            VerticalAlignment="Bottom"
-            Visibility="{x:Bind ViewModel.ShowLyrics, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-            <Border
-                x:Name="LyricsBackground"
-                Padding="24,16"
-                Background="#99000000"
-                CornerRadius="8">
-                <StackPanel HorizontalAlignment="Center">
-                    <TextBlock
-                        x:Name="LyricsPrevious"
-                        HorizontalAlignment="Center"
-                        FontSize="16"
-                        FontWeight="Normal"
-                        Foreground="#80FFFFFF"
-                        Opacity="0.6"
-                        Text="{x:Bind ViewModel.PreviousLyricText, Mode=OneWay}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        x:Name="LyricsText"
-                        Margin="0,8,0,8"
-                        HorizontalAlignment="Center"
-                        FontSize="24"
-                        FontWeight="SemiBold"
-                        Foreground="White"
-                        Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        x:Name="LyricsNext"
-                        HorizontalAlignment="Center"
-                        FontSize="16"
-                        FontWeight="Normal"
-                        Foreground="#80FFFFFF"
-                        Opacity="0.6"
-                        Text="{x:Bind ViewModel.NextLyricText, Mode=OneWay}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap" />
-                </StackPanel>
-            </Border>
-        </Grid>
+            FontSize="18"
+            FontWeight="Normal"
+            Foreground="#60FFFFFF"
+            Text="{x:Bind ViewModel.PreviousLyricText, Mode=OneWay, FallbackValue={x:Null}}"
+            TextAlignment="Center"
+            TextWrapping="Wrap"
+            MaxWidth="600">
+            <TextBlock.RenderTransform>
+                <TranslateTransform x:Name="LyricsPreviousTransform" />
+            </TextBlock.RenderTransform>
+        </TextBlock>
+
+        <!-- 当前歌词 - 卡拉OK效果 -->
+        <StackPanel
+            x:Name="KaraokeContainer"
+            Margin="0,0,0,16"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <!-- 已高亮部分 - 用户自定义颜色 -->
+            <TextBlock
+                x:Name="LyricsHighlighted"
+                FontSize="28"
+                FontWeight="Bold"
+                Foreground="{x:Bind ViewModel.LyricsHighlightColor, Converter={StaticResource UIntToColorBrushConverter}, Mode=OneWay}"
+                Text="{x:Bind ViewModel.HighlightedText, Mode=OneWay, FallbackValue={x:Null}}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+            <!-- 未高亮部分 - 白色 -->
+            <TextBlock
+                x:Name="LyricsRemaining"
+                FontSize="28"
+                FontWeight="Bold"
+                Foreground="White"
+                Text="{x:Bind ViewModel.RemainingText, Mode=OneWay, FallbackValue={x:Null}}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </StackPanel>
+
+        <!-- 下一句歌词 -->
+        <TextBlock
+            x:Name="LyricsNext"
+            HorizontalAlignment="Center"
+            FontSize="18"
+            FontWeight="Normal"
+            Foreground="#60FFFFFF"
+            Text="{x:Bind ViewModel.NextLyricText, Mode=OneWay, FallbackValue={x:Null}}"
+            TextAlignment="Center"
+            TextWrapping="Wrap"
+            MaxWidth="600">
+            <TextBlock.RenderTransform>
+<TranslateTransform x:Name="LyricsNextTransform" />
+</TextBlock.RenderTransform>
+</TextBlock>
+</StackPanel>
+</Grid>
 
         <Grid
             x:Name="DesktopLyricsOverlay"
             Grid.Row="1"
             Grid.Column="0"
-            Margin="0,100,0,100"
+            Margin="0,80,0,80"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Visibility="{x:Bind ViewModel.DesktopLyricsMode, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+            Visibility="{x:Bind ViewModel.DesktopLyricsMode, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+            <!-- 桌面歌词 - PotPlayer风格 + 卡拉OK效果 -->
             <Border
                 x:Name="DesktopLyricsBackground"
-                Padding="48,32"
+                Padding="64,48"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Background="#CC000000"
-                CornerRadius="16">
-                <TextBlock
-                    x:Name="DesktopLyricsText"
-                    MaxWidth="800"
-                    HorizontalAlignment="Center"
-                    FontSize="36"
-                    FontWeight="Bold"
-                    Foreground="White"
-                    Text="{x:Bind ViewModel.CurrentLyricText, Mode=OneWay}"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap" />
+                Background="#00000000">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock
+                        x:Name="DesktopLyricsHighlighted"
+                        MaxWidth="1000"
+                        HorizontalAlignment="Center"
+                        FontSize="48"
+                        FontWeight="Bold"
+                        Foreground="{x:Bind ViewModel.LyricsHighlightColor, Converter={StaticResource UIntToColorBrushConverter}, Mode=OneWay}"
+                        Text="{x:Bind ViewModel.HighlightedText, Mode=OneWay, FallbackValue={x:Null}}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        x:Name="DesktopLyricsRemaining"
+                        MaxWidth="1000"
+                        HorizontalAlignment="Center"
+                        FontSize="48"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="{x:Bind ViewModel.RemainingText, Mode=OneWay, FallbackValue={x:Null}}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                </StackPanel>
             </Border>
         </Grid>
 
@@ -513,33 +609,33 @@
 
         <StackPanel
             Grid.Row="2"
-            Grid.Column="0"
-            Margin="0,0,12,12"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Orientation="Horizontal"
-            Visibility="{x:Bind ViewModel.AudioOnly, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-            <Button
-                x:Name="ToggleDesktopLyricsButton"
-                Background="Transparent"
-                Command="{x:Bind ViewModel.ToggleDesktopLyricsModeCommand}"
-                ToolTipService.ToolTip="Desktop Lyrics Mode">
-                <FontIcon
-                    FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
-                    FontSize="16"
-                    Glyph="&#xE8D4;" />
-            </Button>
-            <Button
-                x:Name="ToggleLyricsButton"
-                Margin="8,0,0,0"
-                Background="Transparent"
-                Command="{x:Bind ViewModel.ToggleLyricsCommand}">
-                <FontIcon
-                    FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
-                    FontSize="16"
-                    Glyph="{StaticResource AudioGlyph}" />
-            </Button>
-        </StackPanel>
+Grid.Column="0"
+Margin="0,0,12,12"
+HorizontalAlignment="Center"
+VerticalAlignment="Bottom"
+Orientation="Horizontal"
+Visibility="{x:Bind ViewModel.AudioOnly, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+<Button
+    x:Name="ToggleDesktopLyricsButton"
+    Background="Transparent"
+    Command="{x:Bind ViewModel.ToggleDesktopLyricsModeCommand}"
+    ToolTipService.ToolTip="Desktop Lyrics Mode">
+    <FontIcon
+        FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
+        FontSize="16"
+        Glyph="&#xE8D4;" />
+</Button>
+<Button
+    x:Name="ToggleLyricsButton"
+    Margin="8,0,0,0"
+    Background="Transparent"
+    Command="{x:Bind ViewModel.ToggleLyricsCommand}">
+    <FontIcon
+        FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
+        FontSize="16"
+        Glyph="{StaticResource AudioGlyph}" />
+</Button>
+</StackPanel>
 
         <ctc:ConstrainedBox
             x:Name="AlbumArtPanel"

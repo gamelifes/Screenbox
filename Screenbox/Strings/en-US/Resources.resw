@@ -987,7 +987,10 @@
   <data name="SettingsSavePlaybackPositionDescription" xml:space="preserve">
     <value>Store my playback position history on this device to resume where you left off</value>
   </data>
-  <data name="SettingsClearPlaybackPositionHeader" xml:space="preserve">
+<data name="SettingsClearPlaybackPositionHeader" xml:space="preserve">
     <value>Clear device playback position history</value>
+  </data>
+  <data name="LyricsHighlightColor" xml:space="preserve">
+    <value>Lyrics highlight color</value>
   </data>
 </root>

@@ -83,6 +83,8 @@ namespace Screenbox.Pages
             }
         }
 
+        private int _lastLyricIndex = -1;
+        
         private void MediaPlayer_PositionChanged(IMediaPlayer sender, ValueChangedEventArgs<TimeSpan> args)
         {
             // Dispatch to UI thread - VLC events are raised on a background thread
@@ -90,8 +92,41 @@ namespace Screenbox.Pages
             var newValue = args.NewValue;
             _ = _dispatcherQueue.TryEnqueue(() =>
             {
+                int previousIndex = _lastLyricIndex;
                 ViewModel.UpdateLyricsPosition(newValue);
+                
+                // Trigger animation when lyric index changes
+                if (ViewModel.CurrentLyricIndex != previousIndex && ViewModel.CurrentLyricIndex >= 0)
+                {
+                    _lastLyricIndex = ViewModel.CurrentLyricIndex;
+                    TriggerLyricsAnimation();
+                }
             });
+        }
+        
+        private void TriggerLyricsAnimation()
+        {
+            try
+            {
+                VisualStateManager.GoToState(this, "LyricsChanged", true);
+                
+                // Reset to normal after animation completes using existing timer
+                _delayFlyoutOpenTimer.Interval = TimeSpan.FromMilliseconds(350);
+                _delayFlyoutOpenTimer.Tick += (s, e) =>
+                {
+                    _delayFlyoutOpenTimer.Stop();
+                    try
+                    {
+                        VisualStateManager.GoToState(this, "LyricsNormal", false);
+                    }
+                    catch { }
+                };
+                _delayFlyoutOpenTimer.Start();
+            }
+            catch
+            {
+                // Animation may fail, ignore silently
+            }
         }
 
         private void NavigationServiceOnNavigated(object sender, EventArgs e)
@@ -583,16 +618,11 @@ namespace Screenbox.Pages
             }
         }
 
-        private void ToggleLyricsKeyboardAccelerator_OnInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            ViewModel.ToggleLyricsCommand.Execute(null);
-            args.Handled = true;
-        }
-
-        private void ToggleDesktopLyricsKeyboardAccelerator_OnInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            ViewModel.ToggleDesktopLyricsModeCommand.Execute(null);
-            args.Handled = true;
-        }
-    }
+private void ToggleLyricsKeyboardAccelerator_OnInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+{
+    ViewModel.ToggleLyricsCommand.Execute(null);
+    args.Handled = true;
 }
+}
+}
+

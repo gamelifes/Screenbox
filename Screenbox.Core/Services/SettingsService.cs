@@ -37,6 +37,8 @@ public sealed class SettingsService : ISettingsService
     private const string PersistentSubtitleLanguageKey = "Values/SubtitleLanguage";
     private const string PlayerShowChaptersKey = "Player/ShowChapters";
     private const string PrivacyPersistPlaybackPosition = "Privacy/PersistPlaybackPosition";
+    private const string LyricsHighlightColorKey = "Lyrics/HighlightColor";
+    private const string LyricsEnableKaraokeKey = "Lyrics/EnableKaraoke";
 
     public bool UseIndexer
     {
@@ -175,6 +177,20 @@ public sealed class SettingsService : ISettingsService
         get => GetValue<bool>(PrivacyPersistPlaybackPosition);
         set => SetValue(PrivacyPersistPlaybackPosition, value);
     }
+    
+    // 歌词卡拉OK高亮颜色 (ARGB格式, 默认绿色 0xFF1DB954)
+    public uint LyricsHighlightColor
+    {
+        get => GetValue<uint>(LyricsHighlightColorKey);
+        set => SetValue(LyricsHighlightColorKey, value);
+    }
+    
+    // 是否启用卡拉OK逐字高亮效果
+    public bool EnableKaraokeEffect
+    {
+        get => GetValue<bool>(LyricsEnableKaraokeKey);
+        set => SetValue(LyricsEnableKaraokeKey, value);
+    }
 
     public SettingsService()
     {
@@ -196,6 +212,8 @@ public sealed class SettingsService : ISettingsService
         SetDefault(GlobalArgumentsKey, string.Empty);
         SetDefault(PlayerShowChaptersKey, true);
         SetDefault(PrivacyPersistPlaybackPosition, true);
+        SetDefault(LyricsHighlightColorKey, 0xFF1DB954);  // 默认绿色
+        SetDefault(LyricsEnableKaraokeKey, true);  // 默认启用
 
         // Device family specific overrides
         if (SystemInformation.IsXbox)
