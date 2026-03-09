@@ -44,8 +44,7 @@
                             <GradientStop Offset="1" Color="#00000000" />
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
-                    <LinearGradientBrush x:Key="PlayerControlsBackgroundBrush" StartPoint="0.5,0"
-                        EndPoint="0.5,1">
+                    <LinearGradientBrush x:Key="PlayerControlsBackgroundBrush" StartPoint="0.5,0" EndPoint="0.5,1">
                         <LinearGradientBrush.GradientStops>
                             <GradientStop Offset="0" Color="#00000000" />
                             <GradientStop Offset="1" Color="{StaticResource SystemAltMediumColor}" />
@@ -64,8 +63,7 @@
                             <GradientStop Offset="1" Color="#00FFFFFF" />
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
-                    <LinearGradientBrush x:Key="PlayerControlsBackgroundBrush" StartPoint="0.5,0"
-                        EndPoint="0.5,1">
+                    <LinearGradientBrush x:Key="PlayerControlsBackgroundBrush" StartPoint="0.5,0" EndPoint="0.5,1">
                         <LinearGradientBrush.GradientStops>
                             <GradientStop Offset="0" Color="#00FFFFFF" />
                             <GradientStop Offset="1" Color="{StaticResource SystemAltMediumColor}" />
@@ -110,11 +108,9 @@
 
         <Grid.KeyboardAccelerators>
             <!--  Volume  -->
-            <KeyboardAccelerator Key="{x:Bind helpers:KeyboardAcceleratorHelper.Plus}"
-                Invoked="ChangeVolumeKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="{x:Bind helpers:KeyboardAcceleratorHelper.Plus}" Invoked="ChangeVolumeKeyboardAccelerator_OnInvoked" />
             <KeyboardAccelerator Key="Add" Invoked="ChangeVolumeKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="{x:Bind helpers:KeyboardAcceleratorHelper.Minus}"
-                Invoked="ChangeVolumeKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="{x:Bind helpers:KeyboardAcceleratorHelper.Minus}" Invoked="ChangeVolumeKeyboardAccelerator_OnInvoked" />
             <KeyboardAccelerator Key="Subtract" Invoked="ChangeVolumeKeyboardAccelerator_OnInvoked" />
             <KeyboardAccelerator Key="Up" Invoked="ChangeVolumeKeyboardAccelerator_OnInvoked" />
             <KeyboardAccelerator Key="Down" Invoked="ChangeVolumeKeyboardAccelerator_OnInvoked" />
@@ -140,10 +136,8 @@
             <KeyboardAccelerator Key="J" Invoked="SeekKeyboardAccelerator_OnInvoked" />
             <KeyboardAccelerator Key="L" Invoked="SeekKeyboardAccelerator_OnInvoked" />
             <!--  Frame stepping  -->
-            <KeyboardAccelerator Key="{x:Bind helpers:KeyboardAcceleratorHelper.Period}"
-                Invoked="FrameSteppingKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="{x:Bind helpers:KeyboardAcceleratorHelper.Comma}"
-                Invoked="FrameSteppingKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="{x:Bind helpers:KeyboardAcceleratorHelper.Period}" Invoked="FrameSteppingKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="{x:Bind helpers:KeyboardAcceleratorHelper.Comma}" Invoked="FrameSteppingKeyboardAccelerator_OnInvoked" />
             <!--  Playback speed  -->
             <KeyboardAccelerator
                 Key="{x:Bind helpers:KeyboardAcceleratorHelper.Period}"
@@ -167,26 +161,16 @@
             <KeyboardAccelerator Key="Number3" Invoked="WindowResizeKeyboardAccelerator_OnInvoked" />
             <KeyboardAccelerator Key="Number4" Invoked="WindowResizeKeyboardAccelerator_OnInvoked" />
             <!--  Seek to percentage  -->
-            <KeyboardAccelerator Key="NumberPad0"
-                Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="NumberPad1"
-                Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="NumberPad2"
-                Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="NumberPad3"
-                Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="NumberPad4"
-                Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="NumberPad5"
-                Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="NumberPad6"
-                Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="NumberPad7"
-                Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="NumberPad8"
-                Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
-            <KeyboardAccelerator Key="NumberPad9"
-                Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="NumberPad0" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="NumberPad1" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="NumberPad2" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="NumberPad3" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="NumberPad4" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="NumberPad5" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="NumberPad6" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="NumberPad7" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="NumberPad8" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
+            <KeyboardAccelerator Key="NumberPad9" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
             <KeyboardAccelerator Key="Home" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
             <KeyboardAccelerator Key="End" Invoked="SeekToPercentageKeyboardAccelerator_OnInvoked" />
             <!--  Hide controls  -->
@@ -274,17 +258,19 @@
                         Opening="PlayQueueFlyout_OnOpening"
                         Placement="BottomEdgeAlignedLeft">
                         <Flyout.FlyoutPresenterStyle>
-                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
-                                TargetType="FlyoutPresenter">
-                                <!--  Remove side and bottom padding, allowing the content to set
-                                these values  -->
+                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                <!--
+                                    Remove side and bottom padding, allowing the content to set
+                                    these values
+                                -->
                                 <Setter Property="Padding" Value="0,12,0,0" />
-                                <!--  Turn off vertical scroll to prevent a second scrollbar on
-                                smaller pages  -->
+                                <!--
+                                    Turn off vertical scroll to prevent a second scrollbar on
+                                    smaller pages
+                                -->
                                 <!--<Setter
                                 Property="ScrollViewer.VerticalScrollMode" Value="Auto" />-->
-                                <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
-                                    Value="Disabled" />
+                                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
                             </Style>
                         </Flyout.FlyoutPresenterStyle>
                         <controls:PlayQueueControl
@@ -356,12 +342,9 @@
                 <Button.Flyout>
                     <Flyout>
                         <Flyout.FlyoutPresenterStyle>
-                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
-                                TargetType="FlyoutPresenter">
-                                <Setter Property="Background"
-                                    Value="{ThemeResource AcrylicInAppFillColorBaseBrush}" />
-                                <Setter Property="BorderBrush"
-                                    Value="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
+                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                <Setter Property="Background" Value="{ThemeResource AcrylicInAppFillColorBaseBrush}" />
+                                <Setter Property="BorderBrush" Value="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
                                 <Setter Property="Padding" Value="0,0,0,0" />
                             </Style>
                         </Flyout.FlyoutPresenterStyle>
@@ -445,8 +428,7 @@
             ManipulationCompleted="VideoView_OnManipulationCompleted">
             <interactivity:Interaction.Behaviors>
                 <interactivity:EventTriggerBehavior EventName="DoubleTapped">
-                    <interactivity:InvokeCommandAction
-                        Command="{x:Bind PlayerControls.ViewModel.ToggleFullscreenCommand}" />
+                    <interactivity:InvokeCommandAction Command="{x:Bind PlayerControls.ViewModel.ToggleFullscreenCommand}" />
                 </interactivity:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>
         </controls:PlayerElement>
@@ -463,7 +445,7 @@
                 <TranslateTransform x:Name="LyricsTranslateTransform" />
             </Grid.RenderTransform>
 
-            <!-- 渐变背景 -->
+            <!--  渐变背景  -->
             <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -475,7 +457,7 @@
                 </Border.Background>
             </Border>
 
-            <!-- 歌词内容 - 支持自动滚动 -->
+            <!--  歌词内容 - 支持自动滚动  -->
             <ScrollViewer
                 x:Name="LyricsScrollViewer"
                 HorizontalAlignment="Center"
@@ -490,10 +472,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
-                    <!-- 占位元素，用于将当前歌词居中 (约一半高度) -->
+                    <!--  占位元素，用于将当前歌词居中 (约一半高度)  -->
                     <Rectangle Height="80" />
 
-                    <!-- 上一句歌词 -->
+                    <!--  上一句歌词  -->
                     <TextBlock
                         x:Name="LyricsPrevious"
                         Margin="0,0,0,16"
@@ -505,13 +487,13 @@
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
 
-                    <!-- 当前歌词 - 卡拉OK效果 -->
+                    <!--  当前歌词 - 卡拉OK效果  -->
                     <StackPanel
                         x:Name="KaraokeContainer"
                         Margin="0,0,0,16"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
-                        <!-- 已高亮部分 - 用户自定义颜色 -->
+                        <!--  已高亮部分 - 用户自定义颜色  -->
                         <TextBlock
                             x:Name="LyricsHighlighted"
                             FontSize="28"
@@ -520,7 +502,7 @@
                             Text="{x:Bind ViewModel.HighlightedText, Mode=OneWay, FallbackValue={x:Null}}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
-                        <!-- 未高亮部分 - 白色 -->
+                        <!--  未高亮部分 - 白色  -->
                         <TextBlock
                             x:Name="LyricsRemaining"
                             FontSize="28"
@@ -531,7 +513,7 @@
                             TextWrapping="Wrap" />
                     </StackPanel>
 
-                    <!-- 下一句歌词 -->
+                    <!--  下一句歌词  -->
                     <TextBlock
                         x:Name="LyricsNext"
                         HorizontalAlignment="Center"
@@ -542,7 +524,7 @@
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
 
-                    <!-- 占位元素 -->
+                    <!--  占位元素  -->
                     <Rectangle Height="80" />
                 </StackPanel>
             </ScrollViewer>
@@ -551,7 +533,7 @@
                     <VisualState x:Name="LyricsNormal" />
                     <VisualState x:Name="LyricsChanged">
                         <Storyboard>
-                            <!-- 当前歌词淡入 -->
+                            <!--  当前歌词淡入  -->
                             <DoubleAnimation
                                 Storyboard.TargetName="LyricsHighlighted"
                                 Storyboard.TargetProperty="Opacity"
@@ -562,7 +544,7 @@
                                     <CubicEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <!-- 上一句上移消失 -->
+                            <!--  上一句上移消失  -->
                             <DoubleAnimation
                                 Storyboard.TargetName="LyricsPreviousTransform"
                                 Storyboard.TargetProperty="Y"
@@ -573,7 +555,7 @@
                                     <CubicEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <!-- 下一句下移出现 -->
+                            <!--  下一句下移出现  -->
                             <DoubleAnimation
                                 Storyboard.TargetName="LyricsNextTransform"
                                 Storyboard.TargetProperty="Y"
@@ -677,28 +659,19 @@
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Default">
-                            <StaticResource x:Key="ButtonBackground"
-                                ResourceKey="SubtleFillColorTransparentBrush" />
-                            <StaticResource x:Key="ButtonBackgroundPointerOver"
-                                ResourceKey="SubtleFillColorSecondaryBrush" />
-                            <StaticResource x:Key="ButtonBackgroundPressed"
-                                ResourceKey="SubtleFillColorTertiaryBrush" />
+                            <StaticResource x:Key="ButtonBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+                            <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+                            <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Light">
-                            <StaticResource x:Key="ButtonBackground"
-                                ResourceKey="SubtleFillColorTransparentBrush" />
-                            <StaticResource x:Key="ButtonBackgroundPointerOver"
-                                ResourceKey="SubtleFillColorSecondaryBrush" />
-                            <StaticResource x:Key="ButtonBackgroundPressed"
-                                ResourceKey="SubtleFillColorTertiaryBrush" />
+                            <StaticResource x:Key="ButtonBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+                            <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+                            <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
-                            <StaticResource x:Key="ButtonBackground"
-                                ResourceKey="SystemControlTransparentBrush" />
-                            <StaticResource x:Key="ButtonBackgroundPointerOver"
-                                ResourceKey="SystemControlTransparentBrush" />
-                            <StaticResource x:Key="ButtonBackgroundPressed"
-                                ResourceKey="SystemControlTransparentBrush" />
+                            <StaticResource x:Key="ButtonBackground" ResourceKey="SystemControlTransparentBrush" />
+                            <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
+                            <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SystemControlTransparentBrush" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
@@ -806,8 +779,7 @@
             Padding="6,20,6,12" />
 
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="ControlsVisibilityStates"
-                CurrentStateChanged="ControlsVisibilityStates_OnCurrentStateChanged">
+            <VisualStateGroup x:Name="ControlsVisibilityStates" CurrentStateChanged="ControlsVisibilityStates_OnCurrentStateChanged">
                 <VisualState x:Name="ControlsVisible" />
 
                 <VisualState x:Name="ControlsHidden">
@@ -910,12 +882,10 @@
                 <VisualStateGroup.Transitions>
                     <VisualTransition GeneratedDuration="0:0:0.5" To="Video">
                         <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AlbumArtPanel"
-                                Storyboard.TargetProperty="Visibility">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AlbumArtPanel" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
                             </ObjectAnimationUsingKeyFrames>
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="VideoView"
-                                Storyboard.TargetProperty="Opacity">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="VideoView" Storyboard.TargetProperty="Opacity">
                                 <DiscreteDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
                                 <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
                             </DoubleAnimationUsingKeyFrames>
@@ -934,43 +904,37 @@
 
                     <VisualTransition GeneratedDuration="0:0:0.24" To="AudioOnly">
                         <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AlbumArtPanel"
-                                Storyboard.TargetProperty="Visibility">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AlbumArtPanel" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
-                                Storyboard.TargetProperty="Visibility">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
                             </ObjectAnimationUsingKeyFrames>
-                            <!--  Do not apply transition on LivelyWallpaperPlayer here. The player
-                            may not been loaded yet.  -->
+                            <!--
+                                Do not apply transition on LivelyWallpaperPlayer here. The player
+                                may not been loaded yet.
+                            -->
                             <!--<ObjectAnimationUsingKeyFrames
                             Storyboard.TargetName="LivelyWallpaperPlayer"
                             Storyboard.TargetProperty="Visibility" >
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
                             </ObjectAnimationUsingKeyFrames>-->
-                            <RepositionThemeAnimation FromVerticalOffset="200"
-                                TargetName="AlbumArtPanel" />
+                            <RepositionThemeAnimation FromVerticalOffset="200" TargetName="AlbumArtPanel" />
                         </Storyboard>
                     </VisualTransition>
 
                     <VisualTransition GeneratedDuration="0:0:0.24" To="AudioWithVisualizer">
                         <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AlbumArtPanel"
-                                Storyboard.TargetProperty="Visibility">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AlbumArtPanel" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
-                                Storyboard.TargetProperty="Visibility">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundArt"
-                                Storyboard.TargetProperty="Visibility">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundArt" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames
-                                Storyboard.TargetName="LivelyWallpaperPlayer"
-                                Storyboard.TargetProperty="Visibility">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LivelyWallpaperPlayer" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
                             </ObjectAnimationUsingKeyFrames>
                             <DoubleAnimation
@@ -1016,10 +980,8 @@
                         <Setter Target="PlayerControls.Padding" Value="20" />
                     </VisualState.Setters>
                     <Storyboard>
-                        <RepositionThemeAnimation FromVerticalOffset="-120"
-                            TargetName="AlbumArtPanel" />
-                        <RepositionThemeAnimation FromVerticalOffset="-120"
-                            TargetName="PlayerControls" />
+                        <RepositionThemeAnimation FromVerticalOffset="-120" TargetName="AlbumArtPanel" />
+                        <RepositionThemeAnimation FromVerticalOffset="-120" TargetName="PlayerControls" />
                     </Storyboard>
                 </VisualState>
 
@@ -1031,11 +993,9 @@
                         <Setter Target="PlayQueueButton.Visibility" Value="Collapsed" />
                         <Setter Target="TitleTextStackPanel.Margin" Value="12,8,0,8" />
                         <Setter Target="TitleTextStackPanel.Orientation" Value="Horizontal" />
-                        <Setter Target="TitleText.FontSize"
-                            Value="{StaticResource CaptionTextBlockFontSize}" />
+                        <Setter Target="TitleText.FontSize" Value="{StaticResource CaptionTextBlockFontSize}" />
                         <Setter Target="TitleTextSeparator.Visibility" Value="Visible" />
-                        <Setter Target="SubtitleText.FontSize"
-                            Value="{StaticResource CaptionTextBlockFontSize}" />
+                        <Setter Target="SubtitleText.FontSize" Value="{StaticResource CaptionTextBlockFontSize}" />
                         <!--<Setter
                         Target="LivelyOptionsButton.Visibility" Value="Collapsed" />-->
                         <Setter Target="AlbumArtPanel.HorizontalAlignment" Value="Center" />
@@ -1044,36 +1004,29 @@
                         <Setter Target="VideoView.ButtonMargin" Value="0,0,0,40" />
                         <Setter Target="StatusMessage.Margin" Value="12,4" />
                         <Setter Target="StatusMessage.Padding" Value="5,2,5,3" />
-                        <Setter Target="StatusMessageText.FontSize"
-                            Value="{StaticResource BodyTextBlockFontSize}" />
+                        <Setter Target="StatusMessageText.FontSize" Value="{StaticResource BodyTextBlockFontSize}" />
                         <Setter Target="PlayerStateBadge.Width" Value="48" />
                         <Setter Target="PlayerStateBadge.Height" Value="48" />
-                        <Setter Target="PlayerStateBadgeIcon.FontSize"
-                            Value="{StaticResource SubtitleTextBlockFontSize}" />
+                        <Setter Target="PlayerStateBadgeIcon.FontSize" Value="{StaticResource SubtitleTextBlockFontSize}" />
                         <Setter Target="NotificationView.Margin" Value="4" />
                         <Setter Target="PlayerControls.Padding" Value="0,4,0,0" />
                     </VisualState.Setters>
                     <Storyboard>
-                        <RepositionThemeAnimation FromVerticalOffset="40"
-                            TargetName="PlayerControls" />
+                        <RepositionThemeAnimation FromVerticalOffset="40" TargetName="PlayerControls" />
                         <RepositionThemeAnimation FromVerticalOffset="30" TargetName="AlbumArtPanel" />
                     </Storyboard>
                 </VisualState>
 
                 <VisualState x:Name="MiniPlayer">
                     <VisualState.Setters>
-                        <Setter Target="LayoutRoot.Background"
-                            Value="{ThemeResource AcrylicInAppFillColorDefaultBrush}" />
-                        <Setter Target="LayoutRoot.BorderBrush"
-                            Value="{ThemeResource ControlElevationBorderBrush}" />
+                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource AcrylicInAppFillColorDefaultBrush}" />
+                        <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ControlElevationBorderBrush}" />
                         <Setter Target="LayoutRoot.BorderThickness" Value="1" />
-                        <Setter Target="LayoutRoot.CornerRadius"
-                            Value="{StaticResource OverlayCornerRadius}" />
+                        <Setter Target="LayoutRoot.CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
                         <Setter Target="LayoutRoot.Height" Value="128" />
                         <Setter Target="LayoutRoot.Padding" Value="8,8,8,8" />
                         <Setter Target="LayoutRoot.VerticalAlignment" Value="Bottom" />
-                        <Setter Target="LayoutRoot.Shadow"
-                            Value="{StaticResource ElevationThemeShadow}" />
+                        <Setter Target="LayoutRoot.Shadow" Value="{StaticResource ElevationThemeShadow}" />
                         <Setter Target="SecondColumn.Width" Value="*" />
                         <Setter Target="HeaderBackground.Visibility" Value="Collapsed" />
                         <Setter Target="TitleBarArea.(Grid.Column)" Value="1" />
@@ -1082,27 +1035,23 @@
                         <Setter Target="PlayQueueButton.Visibility" Value="Collapsed" />
                         <Setter Target="TitleTextStackPanel.(Grid.ColumnSpan)" Value="3" />
                         <Setter Target="TitleTextStackPanel.Margin" Value="16,0,10,0" />
-                        <Setter Target="TitleText.FontSize"
-                            Value="{StaticResource BodyTextBlockFontSize}" />
+                        <Setter Target="TitleText.FontSize" Value="{StaticResource BodyTextBlockFontSize}" />
                         <!--<Setter
                         Target="LivelyOptionsButton.Visibility" Value="Collapsed" />-->
                         <Setter Target="BackgroundElement.Opacity" Value="0" />
-                        <Setter Target="VideoView.CornerRadius"
-                            Value="{StaticResource ControlCornerRadius}" />
+                        <Setter Target="VideoView.CornerRadius" Value="{StaticResource ControlCornerRadius}" />
                         <Setter Target="VideoView.IsEnabled" Value="False" />
                         <Setter Target="AlbumArtPanel.(Grid.Row)" Value="0" />
                         <Setter Target="AlbumArtPanel.(Grid.RowSpan)" Value="3" />
                         <Setter Target="AlbumArtPanel.Margin" Value="0" />
                         <Setter Target="AlbumArtGlyph.FontSize" Value="32" />
                         <Setter Target="AlbumArt.BorderThickness" Value="0" />
-                        <Setter Target="AlbumArt.CornerRadius"
-                            Value="{StaticResource ControlCornerRadius}" />
+                        <Setter Target="AlbumArt.CornerRadius" Value="{StaticResource ControlCornerRadius}" />
                         <Setter Target="RestorePlayerButton.Visibility" Value="Visible" />
                         <Setter Target="StatusMessage.Visibility" Value="Collapsed" />
                         <Setter Target="PlayerStateBadge.Width" Value="48" />
                         <Setter Target="PlayerStateBadge.Height" Value="48" />
-                        <Setter Target="PlayerStateBadgeIcon.FontSize"
-                            Value="{StaticResource SubtitleTextBlockFontSize}" />
+                        <Setter Target="PlayerStateBadgeIcon.FontSize" Value="{StaticResource SubtitleTextBlockFontSize}" />
                         <Setter Target="NotificationView.Visibility" Value="Collapsed" />
                         <Setter Target="PlayerControlsBackground.Visibility" Value="Collapsed" />
                         <Setter Target="PlayerControls.(Grid.Column)" Value="1" />
@@ -1114,18 +1063,14 @@
 
                 <VisualState x:Name="Hidden">
                     <VisualState.Setters>
-                        <Setter Target="LayoutRoot.Background"
-                            Value="{ThemeResource AcrylicInAppFillColorDefaultBrush}" />
-                        <Setter Target="LayoutRoot.BorderBrush"
-                            Value="{ThemeResource ControlElevationBorderBrush}" />
+                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource AcrylicInAppFillColorDefaultBrush}" />
+                        <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ControlElevationBorderBrush}" />
                         <Setter Target="LayoutRoot.BorderThickness" Value="1" />
-                        <Setter Target="LayoutRoot.CornerRadius"
-                            Value="{StaticResource OverlayCornerRadius}" />
+                        <Setter Target="LayoutRoot.CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
                         <Setter Target="LayoutRoot.Height" Value="0" />
                         <Setter Target="LayoutRoot.Padding" Value="8,8,8,8" />
                         <Setter Target="LayoutRoot.VerticalAlignment" Value="Bottom" />
-                        <Setter Target="LayoutRoot.Shadow"
-                            Value="{StaticResource ElevationThemeShadow}" />
+                        <Setter Target="LayoutRoot.Shadow" Value="{StaticResource ElevationThemeShadow}" />
                         <Setter Target="SecondColumn.Width" Value="*" />
                         <Setter Target="HeaderBackground.Visibility" Value="Collapsed" />
                         <Setter Target="TitleBarArea.(Grid.Column)" Value="1" />
@@ -1134,8 +1079,7 @@
                         <Setter Target="PlayQueueButton.Visibility" Value="Collapsed" />
                         <Setter Target="TitleTextStackPanel.(Grid.ColumnSpan)" Value="3" />
                         <Setter Target="TitleTextStackPanel.Margin" Value="16,0,10,0" />
-                        <Setter Target="TitleText.FontSize"
-                            Value="{StaticResource BodyTextBlockFontSize}" />
+                        <Setter Target="TitleText.FontSize" Value="{StaticResource BodyTextBlockFontSize}" />
                         <!--<Setter
                         Target="LivelyOptionsButton.Visibility" Value="Collapsed" />-->
                         <Setter Target="BackgroundElement.Opacity" Value="0" />
@@ -1188,15 +1132,12 @@
 
                 <VisualState x:Name="RightToLeft">
                     <VisualState.StateTriggers>
-                        <StateTrigger
-                            IsActive="{x:Bind helpers:GlobalizationHelper.IsRightToLeftLanguage}" />
+                        <StateTrigger IsActive="{x:Bind helpers:GlobalizationHelper.IsRightToLeftLanguage}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="PlayQueueButtonIcon.Glyph"
-                            Value="{StaticResource PlaylistMusicMirroredGlyph}" />
+                        <Setter Target="PlayQueueButtonIcon.Glyph" Value="{StaticResource PlaylistMusicMirroredGlyph}" />
                         <Setter Target="PlayQueueFlyout.Placement" Value="BottomEdgeAlignedRight" />
-                        <Setter Target="LivelyOptionsButtonIcon.Glyph"
-                            Value="{StaticResource MusicVisualizerMirroredGlyph}" />
+                        <Setter Target="LivelyOptionsButtonIcon.Glyph" Value="{StaticResource MusicVisualizerMirroredGlyph}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
