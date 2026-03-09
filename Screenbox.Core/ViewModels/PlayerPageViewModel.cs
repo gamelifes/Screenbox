@@ -43,7 +43,8 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
     IRecipient<PropertyChangedMessage<LivelyWallpaperModel?>>,
     IRecipient<PropertyChangedMessage<NavigationViewDisplayMode>>,
     IRecipient<SettingsChangedMessage>,
-    IRecipient<ToggleLyricsMessage>
+    IRecipient<ToggleLyricsMessage>,
+    IRecipient<CompactLayoutChangedMessage>
 {
     [ObservableProperty] private bool _controlsHidden;
     [ObservableProperty] private string? _statusMessage;
@@ -164,6 +165,13 @@ public void Receive(SettingsChangedMessage message)
     public void Receive(ToggleLyricsMessage message)
     {
         ShowLyrics = !ShowLyrics;
+    }
+
+    public void Receive(CompactLayoutChangedMessage message)
+    {
+        // When entering compact (picture-in-picture) mode, hide lyrics
+        // When exiting compact mode, show lyrics
+        ShowLyrics = !message.Value;
     }
 
     public void Receive(TogglePlayerVisibilityMessage message)

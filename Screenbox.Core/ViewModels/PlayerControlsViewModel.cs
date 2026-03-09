@@ -354,6 +354,7 @@ namespace Screenbox.Core.ViewModels
 [RelayCommand]
     private async Task ToggleCompactLayoutAsync()
     {
+        bool wasCompact = IsCompact;
         if (IsCompact)
         {
             await _windowService.TryExitCompactLayoutAsync();
@@ -367,6 +368,10 @@ namespace Screenbox.Core.ViewModels
         {
             await _windowService.TryEnterCompactLayoutAsync(new Size(240, 240));
         }
+
+        // Send message to notify about compact layout change
+        // Note: IsCompact property is automatically updated by WindowService's ViewModeChanged event
+        Messenger.Send(new CompactLayoutChangedMessage(IsCompact));
     }
 
 [RelayCommand]

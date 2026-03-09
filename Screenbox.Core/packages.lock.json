@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    "UAP,Version=v10.0.18362": {
+    "UAP,Version=v10.0.26100": {
       "CommunityToolkit.Diagnostics": {
         "type": "Direct",
         "requested": "[8.4.0, )",
@@ -364,7 +364,7 @@
         "contentHash": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ=="
       }
     },
-    "UAP,Version=v10.0.18362/win10-arm": {
+    "UAP,Version=v10.0.26100/win10-arm": {
       "Microsoft.NETCore.UniversalWindowsPlatform": {
         "type": "Direct",
         "requested": "[6.2.14, )",
@@ -410,7 +410,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.18362/win10-arm-aot": {
+    "UAP,Version=v10.0.26100/win10-arm-aot": {
       "Microsoft.NETCore.UniversalWindowsPlatform": {
         "type": "Direct",
         "requested": "[6.2.14, )",
@@ -456,7 +456,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.18362/win10-arm64-aot": {
+    "UAP,Version=v10.0.26100/win10-arm64-aot": {
       "Microsoft.NETCore.UniversalWindowsPlatform": {
         "type": "Direct",
         "requested": "[6.2.14, )",
@@ -502,7 +502,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.18362/win10-x64": {
+    "UAP,Version=v10.0.26100/win10-x64": {
       "Microsoft.NETCore.UniversalWindowsPlatform": {
         "type": "Direct",
         "requested": "[6.2.14, )",
@@ -548,7 +548,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.18362/win10-x64-aot": {
+    "UAP,Version=v10.0.26100/win10-x64-aot": {
       "Microsoft.NETCore.UniversalWindowsPlatform": {
         "type": "Direct",
         "requested": "[6.2.14, )",
@@ -594,7 +594,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.18362/win10-x86": {
+    "UAP,Version=v10.0.26100/win10-x86": {
       "Microsoft.NETCore.UniversalWindowsPlatform": {
         "type": "Direct",
         "requested": "[6.2.14, )",
@@ -640,7 +640,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.18362/win10-x86-aot": {
+    "UAP,Version=v10.0.26100/win10-x86-aot": {
       "Microsoft.NETCore.UniversalWindowsPlatform": {
         "type": "Direct",
         "requested": "[6.2.14, )",

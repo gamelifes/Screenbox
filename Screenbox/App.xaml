@@ -29,12 +29,19 @@
                     <!--  Commands  -->
                     <commands:ShowPropertiesCommand x:Key="ShowPropertiesCommand" />
 
-                    <!--  Converters  -->
-                    <converters:FirstOrDefaultConverter x:Key="FirstOrDefaultConverter" />
-                    <converters:HumanizedDurationConverter x:Key="HumanizedDurationConverter" />
-                    <converters:MediaGlyphConverter x:Key="MediaGlyphConverter" />
-                    <converters:PlayPauseGlyphConverter x:Key="PlayPauseGlyphConverter" />
-                    <converters:CheckBoxToToolTipConverter x:Key="CheckBoxToToolTipConverter" />
+<!-- Converters -->
+    <converters:FirstOrDefaultConverter x:Key="FirstOrDefaultConverter" />
+    <converters:HumanizedDurationConverter x:Key="HumanizedDurationConverter" />
+    <converters:MediaGlyphConverter x:Key="MediaGlyphConverter" />
+    <converters:PlayPauseGlyphConverter x:Key="PlayPauseGlyphConverter" />
+    <converters:CheckBoxToToolTipConverter x:Key="CheckBoxToToolTipConverter" />
+    <converters:UIntToColorBrushConverter x:Key="UIntToColorBrushConverter" />
+    <!-- Lyrics converters -->
+    <converters:KaraokeHighlightConverter x:Key="KaraokeHighlightConverter" />
+    <converters:KaraokeRemainingConverter x:Key="KaraokeRemainingConverter" />
+    <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
+    <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+    <converters:NotEnumToVisibilityConverter x:Key="NotEnumToVisibilityConverter" />
                     <!--<converters:ThicknessFiltersConverter x:Key="LeftThicknessFiltersConverter" Filters="Left" />-->
                     <!--<converters:ThicknessFiltersConverter x:Key="TopThicknessFiltersConverter" Filters="Top" />-->
                     <!--<converters:ThicknessFiltersConverter x:Key="RightThicknessFiltersConverter" Filters="Right" />-->

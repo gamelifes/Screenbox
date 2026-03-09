@@ -636,6 +636,70 @@ Only string and {x:Null} are supported for FallbackValue
 
 ---
 
+## 12. 重复类定义 - 多个文件中定义相同类
+
+**日期**: 2026-03-06
+
+**问题**: 编译错误 CS0101 和 CS0111
+
+**错误信息**:
+```
+CS0101: 命名空间"Screenbox.Converters"已经包含"KaraokeRemainingConverter"的定义
+CS0111: 类型"KaraokeRemainingConverter"已定义了一个名为"Convert"的具有相同参数类型的成员
+CS0111: 类型"KaraokeRemainingConverter"已定义了一个名为"ConvertBack"的具有相同参数类型的成员
+```
+
+**原因**:
+- `KaraokeRemainingConverter` 类在两个文件中重复定义：
+  1. `Screenbox\Converters\KaraokeHighlightConverter.cs` (第43-70行)
+  2. `Screenbox\Converters\KaraokeRemainingConverter.cs` (第11-38行)
+- 两个文件都包含相同的类定义，导致命名冲突
+
+**相关文件**:
+- `Screenbox\Converters\KaraokeHighlightConverter.cs`
+- `Screenbox\Converters\KaraokeRemainingConverter.cs`
+- `Screenbox\Screenbox.csproj`
+
+**修复方法**:
+1. 删除重复的文件 `KaraokeRemainingConverter.cs`
+2. 从 `.csproj` 文件中移除对该文件的引用
+3. 保留在 `KaraokeHighlightConverter.cs` 中的定义
+
+**验证方法**:
+```bash
+# 检查是否有重复的类定义
+grep -r "class KaraokeRemainingConverter" --include="*.cs" .
+```
+
+## 13. 项目文件错误引用 - 引用不存在的文件
+
+**日期**: 2026-03-06
+
+**问题**: 编译错误 CS2001
+
+**错误信息**:
+```
+CS2001: 未能找到源文件“D:\static\Screenbox\Screenbox\Converters\NotEnumToVisibilityConverter.cs”。
+```
+
+**原因**:
+- `.csproj` 文件中引用了不存在的文件 `NotEnumToVisibilityConverter.cs`
+- 实际上 `NotEnumToVisibilityConverter` 类定义在 `EnumToVisibilityConverter.cs` 文件中
+
+**相关文件**:
+- `Screenbox\Screenbox.csproj`
+- `Screenbox\Converters\EnumToVisibilityConverter.cs`
+
+**修复方法**:
+1. 从 `.csproj` 文件中移除对不存在文件的引用
+2. 确保所有引用的文件实际存在
+
+**验证方法**:
+```bash
+# 检查项目文件引用的文件是否存在
+cat Screenbox.csproj | grep "Compile Include" | cut -d'"' -f2 | while read file; do [ -f "$file" ] || echo "Missing: $file"; done
+```
+
 ## 相关工具命令
 
 ```bash
@@ -647,4 +711,79 @@ dotnet build <project>.csproj
 
 # 检查大括号平衡 (Linux/macOS)
 echo "Open braces: $(grep -o '{' <file> | wc -l), Close braces: $(grep -o '}' <file> | wc -l)"
+
+# 检查重复类定义
+grep -r "class " --include="*.cs" . | sort | uniq -d
+
+# 检查项目文件引用有效性
+cat Screenbox.csproj | grep "Compile Include" | cut -d'"' -f2 | while read file; do [ -f "$file" ] || echo "Missing: $file"; done
+
+---
+
+## 14. 新建消息类后未在 .csproj 中添加引用
+
+**日期**: 2026-03-09
+
+**问题**: 编译错误 CS0246
+
+**错误信息**:
+```
+未能找到类型或命名空间名"CompactLayoutChangedMessage"(是否缺少 using 指令或程序集引用?)
+```
+
+**原因**:
+- 在 `Messages` 目录下创建了新的消息类 `CompactLayoutChangedMessage.cs`
+- 但忘记在对应的 `.csproj` 文件中添加 `<Compile Include="Messages\CompactLayoutChangedMessage.cs" />` 引用
+- 导致新文件虽然存在，但不会被编译到项目中
+
+**相关文件**:
+- `Screenbox.Core/Messages/CompactLayoutChangedMessage.cs`
+- `Screenbox.Core/Screenbox.Core.csproj`
+
+**问题代码**:
+```csharp
+// 新建文件: Screenbox.Core/Messages/CompactLayoutChangedMessage.cs
+namespace Screenbox.Core.Messages;
+
+public sealed class CompactLayoutChangedMessage : ValueChangedMessage<bool>
+{
+    public CompactLayoutChangedMessage(bool isCompact) : base(isCompact) { }
+}
+```
+
+```xml
+<!-- 遗漏: 未在 .csproj 中添加引用 -->
+<!-- <Compile Include="Messages\CompactLayoutChangedMessage.cs" /> 缺失 -->
+```
+
+**修复方法**:
+1. 在对应的 `.csproj` 文件中找到 `Messages` 相关的 `<Compile Include>` 区域
+2. 按字母顺序添加新文件的引用
+
+```xml
+<!-- 在 Screenbox.Core.csproj 中添加 -->
+<Compile Include="Messages\CompactLayoutChangedMessage.cs" />
+<Compile Include="Messages\DesktopLyricsMessages.cs" />
+```
+
+**防范措施**:
+1. **创建新消息类后立即添加到项目文件**
+2. **使用项目模板**: 如果有现成的消息类模板，使用模板创建以自动包含引用
+3. **提交前检查**: 提交代码前确保项目能成功编译
+4. **验证文件被编译**: 可以暂时删除一行代码验证是否报错，确认新文件被正确编译
+
+**验证方法**:
+```bash
+# 检查消息类文件是否在 .csproj 中被引用
+grep -E "Messages\\.*\.cs" <project>.csproj
+
+# 检查引用的文件是否都存在
+cat <project>.csproj | grep "Compile Include.*Messages" | sed 's/.*Include="//' | sed 's/".*//' | while read f; do [ -f "$f" ] || echo "Missing: $f"; done
+```
+
+**常见遗漏场景**:
+- 新建 `Message`, `Event`, `Notification` 类
+- 新建 `Converter` 类
+- 新建 `Helper` 或 `Utility` 类
+- 任何在 `Messages/`、`Converters/`、`Helpers/` 等特定目录下的新类
 ```
