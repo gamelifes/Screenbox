@@ -37,8 +37,7 @@
                     <Color x:Key="BackgroundAcrylicTintFallbackColor">#2C2C2C</Color>
                     <x:Double x:Key="BackgroundAcrylicTintOpacity">0.5</x:Double>
 
-                    <LinearGradientBrush x:Key="HeaderBackgroundBrush" StartPoint="0.5,0"
-                        EndPoint="0.5,1">
+                    <LinearGradientBrush x:Key="HeaderBackgroundBrush" StartPoint="0.5,0" EndPoint="0.5,1">
                         <LinearGradientBrush.GradientStops>
                             <GradientStop Offset="0" Color="{StaticResource SystemAltMediumColor}" />
                             <GradientStop Offset="0.5" Color="{StaticResource SystemAltLowColor}" />
@@ -58,8 +57,7 @@
                     <Color x:Key="BackgroundAcrylicTintFallbackColor">#F9F9F9</Color>
                     <x:Double x:Key="BackgroundAcrylicTintOpacity">0.15</x:Double>
 
-                    <LinearGradientBrush x:Key="HeaderBackgroundBrush" StartPoint="0.5,0"
-                        EndPoint="0.5,1">
+                    <LinearGradientBrush x:Key="HeaderBackgroundBrush" StartPoint="0.5,0" EndPoint="0.5,1">
                         <LinearGradientBrush.GradientStops>
                             <GradientStop Offset="0" Color="{StaticResource SystemAltMediumColor}" />
                             <GradientStop Offset="0.5" Color="{StaticResource SystemAltLowColor}" />
@@ -75,20 +73,15 @@
                     </LinearGradientBrush>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
-                    <StaticResource x:Key="BackgroundAcrylicTintColor"
-                        ResourceKey="SystemColorWindowColor" />
-                    <StaticResource x:Key="BackgroundAcrylicTintFallbackColor"
-                        ResourceKey="SystemColorWindowColor" />
+                    <StaticResource x:Key="BackgroundAcrylicTintColor" ResourceKey="SystemColorWindowColor" />
+                    <StaticResource x:Key="BackgroundAcrylicTintFallbackColor" ResourceKey="SystemColorWindowColor" />
                     <x:Double x:Key="BackgroundAcrylicTintOpacity">1</x:Double>
 
-                    <StaticResource x:Key="ProgressBarBackground"
-                        ResourceKey="SystemColorButtonTextColorBrush" />
+                    <StaticResource x:Key="ProgressBarBackground" ResourceKey="SystemColorButtonTextColorBrush" />
                     <Thickness x:Key="ProgressBarBorderThemeThickness">0</Thickness>
 
-                    <StaticResource x:Key="HeaderBackgroundBrush"
-                        ResourceKey="SystemColorWindowColorBrush" />
-                    <StaticResource x:Key="PlayerControlsBackgroundBrush"
-                        ResourceKey="SystemColorWindowColorBrush" />
+                    <StaticResource x:Key="HeaderBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+                    <StaticResource x:Key="PlayerControlsBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
