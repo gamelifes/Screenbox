@@ -33,11 +33,13 @@
             <x:Double x:Key="Speed175">1.75</x:Double>
             <x:Double x:Key="Speed200">2.0</x:Double>
 
-            <converters:ToggleButtonCheckToRepeatModeConverter x:Key="ToggleButtonCheckToRepeatModeConverter" />
+            <converters:ToggleButtonCheckToRepeatModeConverter
+                x:Key="ToggleButtonCheckToRepeatModeConverter" />
 
             <Flyout x:Key="VolumeControlFlyout">
                 <Flyout.FlyoutPresenterStyle>
-                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
+                        TargetType="FlyoutPresenter">
                         <Setter Property="Padding" Value="6,7,6,9" />
                     </Style>
                 </Flyout.FlyoutPresenterStyle>
@@ -62,7 +64,10 @@
                         StepFrequency="0.05"
                         ValueChanged="SpeedSlider_OnValueChanged"
                         Value="1.0" />
-                    <TextBlock HorizontalAlignment="Center"><Run Text="{Binding ElementName=SpeedSlider, Path=Value, FallbackValue=1}" /> <Run Text="×" /></TextBlock>
+                    <TextBlock HorizontalAlignment="Center">
+                        <Run Text="{Binding ElementName=SpeedSlider, Path=Value, FallbackValue=1}" />
+                        <Run Text="×" />
+                    </TextBlock>
                 </StackPanel>
             </Flyout>
 
@@ -92,7 +97,11 @@
                         SmallChange="25"
                         StepFrequency="50"
                         Value="{Binding SubtitleTimingOffset, Mode=TwoWay}" />
-                    <TextBlock HorizontalAlignment="Center"><Run Text="{Binding ElementName=SubtitleTimingOffsetSlider, Path=Value, FallbackValue=0}" /> <Run Text="ms" /></TextBlock>
+                    <TextBlock HorizontalAlignment="Center">
+                        <Run
+                            Text="{Binding ElementName=SubtitleTimingOffsetSlider, Path=Value, FallbackValue=0}" />
+                        <Run Text="ms" />
+                    </TextBlock>
                 </StackPanel>
             </Flyout>
 
@@ -111,7 +120,11 @@
                         SmallChange="25"
                         StepFrequency="50"
                         Value="{Binding AudioTimingOffset, Mode=TwoWay}" />
-                    <TextBlock HorizontalAlignment="Center"><Run Text="{Binding ElementName=AudioTimingOffsetSlider, Path=Value, FallbackValue=0}" /> <Run Text="ms" /></TextBlock>
+                    <TextBlock HorizontalAlignment="Center">
+                        <Run
+                            Text="{Binding ElementName=AudioTimingOffsetSlider, Path=Value, FallbackValue=0}" />
+                        <Run Text="ms" />
+                    </TextBlock>
                 </StackPanel>
             </Flyout>
 
@@ -145,7 +158,8 @@
                     KeyTipPlacementMode="Left"
                     Text="{x:Bind strings:Resources.PlaybackSpeed}">
                     <MenuFlyoutSubItem.Icon>
-                        <FontIcon FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}" Glyph="{x:Bind converters:GlyphConverter.ToSpeedGlyph(ViewModel.PlaybackSpeed), Mode=OneWay}" />
+                        <FontIcon FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
+                            Glyph="{x:Bind converters:GlyphConverter.ToSpeedGlyph(ViewModel.PlaybackSpeed), Mode=OneWay}" />
                     </MenuFlyoutSubItem.Icon>
                     <muxc:RadioMenuFlyoutItem
                         x:Name="PlaybackSpeed025MenuItem"
@@ -294,91 +308,163 @@
                     IsEnabled="{x:Bind ViewModel.HasVideo, Mode=OneWay}"
                     Text="{x:Bind strings:Resources.VideoSettings}">
 </MenuFlyoutSubItem>-->
-<MenuFlyoutSubItem
-    x:Name="LyricsColorSubMenu"
-    AccessKey="{strings:KeyboardResources Key=MenuItemLyricsColorKey}"
-    Icon="{ui:FontIcon Glyph=&#xE790;}"
-    Text="{strings:Resources Key=LyricsHighlightColor}">
-    <MenuFlyoutItem
-        Tag="0xFF1DB954"
-        Text="Green"
-        Click="OnLyricsColorMenuClick">
-        <MenuFlyoutItem.Icon>
-            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#1DB954" />
-        </MenuFlyoutItem.Icon>
-    </MenuFlyoutItem>
-    <MenuFlyoutItem
-        Tag="0xFFFF6B6B"
-        Text="Coral"
-        Click="OnLyricsColorMenuClick">
-        <MenuFlyoutItem.Icon>
-            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#FF6B6B" />
-        </MenuFlyoutItem.Icon>
-    </MenuFlyoutItem>
-    <MenuFlyoutItem
-        Tag="0xFF4ECDC4"
-        Text="Teal"
-        Click="OnLyricsColorMenuClick">
-        <MenuFlyoutItem.Icon>
-            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#4ECDC4" />
-        </MenuFlyoutItem.Icon>
-    </MenuFlyoutItem>
-    <MenuFlyoutItem
-        Tag="0xFFFFD93D"
-        Text="Yellow"
-        Click="OnLyricsColorMenuClick">
-        <MenuFlyoutItem.Icon>
-            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#FFD93D" />
-        </MenuFlyoutItem.Icon>
-    </MenuFlyoutItem>
-    <MenuFlyoutItem
-        Tag="0xFF6C5CE7"
-        Text="Purple"
-        Click="OnLyricsColorMenuClick">
-        <MenuFlyoutItem.Icon>
-            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#6C5CE7" />
-        </MenuFlyoutItem.Icon>
-    </MenuFlyoutItem>
-    <MenuFlyoutItem
-        Tag="0xFFFD79A8"
-        Text="Pink"
-        Click="OnLyricsColorMenuClick">
-        <MenuFlyoutItem.Icon>
-            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#FD79A8" />
-        </MenuFlyoutItem.Icon>
-    </MenuFlyoutItem>
-    <MenuFlyoutItem
-        Tag="0xFF00CEC9"
-        Text="Cyan"
-        Click="OnLyricsColorMenuClick">
-        <MenuFlyoutItem.Icon>
-            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#00CEC9" />
-        </MenuFlyoutItem.Icon>
-    </MenuFlyoutItem>
-    <MenuFlyoutItem
-        Tag="0xFFE17055"
-        Text="Orange"
-        Click="OnLyricsColorMenuClick">
-        <MenuFlyoutItem.Icon>
-            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#E17055" />
-        </MenuFlyoutItem.Icon>
-    </MenuFlyoutItem>
-</MenuFlyoutSubItem>
-<MenuFlyoutItem
-    x:Name="ShowLyricsMenuItem"
-    Command="{x:Bind ViewModel.ToggleLyricsCommand}"
-    Icon="{ui:FontIcon Glyph=&#xE8D4;}"
-    Text="{strings:Resources Key=ShowLyrics}" />
+                <MenuFlyoutSubItem
+                    x:Name="LyricsColorSubMenu"
+                    AccessKey="{strings:KeyboardResources Key=MenuItemLyricsColorKey}"
+                    Icon="{ui:FontIcon Glyph=&#xE790;}"
+                    Text="{strings:Resources Key=LyricsHighlightColor}">
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFF1DB954"
+                        Text="Green">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#1DB954" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFFFF6B6B"
+                        Text="Coral">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#FF6B6B" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFF4ECDC4"
+                        Text="Teal">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#4ECDC4" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFFFFD93D"
+                        Text="Yellow">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#FFD93D" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFF6C5CE7"
+                        Text="Purple">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#6C5CE7" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFFFD79A8"
+                        Text="Pink">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#FD79A8" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFF00CEC9"
+                        Text="Cyan">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#00CEC9" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFFE17055"
+                        Text="Orange">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#E17055" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFFFF6B6B"
+                        Text="Coral">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#FF6B6B" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFF4ECDC4"
+                        Text="Teal">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#4ECDC4" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFFFFD93D"
+                        Text="Yellow">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#FFD93D" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFF6C5CE7"
+                        Text="Purple">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#6C5CE7" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFFFD79A8"
+                        Text="Pink">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#FD79A8" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFF00CEC9"
+                        Text="Cyan">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#00CEC9" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        Click="OnLyricsColorMenuClick"
+                        Tag="0xFFE17055"
+                        Text="Orange">
+                        <MenuFlyoutItem.Icon>
+                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8"
+                                Foreground="#E17055" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                </MenuFlyoutSubItem>
+                <MenuFlyoutItem
+                    x:Name="ShowLyricsMenuItem"
+                    Command="{x:Bind ViewModel.ToggleLyricsCommand}"
+                    Icon="{ui:FontIcon Glyph=&#xE8D4;}"
+                    Text="{strings:Resources Key=ShowLyrics}" />
 
-<MenuFlyoutItem
-    AccessKey="{strings:KeyboardResources Key=MenuItemAdvancedKey}"
-    CommandParameter="{x:Bind ViewModel.Playlist.CurrentItem, Mode=OneWay}"
-    Icon="{ui:SymbolIcon Symbol=Setting}"
+                <MenuFlyoutItem
+                    AccessKey="{strings:KeyboardResources Key=MenuItemAdvancedKey}"
+                    CommandParameter="{x:Bind ViewModel.Playlist.CurrentItem, Mode=OneWay}"
+                    Icon="{ui:SymbolIcon Symbol=Setting}"
                     IsEnabled="{x:Bind ViewModel.HasActiveItem, Mode=OneWay}"
                     Text="{strings:Resources Key=SetPlaybackOptions}"
                     Visibility="{x:Bind ViewModel.IsAdvancedModeActive, Mode=OneWay}">
                     <MenuFlyoutItem.Command>
-                        <commands:SetPlaybackOptionsCommand PlayCommand="{x:Bind ViewModel.ResetMediaPlaybackCommand}" />
+                        <commands:SetPlaybackOptionsCommand
+                            PlayCommand="{x:Bind ViewModel.ResetMediaPlaybackCommand}" />
                     </MenuFlyoutItem.Command>
                 </MenuFlyoutItem>
 
@@ -457,11 +543,13 @@
                 AutomationProperties.Name="{x:Bind PlayPauseButton.(extensions:AcceleratorService.ToolTip), Mode=OneWay}"
                 Command="{x:Bind ViewModel.PlayPauseCommand}"
                 Style="{StaticResource PlayerButtonStyle}">
-                <FontIcon FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}" Glyph="{x:Bind converters:GlyphConverter.ToPlayPauseGlyph(ViewModel.IsPlaying), Mode=OneWay}" />
+                <FontIcon FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
+                    Glyph="{x:Bind converters:GlyphConverter.ToPlayPauseGlyph(ViewModel.IsPlaying), Mode=OneWay}" />
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="P" Invoked="PlayPauseKeyboardAccelerator_OnInvoked" />
                     <KeyboardAccelerator Key="K" Invoked="PlayPauseKeyboardAccelerator_OnInvoked" />
-                    <KeyboardAccelerator Key="Space" Invoked="PlayPauseKeyboardAccelerator_OnInvoked" />
+                    <KeyboardAccelerator Key="Space"
+                        Invoked="PlayPauseKeyboardAccelerator_OnInvoked" />
                 </Button.KeyboardAccelerators>
             </Button>
             <!--  Previous/Next  -->
@@ -525,7 +613,9 @@
                 IsEnabled="{x:Bind IsEnabled, Mode=OneWay}"
                 Style="{StaticResource PlayerButtonStyle}"
                 Visibility="Collapsed">
-                <FontIcon Glyph="{x:Bind converters:GlyphConverter.ToVolumeGlyph(VolumeControl.ViewModel.IsMute, VolumeControl.ViewModel.Volume), Mode=OneWay}" MirroredWhenRightToLeft="True" />
+                <FontIcon
+                    Glyph="{x:Bind converters:GlyphConverter.ToVolumeGlyph(VolumeControl.ViewModel.IsMute, VolumeControl.ViewModel.Volume), Mode=OneWay}"
+                    MirroredWhenRightToLeft="True" />
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="M" />
                 </Button.KeyboardAccelerators>
@@ -546,7 +636,8 @@
                 IsChecked="{x:Bind ViewModel.Playlist.ShuffleMode, Mode=TwoWay}"
                 IsEnabled="{x:Bind IsEnabled, Mode=OneWay}"
                 Style="{StaticResource PlayerToggleButtonStyle}">
-                <FontIcon FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}" Glyph="{x:Bind converters:GlyphConverter.ToShuffleGlyph(ViewModel.Playlist.ShuffleMode), Mode=OneWay}" />
+                <FontIcon FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
+                    Glyph="{x:Bind converters:GlyphConverter.ToShuffleGlyph(ViewModel.Playlist.ShuffleMode), Mode=OneWay}" />
                 <ToggleButton.KeyboardAccelerators>
                     <KeyboardAccelerator Key="S" Modifiers="Control" />
                 </ToggleButton.KeyboardAccelerators>
@@ -562,7 +653,8 @@
                 IsEnabled="{x:Bind IsEnabled, Mode=OneWay}"
                 IsThreeState="True"
                 Style="{StaticResource PlayerToggleButtonStyle}">
-                <FontIcon FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}" Glyph="{x:Bind converters:GlyphConverter.ToRepeatGlyph(ViewModel.Playlist.RepeatMode), Mode=OneWay}" />
+                <FontIcon FontFamily="{StaticResource ScreenboxSymbolThemeFontFamily}"
+                    Glyph="{x:Bind converters:GlyphConverter.ToRepeatGlyph(ViewModel.Playlist.RepeatMode), Mode=OneWay}" />
                 <ToggleButton.KeyboardAccelerators>
                     <KeyboardAccelerator Key="R" Modifiers="Control" />
                 </ToggleButton.KeyboardAccelerators>
@@ -578,7 +670,8 @@
                 Style="{StaticResource PlayerButtonStyle}">
                 <FontIcon Glyph="&#xED1F;" MirroredWhenRightToLeft="True" />
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="C" Invoked="ToggleSubtitleKeyboardAccelerator_OnInvoked" />
+                    <KeyboardAccelerator Key="C"
+                        Invoked="ToggleSubtitleKeyboardAccelerator_OnInvoked" />
                     <KeyboardAccelerator
                         Key="C"
                         Invoked="ToggleSubtitleKeyboardAccelerator_OnInvoked"
@@ -595,7 +688,8 @@
                         FlyoutPresenterStyle="{StaticResource FlyoutPresenterMenuFlyoutStyle}"
                         Opening="{x:Bind AudioTrackSubtitlePicker.ViewModel.OnFlyoutOpening}"
                         ShouldConstrainToRootBounds="False">
-                        <controls:CompositeTrackPicker x:Name="AudioTrackSubtitlePicker" IsAccessKeyScope="True" />
+                        <controls:CompositeTrackPicker x:Name="AudioTrackSubtitlePicker"
+                            IsAccessKeyScope="True" />
                     </Flyout>
                 </Button.Flyout>
             </Button>
@@ -616,7 +710,8 @@
                     MirroredWhenRightToLeft="True" />
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="M" Modifiers="Control" />
-                    <KeyboardAccelerator Key="Escape" IsEnabled="{x:Bind ViewModel.IsCompact, Mode=OneWay}" />
+                    <KeyboardAccelerator Key="Escape"
+                        IsEnabled="{x:Bind ViewModel.IsCompact, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
             <!--  Fullscreen  -->
@@ -635,7 +730,8 @@
                     MirroredWhenRightToLeft="True" />
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="F" />
-                    <KeyboardAccelerator Key="Escape" IsEnabled="{x:Bind ViewModel.IsFullscreen, Mode=OneWay}" />
+                    <KeyboardAccelerator Key="Escape"
+                        IsEnabled="{x:Bind ViewModel.IsFullscreen, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
             <!--  More  -->
@@ -670,14 +766,19 @@
                         <Setter Target="FullscreenButton.Visibility" Value="Collapsed" />
                         <Setter Target="ExtraOptionsSeparator.Visibility" Value="Visible" />
                         <Setter Target="FullscreenMenuItem.Visibility" Value="Visible" />
-                        <Setter Target="FullscreenMenuItemKeyboardAccelerator.IsEnabled" Value="True" />
+                        <Setter Target="FullscreenMenuItemKeyboardAccelerator.IsEnabled"
+                            Value="True" />
                         <Setter Target="CompactOverlayMenuItem.Visibility" Value="Visible" />
-                        <Setter Target="CompactOverlayMenuItemKeyboardAccelerator.IsEnabled" Value="True" />
+                        <Setter Target="CompactOverlayMenuItemKeyboardAccelerator.IsEnabled"
+                            Value="True" />
                     </VisualState.Setters>
                     <Storyboard>
-                        <RepositionThemeAnimation FromHorizontalOffset="-100" TargetName="ShuffleButton" />
-                        <RepositionThemeAnimation FromHorizontalOffset="-100" TargetName="RepeatButton" />
-                        <RepositionThemeAnimation FromHorizontalOffset="-100" TargetName="VolumeButton" />
+                        <RepositionThemeAnimation FromHorizontalOffset="-100"
+                            TargetName="ShuffleButton" />
+                        <RepositionThemeAnimation FromHorizontalOffset="-100"
+                            TargetName="RepeatButton" />
+                        <RepositionThemeAnimation FromHorizontalOffset="-100"
+                            TargetName="VolumeButton" />
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="CompactOverride">
@@ -708,16 +809,21 @@
                         <StateTrigger IsActive="{x:Bind ViewModel.IsCompact, Mode=OneWay}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="PlayPauseButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="PlayPauseButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
                         <Setter Target="PlayPauseButton.Margin" Value="4,0,0,0" />
-                        <Setter Target="PreviousButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
-                        <Setter Target="NextButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="PreviousButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="NextButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
                         <Setter Target="TimeDisplay.Margin" Value="4,0,0,0" />
                         <Setter Target="TimeDisplay.FontSize" Value="13" />
                         <Setter Target="RepeatButton.Visibility" Value="Collapsed" />
                         <Setter Target="ShuffleButton.Visibility" Value="Collapsed" />
-                        <Setter Target="CompactOverlayButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
-                        <Setter Target="CompactOverlayButtonIcon.Glyph" Value="{StaticResource MiniExpand2MirroredGlyph}" />
+                        <Setter Target="CompactOverlayButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="CompactOverlayButtonIcon.Glyph"
+                            Value="{StaticResource MiniExpand2MirroredGlyph}" />
                         <Setter Target="MoreButton.Visibility" Value="Collapsed" />
                         <Setter Target="SeekBar.(Grid.Row)" Value="2" />
                         <Setter Target="SeekBar.Margin" Value="0" />
@@ -730,17 +836,28 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="AdaptiveHiddenControlSizeTrigger.MaxWidth" Value="640" />
-                        <Setter Target="PlayPauseButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
-                        <Setter Target="PreviousButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
-                        <Setter Target="NextButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
-                        <Setter Target="VolumeButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
-                        <Setter Target="VolumeControl.VolumeToggleButtonStyle" Value="{StaticResource SmallPlayerToggleButtonStyle}" />
-                        <Setter Target="ShuffleButton.Style" Value="{StaticResource SmallPlayerToggleButtonStyle}" />
-                        <Setter Target="RepeatButton.Style" Value="{StaticResource SmallPlayerToggleButtonStyle}" />
-                        <Setter Target="AudioAndCaptionButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
-                        <Setter Target="CompactOverlayButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
-                        <Setter Target="FullscreenButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
-                        <Setter Target="MoreButton.Style" Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="PlayPauseButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="PreviousButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="NextButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="VolumeButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="VolumeControl.VolumeToggleButtonStyle"
+                            Value="{StaticResource SmallPlayerToggleButtonStyle}" />
+                        <Setter Target="ShuffleButton.Style"
+                            Value="{StaticResource SmallPlayerToggleButtonStyle}" />
+                        <Setter Target="RepeatButton.Style"
+                            Value="{StaticResource SmallPlayerToggleButtonStyle}" />
+                        <Setter Target="AudioAndCaptionButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="CompactOverlayButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="FullscreenButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
+                        <Setter Target="MoreButton.Style"
+                            Value="{StaticResource SmallPlayerButtonStyle}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

@@ -16,46 +16,64 @@
                     <!--  Brushes  -->
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Default">
-                            <StaticResource x:Key="AccentFillColorCustomBrush" ResourceKey="SystemAccentColorLight2" />
+                            <StaticResource x:Key="AccentFillColorCustomBrush"
+                                ResourceKey="SystemAccentColorLight2" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Light">
-                            <StaticResource x:Key="AccentFillColorCustomBrush" ResourceKey="SystemAccentColorDark1" />
+                            <StaticResource x:Key="AccentFillColorCustomBrush"
+                                ResourceKey="SystemAccentColorDark1" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
-                            <StaticResource x:Key="AccentFillColorCustomBrush" ResourceKey="SystemColorHighlightColor" />
+                            <StaticResource x:Key="AccentFillColorCustomBrush"
+                                ResourceKey="SystemColorHighlightColor" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
 
                     <!--  Commands  -->
                     <commands:ShowPropertiesCommand x:Key="ShowPropertiesCommand" />
 
-<!-- Converters -->
-    <converters:FirstOrDefaultConverter x:Key="FirstOrDefaultConverter" />
-    <converters:HumanizedDurationConverter x:Key="HumanizedDurationConverter" />
-    <converters:MediaGlyphConverter x:Key="MediaGlyphConverter" />
-    <converters:PlayPauseGlyphConverter x:Key="PlayPauseGlyphConverter" />
-    <converters:CheckBoxToToolTipConverter x:Key="CheckBoxToToolTipConverter" />
-    <converters:UIntToColorBrushConverter x:Key="UIntToColorBrushConverter" />
-    <!-- Lyrics converters -->
-    <converters:KaraokeHighlightConverter x:Key="KaraokeHighlightConverter" />
-    <converters:KaraokeRemainingConverter x:Key="KaraokeRemainingConverter" />
-    <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
-    <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
-    <converters:NotEnumToVisibilityConverter x:Key="NotEnumToVisibilityConverter" />
-                    <!--<converters:ThicknessFiltersConverter x:Key="LeftThicknessFiltersConverter" Filters="Left" />-->
-                    <!--<converters:ThicknessFiltersConverter x:Key="TopThicknessFiltersConverter" Filters="Top" />-->
-                    <!--<converters:ThicknessFiltersConverter x:Key="RightThicknessFiltersConverter" Filters="Right" />-->
-                    <!--<converters:ThicknessFiltersConverter x:Key="BottomThicknessFiltersConverter" Filters="Bottom" />-->
-                    <!--<converters:ThicknessFiltersConverter x:Key="HorizontalThicknessFiltersConverter" Filters="Left,Right" />-->
-                    <converters:ThicknessFiltersConverter x:Key="VerticalThicknessFiltersConverter" Filters="Top,Bottom" />
-                    <!--<converters:ThicknessFiltersConverter x:Key="TopAndLeftThicknessFiltersConverter" Filters="Left,Top" />-->
-                    <!--<converters:ThicknessFiltersConverter x:Key="TopAndRightThicknessFiltersConverter" Filters="Top,Right" />-->
-                    <!--<converters:ThicknessFiltersConverter x:Key="BottomAndLeftThicknessFiltersConverter" Filters="Left,Bottom" />-->
-                    <!--<converters:ThicknessFiltersConverter x:Key="BottomAndRightThicknessFiltersConverter" Filters="Right,Bottom" />-->
-                    <!--<converters:ThicknessFiltersConverter x:Key="HorizontalAndTopThicknessFiltersConverter" Filters="Left,Top,Right" />-->
-                    <!--<converters:ThicknessFiltersConverter x:Key="HorizontalAndBottomThicknessFiltersConverter" Filters="Left,Right,Bottom" />-->
-                    <converters:ThicknessFiltersConverter x:Key="VerticalAndLeftThicknessFiltersConverter" Filters="Left,Top,Bottom" />
-                    <converters:ThicknessFiltersConverter x:Key="VerticalAndRightThicknessFiltersConverter" Filters="Top,Right,Bottom" />
+                    <!-- Converters -->
+                    <converters:FirstOrDefaultConverter x:Key="FirstOrDefaultConverter" />
+                    <converters:HumanizedDurationConverter x:Key="HumanizedDurationConverter" />
+                    <converters:MediaGlyphConverter x:Key="MediaGlyphConverter" />
+                    <converters:PlayPauseGlyphConverter x:Key="PlayPauseGlyphConverter" />
+                    <converters:CheckBoxToToolTipConverter x:Key="CheckBoxToToolTipConverter" />
+                    <converters:UIntToColorBrushConverter x:Key="UIntToColorBrushConverter" />
+                    <!-- Lyrics converters -->
+                    <converters:KaraokeHighlightConverter x:Key="KaraokeHighlightConverter" />
+                    <converters:KaraokeRemainingConverter x:Key="KaraokeRemainingConverter" />
+                    <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
+                    <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+                    <converters:NotEnumToVisibilityConverter x:Key="NotEnumToVisibilityConverter" />
+                    <!--<converters:ThicknessFiltersConverter
+                    x:Key="LeftThicknessFiltersConverter" Filters="Left" />-->
+                    <!--<converters:ThicknessFiltersConverter
+                    x:Key="TopThicknessFiltersConverter" Filters="Top" />-->
+                    <!--<converters:ThicknessFiltersConverter
+                    x:Key="RightThicknessFiltersConverter" Filters="Right" />-->
+                    <!--<converters:ThicknessFiltersConverter
+                    x:Key="BottomThicknessFiltersConverter" Filters="Bottom" />-->
+                    <!--<converters:ThicknessFiltersConverter
+                    x:Key="HorizontalThicknessFiltersConverter" Filters="Left,Right" />-->
+                    <converters:ThicknessFiltersConverter x:Key="VerticalThicknessFiltersConverter"
+                        Filters="Top,Bottom" />
+                    <!--<converters:ThicknessFiltersConverter
+                    x:Key="TopAndLeftThicknessFiltersConverter" Filters="Left,Top" />-->
+                    <!--<converters:ThicknessFiltersConverter
+                    x:Key="TopAndRightThicknessFiltersConverter" Filters="Top,Right" />-->
+                    <!--<converters:ThicknessFiltersConverter
+                    x:Key="BottomAndLeftThicknessFiltersConverter" Filters="Left,Bottom" />-->
+                    <!--<converters:ThicknessFiltersConverter
+                    x:Key="BottomAndRightThicknessFiltersConverter" Filters="Right,Bottom" />-->
+                    <!--<converters:ThicknessFiltersConverter
+                    x:Key="HorizontalAndTopThicknessFiltersConverter" Filters="Left,Top,Right" />-->
+                    <!--<converters:ThicknessFiltersConverter
+                    x:Key="HorizontalAndBottomThicknessFiltersConverter" Filters="Left,Right,Bottom"
+                    />-->
+                    <converters:ThicknessFiltersConverter
+                        x:Key="VerticalAndLeftThicknessFiltersConverter" Filters="Left,Top,Bottom" />
+                    <converters:ThicknessFiltersConverter
+                        x:Key="VerticalAndRightThicknessFiltersConverter" Filters="Top,Right,Bottom" />
                     <ctConverters:BoolNegationConverter x:Key="BoolNegationConverter" />
                     <ctConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
                     <ctConverters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
@@ -63,7 +81,8 @@
                         x:Key="EmptyObjectToVisibilityConverter"
                         EmptyValue="Collapsed"
                         NotEmptyValue="Visible" />
-                    <ctConverters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
+                    <ctConverters:CollectionVisibilityConverter
+                        x:Key="CollectionVisibilityConverter" />
                     <ctConverters:DoubleToObjectConverter
                         x:Key="DoubleToBoolConverter"
                         FalseValue="False"
@@ -74,9 +93,12 @@
                         x:Key="BoolToPlayPauseTextConverter"
                         FalseValue="{strings:Resources Key=Play}"
                         TrueValue="{strings:Resources Key=Pause}" />
-                    <converters:DefaultStringConverter x:Key="GenreTextConverter" Default="{strings:Resources Key=UnknownGenre}" />
-                    <converters:DefaultStringConverter x:Key="ArtistTextConverter" Default="{strings:Resources Key=UnknownArtist}" />
-                    <converters:DefaultStringConverter x:Key="AlbumTextConverter" Default="{strings:Resources Key=UnknownAlbum}" />
+                    <converters:DefaultStringConverter x:Key="GenreTextConverter"
+                        Default="{strings:Resources Key=UnknownGenre}" />
+                    <converters:DefaultStringConverter x:Key="ArtistTextConverter"
+                        Default="{strings:Resources Key=UnknownArtist}" />
+                    <converters:DefaultStringConverter x:Key="AlbumTextConverter"
+                        Default="{strings:Resources Key=UnknownAlbum}" />
 
                     <!--  Font sizes  -->
                     <x:Double x:Key="TopNavigationViewItemFontSize">18</x:Double>
@@ -130,7 +152,8 @@
                         BasedOn="{StaticResource BaseTextBlockStyle}"
                         TargetType="TextBlock">
                         <Setter Property="AutomationProperties.HeadingLevel" Value="Level1" />
-                        <Setter Property="FontSize" Value="{StaticResource TitleMediumTextBlockFontSize}" />
+                        <Setter Property="FontSize"
+                            Value="{StaticResource TitleMediumTextBlockFontSize}" />
                         <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings" />
                     </Style>
 
