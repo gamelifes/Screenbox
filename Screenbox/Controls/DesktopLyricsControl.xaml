@@ -33,6 +33,7 @@
         Text="{Binding HighlightedText, Mode=OneWay}"
         TextAlignment="Center"
         TextWrapping="Wrap" />
+
       <TextBlock
         x:Name="RemainingTextBlock"
         MaxWidth="1000"
