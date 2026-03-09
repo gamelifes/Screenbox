@@ -1,4 +1,5 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:contract13NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,13)"
     xmlns:contract13Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,13)"
@@ -7,114 +8,82 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
-            <!--  Use opacity rather than a foreground brush so that it doesn't override the
-            GridViewItem/ListViewItem foreground brushes  -->
+            <!--
+                Use opacity rather than a foreground brush so that it doesn't override the
+                GridViewItem/ListViewItem foreground brushes
+            -->
             <x:Double x:Key="TextFillColorSecondaryOpacity">0.775</x:Double>
             <x:Double x:Key="TextFillColorTertiaryOpacity">0.53</x:Double>
 
-            <StaticResource x:Key="MediaGridViewItemBackgroundPointerOver"
-                ResourceKey="ControlFillColorDefaultBrush" />
-            <StaticResource x:Key="MediaGridViewItemBackgroundPressed"
-                ResourceKey="ControlAltFillColorTertiaryBrush" />
-            <StaticResource x:Key="MediaGridViewItemForegroundPointerOver"
-                ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="MediaGridViewItemBorderBrushPointerOver"
-                ResourceKey="CardStrokeColorDefaultSolidBrush" />
+            <StaticResource x:Key="MediaGridViewItemBackgroundPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
+            <StaticResource x:Key="MediaGridViewItemBackgroundPressed" ResourceKey="ControlAltFillColorTertiaryBrush" />
+            <StaticResource x:Key="MediaGridViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MediaGridViewItemBorderBrushPointerOver" ResourceKey="CardStrokeColorDefaultSolidBrush" />
 
-            <StaticResource x:Key="MediaListViewHeaderItemBackground"
-                ResourceKey="SubtleFillColorTransparentBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPointerOver"
-                ResourceKey="SubtleFillColorSecondaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPressed"
-                ResourceKey="SubtleFillColorTertiaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemForeground"
-                ResourceKey="AccentTextFillColorPrimaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemForegroundPointerOver"
-                ResourceKey="AccentTextFillColorSecondaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemForegroundPressed"
-                ResourceKey="AccentTextFillColorTertiaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBorderBrush"
-                ResourceKey="SubtleFillColorTransparentBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPointerOver"
-                ResourceKey="SubtleFillColorSecondaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPressed"
-                ResourceKey="SubtleFillColorTertiaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemForeground" ResourceKey="AccentTextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemForegroundPointerOver" ResourceKey="AccentTextFillColorSecondaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemForegroundPressed" ResourceKey="AccentTextFillColorTertiaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <x:Double x:Key="TextFillColorSecondaryOpacity">0.695</x:Double>
             <x:Double x:Key="TextFillColorTertiaryOpacity">0.5</x:Double>
 
-            <StaticResource x:Key="MediaGridViewItemBackgroundPointerOver"
-                ResourceKey="ControlFillColorDefaultBrush" />
-            <StaticResource x:Key="MediaGridViewItemBackgroundPressed"
-                ResourceKey="LayerFillColorDefaultBrush" />
-            <StaticResource x:Key="MediaGridViewItemForegroundPointerOver"
-                ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="MediaGridViewItemBorderBrushPointerOver"
-                ResourceKey="ControlStrokeColorSecondaryBrush" />
+            <StaticResource x:Key="MediaGridViewItemBackgroundPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
+            <StaticResource x:Key="MediaGridViewItemBackgroundPressed" ResourceKey="LayerFillColorDefaultBrush" />
+            <StaticResource x:Key="MediaGridViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MediaGridViewItemBorderBrushPointerOver" ResourceKey="ControlStrokeColorSecondaryBrush" />
 
-            <StaticResource x:Key="MediaListViewHeaderItemBackground"
-                ResourceKey="SubtleFillColorTransparentBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPointerOver"
-                ResourceKey="SubtleFillColorSecondaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPressed"
-                ResourceKey="SubtleFillColorTertiaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemForeground"
-                ResourceKey="AccentTextFillColorPrimaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemForegroundPointerOver"
-                ResourceKey="AccentTextFillColorSecondaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemForegroundPressed"
-                ResourceKey="AccentTextFillColorTertiaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBorderBrush"
-                ResourceKey="SystemControlTransparentBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPointerOver"
-                ResourceKey="SubtleFillColorSecondaryBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPressed"
-                ResourceKey="SubtleFillColorTertiaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemForeground" ResourceKey="AccentTextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemForegroundPointerOver" ResourceKey="AccentTextFillColorSecondaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemForegroundPressed" ResourceKey="AccentTextFillColorTertiaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
             <x:Double x:Key="TextFillColorSecondaryOpacity">1</x:Double>
             <x:Double x:Key="TextFillColorTertiaryOpacity">1</x:Double>
 
-            <StaticResource x:Key="MediaGridViewItemBackgroundPointerOver"
-                ResourceKey="SystemColorHighlightTextColorBrush" />
-            <StaticResource x:Key="MediaGridViewItemBackgroundPressed"
-                ResourceKey="SystemColorHighlightTextColorBrush" />
-            <StaticResource x:Key="MediaGridViewItemForegroundPointerOver"
-                ResourceKey="SystemColorHighlightColorBrush" />
-            <StaticResource x:Key="MediaGridViewItemBorderBrushPointerOver"
-                ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="MediaGridViewItemBackgroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+            <StaticResource x:Key="MediaGridViewItemBackgroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+            <StaticResource x:Key="MediaGridViewItemForegroundPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="MediaGridViewItemBorderBrushPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
 
-            <StaticResource x:Key="MediaListViewHeaderItemBackground"
-                ResourceKey="SystemColorButtonFaceColorBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPointerOver"
-                ResourceKey="SystemColorHighlightTextColorBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPressed"
-                ResourceKey="SystemColorHighlightTextColorBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemForeground"
-                ResourceKey="SystemColorButtonTextColorBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemForegroundPointerOver"
-                ResourceKey="SystemColorHighlightColorBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemForegroundPressed"
-                ResourceKey="SystemColorHighlightColorBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBorderBrush"
-                ResourceKey="SystemColorButtonFaceColorBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPointerOver"
-                ResourceKey="SystemColorHighlightColorBrush" />
-            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPressed"
-                ResourceKey="SystemColorButtonFaceColorBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBackground" ResourceKey="SystemColorButtonFaceColorBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBackgroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemForegroundPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemForegroundPressed" ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBorderBrush" ResourceKey="SystemColorButtonFaceColorBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="MediaListViewHeaderItemBorderBrushPressed" ResourceKey="SystemColorButtonFaceColorBrush" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
     <CornerRadius x:Key="MediaItemCornerRadius">8,8,8,8</CornerRadius>
     <x:Double x:Key="GridViewItemPressedScale">0.95</x:Double>
 
-    <!--  GridViewItem featuring a Pressed ScaleTransform animation and a custom PointerOver
-    foreground brush  -->
     <!--
-    https://github.com/microsoft/microsoft-ui-xaml/blob/v2.8.6/dev/CommonStyles/GridViewItem_themeresources.xaml  -->
-    <contract13NotPresent:Style x:Key="GridViewItemMediaCardStyle"
-        BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+        GridViewItem featuring a Pressed ScaleTransform animation and a custom PointerOver
+        foreground brush
+    -->
+    <!--
+        https://github.com/microsoft/microsoft-ui-xaml/blob/v2.8.6/dev/CommonStyles/GridViewItem_themeresources.xaml
+    -->
+    <contract13NotPresent:Style
+        x:Key="GridViewItemMediaCardStyle"
+        BasedOn="{StaticResource DefaultGridViewItemStyle}"
+        TargetType="GridViewItem">
         <!--<Setter
         Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />-->
         <!--<Setter
@@ -156,7 +125,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GridViewItem">
-                    <ListViewItemPresenter x:Name="Root"
+                    <ListViewItemPresenter
+                        x:Name="Root"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         CheckBoxBrush="{ThemeResource GridViewItemCheckBoxBrush}"
@@ -198,10 +168,8 @@
 
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="ScaleTransform.ScaleX"
-                                            Value="{StaticResource GridViewItemPressedScale}" />
-                                        <Setter Target="ScaleTransform.ScaleY"
-                                            Value="{StaticResource GridViewItemPressedScale}" />
+                                        <Setter Target="ScaleTransform.ScaleX" Value="{StaticResource GridViewItemPressedScale}" />
+                                        <Setter Target="ScaleTransform.ScaleY" Value="{StaticResource GridViewItemPressedScale}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
@@ -210,28 +178,22 @@
 
                                 <VisualState x:Name="PressedSelected">
                                     <VisualState.Setters>
-                                        <Setter Target="ScaleTransform.ScaleX"
-                                            Value="{StaticResource GridViewItemPressedScale}" />
-                                        <Setter Target="ScaleTransform.ScaleY"
-                                            Value="{StaticResource GridViewItemPressedScale}" />
+                                        <Setter Target="ScaleTransform.ScaleX" Value="{StaticResource GridViewItemPressedScale}" />
+                                        <Setter Target="ScaleTransform.ScaleY" Value="{StaticResource GridViewItemPressedScale}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition To="Pressed">
                                         <Storyboard>
-                                            <DoubleAnimationUsingKeyFrames
-                                                Storyboard.TargetName="ScaleTransform"
-                                                Storyboard.TargetProperty="ScaleX">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleX">
                                                 <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
                                                 <SplineDoubleKeyFrame
                                                     KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
                                                     KeyTime="{StaticResource ControlFastAnimationDuration}"
                                                     Value="{StaticResource GridViewItemPressedScale}" />
                                             </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames
-                                                Storyboard.TargetName="ScaleTransform"
-                                                Storyboard.TargetProperty="ScaleY">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleY">
                                                 <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
                                                 <SplineDoubleKeyFrame
                                                     KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
@@ -243,18 +205,14 @@
 
                                     <VisualTransition To="PressedSelected">
                                         <Storyboard>
-                                            <DoubleAnimationUsingKeyFrames
-                                                Storyboard.TargetName="ScaleTransform"
-                                                Storyboard.TargetProperty="ScaleX">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleX">
                                                 <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
                                                 <SplineDoubleKeyFrame
                                                     KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
                                                     KeyTime="{StaticResource ControlFastAnimationDuration}"
                                                     Value="{StaticResource GridViewItemPressedScale}" />
                                             </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames
-                                                Storyboard.TargetName="ScaleTransform"
-                                                Storyboard.TargetProperty="ScaleY">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleY">
                                                 <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
                                                 <SplineDoubleKeyFrame
                                                     KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
@@ -271,12 +229,17 @@
             </Setter.Value>
         </Setter>
     </contract13NotPresent:Style>
-    <!--  GridViewItem featuring a Pressed ScaleTransform animation, increased corner radius, custom
-    PointerOver Border/Foreground/Background brush and custom Pressed Background brush  -->
     <!--
-    https://github.com/microsoft/microsoft-ui-xaml/blob/v2.8.6/dev/CommonStyles/GridViewItem_themeresources_21h1.xaml  -->
-    <contract13Present:Style x:Key="GridViewItemMediaCardStyle"
-        BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+        GridViewItem featuring a Pressed ScaleTransform animation, increased corner radius, custom
+        PointerOver Border/Foreground/Background brush and custom Pressed Background brush
+    -->
+    <!--
+        https://github.com/microsoft/microsoft-ui-xaml/blob/v2.8.6/dev/CommonStyles/GridViewItem_themeresources_21h1.xaml
+    -->
+    <contract13Present:Style
+        x:Key="GridViewItemMediaCardStyle"
+        BasedOn="{StaticResource DefaultGridViewItemStyle}"
+        TargetType="GridViewItem">
         <!--<Setter
         Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />-->
         <!--<Setter
@@ -318,7 +281,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GridViewItem">
-                    <ListViewItemPresenter x:Name="Root"
+                    <ListViewItemPresenter
+                        x:Name="Root"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         CheckBoxBorderBrush="{ThemeResource GridViewItemCheckBoxBorderBrush}"
@@ -382,10 +346,8 @@
 
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="ScaleTransform.ScaleX"
-                                            Value="{StaticResource GridViewItemPressedScale}" />
-                                        <Setter Target="ScaleTransform.ScaleY"
-                                            Value="{StaticResource GridViewItemPressedScale}" />
+                                        <Setter Target="ScaleTransform.ScaleX" Value="{StaticResource GridViewItemPressedScale}" />
+                                        <Setter Target="ScaleTransform.ScaleY" Value="{StaticResource GridViewItemPressedScale}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
@@ -394,28 +356,22 @@
 
                                 <VisualState x:Name="PressedSelected">
                                     <VisualState.Setters>
-                                        <Setter Target="ScaleTransform.ScaleX"
-                                            Value="{StaticResource GridViewItemPressedScale}" />
-                                        <Setter Target="ScaleTransform.ScaleY"
-                                            Value="{StaticResource GridViewItemPressedScale}" />
+                                        <Setter Target="ScaleTransform.ScaleX" Value="{StaticResource GridViewItemPressedScale}" />
+                                        <Setter Target="ScaleTransform.ScaleY" Value="{StaticResource GridViewItemPressedScale}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition To="Pressed">
                                         <Storyboard>
-                                            <DoubleAnimationUsingKeyFrames
-                                                Storyboard.TargetName="ScaleTransform"
-                                                Storyboard.TargetProperty="ScaleX">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleX">
                                                 <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
                                                 <SplineDoubleKeyFrame
                                                     KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
                                                     KeyTime="{StaticResource ControlFastAnimationDuration}"
                                                     Value="{StaticResource GridViewItemPressedScale}" />
                                             </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames
-                                                Storyboard.TargetName="ScaleTransform"
-                                                Storyboard.TargetProperty="ScaleY">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleY">
                                                 <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
                                                 <SplineDoubleKeyFrame
                                                     KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
@@ -427,18 +383,14 @@
 
                                     <VisualTransition To="PressedSelected">
                                         <Storyboard>
-                                            <DoubleAnimationUsingKeyFrames
-                                                Storyboard.TargetName="ScaleTransform"
-                                                Storyboard.TargetProperty="ScaleX">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleX">
                                                 <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
                                                 <SplineDoubleKeyFrame
                                                     KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
                                                     KeyTime="{StaticResource ControlFastAnimationDuration}"
                                                     Value="{StaticResource GridViewItemPressedScale}" />
                                             </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames
-                                                Storyboard.TargetName="ScaleTransform"
-                                                Storyboard.TargetProperty="ScaleY">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleY">
                                                 <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
                                                 <SplineDoubleKeyFrame
                                                     KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
@@ -461,8 +413,7 @@
         <!--<Setter
         Property="extensions:ListViewExtensions.ItemMinHeight" Value="48" />-->
         <Setter Property="extensions:ListViewExtensions.ItemMargin" Value="0,2,0,2" />
-        <Setter Property="extensions:ListViewExtensions.ItemCornerRadius"
-            Value="{StaticResource MediaItemCornerRadius}" />
+        <Setter Property="extensions:ListViewExtensions.ItemCornerRadius" Value="{StaticResource MediaItemCornerRadius}" />
         <!--<Setter
         Property="extensions:ListViewExtensions.ItemIsFocusEngagementEnabled" Value="True" />-->
         <Setter Property="ItemContainerStyle" Value="{StaticResource MediaListViewItemStyle}" />
@@ -470,20 +421,27 @@
 
     <!--  ListViewItem with larger MinHeight and focus engagement requirement  -->
     <!--
-    https://learn.microsoft.com/en-us/windows/apps/design/input/gamepad-and-remote-interactions#focus-engagement  -->
-    <contract13NotPresent:Style x:Key="MediaListViewItemStyle"
-        BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+        https://learn.microsoft.com/en-us/windows/apps/design/input/gamepad-and-remote-interactions#focus-engagement
+    -->
+    <contract13NotPresent:Style
+        x:Key="MediaListViewItemStyle"
+        BasedOn="{StaticResource DefaultListViewItemStyle}"
+        TargetType="ListViewItem">
         <Setter Property="MinHeight" Value="44" />
         <Setter Property="IsFocusEngagementEnabled" Value="True" />
     </contract13NotPresent:Style>
-    <contract13Present:Style x:Key="MediaListViewItemStyle"
-        BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+    <contract13Present:Style
+        x:Key="MediaListViewItemStyle"
+        BasedOn="{StaticResource DefaultListViewItemStyle}"
+        TargetType="ListViewItem">
         <Setter Property="MinHeight" Value="48" />
         <Setter Property="IsFocusEngagementEnabled" Value="True" />
     </contract13Present:Style>
 
-    <!--  GridViewHeaderItem with inline margin that resembles the subtle button, but with accent
-    text and a larger corner radius  -->
+    <!--
+        GridViewHeaderItem with inline margin that resembles the subtle button, but with accent
+        text and a larger corner radius
+    -->
     <Style x:Key="MediaGridViewHeaderItemStyle" TargetType="GridViewHeaderItem">
         <!--<Setter
         Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />-->
@@ -507,12 +465,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GridViewHeaderItem">
-                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}"
+                    <Grid
+                        x:Name="RootGrid"
+                        Background="{TemplateBinding Background}"
                         BackgroundSizing="{TemplateBinding BackgroundSizing}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                        <ContentPresenter x:Name="ContentPresenter"
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
                             Margin="{TemplateBinding Padding}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -527,46 +488,28 @@
 
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="RootGrid"
-                                            Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemBackgroundPointerOver}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemBackgroundPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="RootGrid"
-                                            Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemBorderBrushPointerOver}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemBorderBrushPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="ContentPresenter"
-                                            Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemForegroundPointerOver}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemForegroundPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="RootGrid"
-                                            Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemBackgroundPressed}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemBackgroundPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="RootGrid"
-                                            Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemBorderBrushPressed}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemBorderBrushPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="ContentPresenter"
-                                            Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemForegroundPressed}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemForegroundPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -577,8 +520,10 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--  ListViewHeaderItem that resembles the subtle button, but with accent text and a larger
-    corner radius  -->
+    <!--
+        ListViewHeaderItem that resembles the subtle button, but with accent text and a larger
+        corner radius
+    -->
     <Style x:Key="MediaListViewHeaderItemStyle" TargetType="ListViewHeaderItem">
         <!--<Setter
         Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />-->
@@ -603,12 +548,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListViewHeaderItem">
-                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}"
+                    <Grid
+                        x:Name="RootGrid"
+                        Background="{TemplateBinding Background}"
                         BackgroundSizing="{TemplateBinding BackgroundSizing}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                        <ContentPresenter x:Name="ContentPresenter"
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
                             Margin="{TemplateBinding Padding}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -623,46 +571,28 @@
 
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="RootGrid"
-                                            Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemBackgroundPointerOver}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemBackgroundPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="RootGrid"
-                                            Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemBorderBrushPointerOver}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemBorderBrushPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="ContentPresenter"
-                                            Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemForegroundPointerOver}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemForegroundPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="RootGrid"
-                                            Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemBackgroundPressed}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemBackgroundPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="RootGrid"
-                                            Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemBorderBrushPressed}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemBorderBrushPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="ContentPresenter"
-                                            Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                Value="{ThemeResource MediaListViewHeaderItemForegroundPressed}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MediaListViewHeaderItemForegroundPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
