@@ -1,5 +1,4 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:contract13NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,13)"
     xmlns:contract13Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,13)"
@@ -114,10 +113,8 @@
     foreground brush  -->
     <!--
     https://github.com/microsoft/microsoft-ui-xaml/blob/v2.8.6/dev/CommonStyles/GridViewItem_themeresources.xaml  -->
-    <contract13NotPresent:Style
-        x:Key="GridViewItemMediaCardStyle"
-        BasedOn="{StaticResource DefaultGridViewItemStyle}"
-        TargetType="GridViewItem">
+    <contract13NotPresent:Style x:Key="GridViewItemMediaCardStyle"
+        BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
         <!--<Setter
         Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />-->
         <!--<Setter
@@ -159,8 +156,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GridViewItem">
-                    <ListViewItemPresenter
-                        x:Name="Root"
+                    <ListViewItemPresenter x:Name="Root"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         CheckBoxBrush="{ThemeResource GridViewItemCheckBoxBrush}"
@@ -279,10 +275,8 @@
     PointerOver Border/Foreground/Background brush and custom Pressed Background brush  -->
     <!--
     https://github.com/microsoft/microsoft-ui-xaml/blob/v2.8.6/dev/CommonStyles/GridViewItem_themeresources_21h1.xaml  -->
-    <contract13Present:Style
-        x:Key="GridViewItemMediaCardStyle"
-        BasedOn="{StaticResource DefaultGridViewItemStyle}"
-        TargetType="GridViewItem">
+    <contract13Present:Style x:Key="GridViewItemMediaCardStyle"
+        BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
         <!--<Setter
         Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />-->
         <!--<Setter
@@ -324,8 +318,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GridViewItem">
-                    <ListViewItemPresenter
-                        x:Name="Root"
+                    <ListViewItemPresenter x:Name="Root"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         CheckBoxBorderBrush="{ThemeResource GridViewItemCheckBoxBorderBrush}"
@@ -478,17 +471,13 @@
     <!--  ListViewItem with larger MinHeight and focus engagement requirement  -->
     <!--
     https://learn.microsoft.com/en-us/windows/apps/design/input/gamepad-and-remote-interactions#focus-engagement  -->
-    <contract13NotPresent:Style
-        x:Key="MediaListViewItemStyle"
-        BasedOn="{StaticResource DefaultListViewItemStyle}"
-        TargetType="ListViewItem">
+    <contract13NotPresent:Style x:Key="MediaListViewItemStyle"
+        BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
         <Setter Property="MinHeight" Value="44" />
         <Setter Property="IsFocusEngagementEnabled" Value="True" />
     </contract13NotPresent:Style>
-    <contract13Present:Style
-        x:Key="MediaListViewItemStyle"
-        BasedOn="{StaticResource DefaultListViewItemStyle}"
-        TargetType="ListViewItem">
+    <contract13Present:Style x:Key="MediaListViewItemStyle"
+        BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
         <Setter Property="MinHeight" Value="48" />
         <Setter Property="IsFocusEngagementEnabled" Value="True" />
     </contract13Present:Style>
@@ -518,15 +507,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GridViewHeaderItem">
-                    <Grid
-                        x:Name="RootGrid"
-                        Background="{TemplateBinding Background}"
+                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}"
                         BackgroundSizing="{TemplateBinding BackgroundSizing}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                        <ContentPresenter
-                            x:Name="ContentPresenter"
+                        <ContentPresenter x:Name="ContentPresenter"
                             Margin="{TemplateBinding Padding}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -617,15 +603,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListViewHeaderItem">
-                    <Grid
-                        x:Name="RootGrid"
-                        Background="{TemplateBinding Background}"
+                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}"
                         BackgroundSizing="{TemplateBinding BackgroundSizing}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                        <ContentPresenter
-                            x:Name="ContentPresenter"
+                        <ContentPresenter x:Name="ContentPresenter"
                             Margin="{TemplateBinding Padding}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
