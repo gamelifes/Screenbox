@@ -460,8 +460,8 @@
             <!--  歌词内容  -->
             <StackPanel
                 x:Name="LyricsStackPanel"
-                VerticalAlignment="Center"
                 HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Orientation="Vertical">
                 <!--  上一句歌词  -->
                 <TextBlock
@@ -502,18 +502,18 @@
                     <!--  多人合唱的其他歌词行 - 不带卡拉OK效果，较小字体  -->
                     <ItemsControl
                         x:Name="AdditionalLyricsLines"
-                        ItemsSource="{x:Bind ViewModel.AdditionalLyricLines}"
-                        HorizontalAlignment="Center">
+                        HorizontalAlignment="Center"
+                        ItemsSource="{x:Bind ViewModel.AdditionalLyricLines}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
                                 <TextBlock
+                                    Margin="0,8,0,0"
                                     FontSize="20"
                                     FontWeight="Normal"
                                     Foreground="#FFAAAAAA"
                                     Text="{x:Bind}"
                                     TextAlignment="Center"
-                                    TextWrapping="Wrap"
-                                    Margin="0,8,0,0" />
+                                    TextWrapping="Wrap" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
