@@ -371,62 +371,6 @@
                             <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#E17055" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        Click="OnLyricsColorMenuClick"
-                        Tag="0xFFFF6B6B"
-                        Text="Coral">
-                        <MenuFlyoutItem.Icon>
-                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#FF6B6B" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        Click="OnLyricsColorMenuClick"
-                        Tag="0xFF4ECDC4"
-                        Text="Teal">
-                        <MenuFlyoutItem.Icon>
-                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#4ECDC4" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        Click="OnLyricsColorMenuClick"
-                        Tag="0xFFFFD93D"
-                        Text="Yellow">
-                        <MenuFlyoutItem.Icon>
-                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#FFD93D" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        Click="OnLyricsColorMenuClick"
-                        Tag="0xFF6C5CE7"
-                        Text="Purple">
-                        <MenuFlyoutItem.Icon>
-                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#6C5CE7" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        Click="OnLyricsColorMenuClick"
-                        Tag="0xFFFD79A8"
-                        Text="Pink">
-                        <MenuFlyoutItem.Icon>
-                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#FD79A8" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        Click="OnLyricsColorMenuClick"
-                        Tag="0xFF00CEC9"
-                        Text="Cyan">
-                        <MenuFlyoutItem.Icon>
-                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#00CEC9" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        Click="OnLyricsColorMenuClick"
-                        Tag="0xFFE17055"
-                        Text="Orange">
-                        <MenuFlyoutItem.Icon>
-                            <PathIcon Data="M8,8 A4,4 0 1,1 8,16 A4,4 0 1,1 8,8" Foreground="#E17055" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
                 </MenuFlyoutSubItem>
                 <MenuFlyoutItem
                     x:Name="ShowLyricsMenuItem"
