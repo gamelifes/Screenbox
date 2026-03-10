@@ -457,77 +457,79 @@
                 </Border.Background>
             </Border>
 
-            <!--  歌词内容 - 支持自动滚动  -->
-            <ScrollViewer
-                x:Name="LyricsScrollViewer"
-                HorizontalAlignment="Center"
+            <!--  歌词内容  -->
+            <StackPanel
+                x:Name="LyricsStackPanel"
                 VerticalAlignment="Center"
-                HorizontalScrollMode="Disabled"
-                IsVerticalScrollChainingEnabled="False"
-                VerticalScrollBarVisibility="Hidden"
-                VerticalScrollMode="Enabled">
-                <StackPanel
-                    x:Name="LyricsStackPanel"
-                    Width="600"
+                HorizontalAlignment="Center"
+                Orientation="Vertical">
+                <!--  上一句歌词  -->
+                <TextBlock
+                    x:Name="LyricsPrevious"
+                    Margin="0,0,0,16"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
+                    FontSize="18"
+                    FontWeight="Normal"
+                    Foreground="#60FFFFFF"
+                    Text="{x:Bind ViewModel.PreviousLyricText, Mode=OneWay, FallbackValue={x:Null}}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+
+                <!--  当前歌词 - 卡拉OK效果  -->
+                <StackPanel
+                    x:Name="LyricsLinesContainer"
+                    Margin="0,0,0,16"
+                    HorizontalAlignment="Center"
                     Orientation="Vertical">
-                    <!--  占位元素，用于将当前歌词居中 (约一半高度)  -->
-                    <Rectangle Height="80" />
-
-                    <!--  上一句歌词  -->
+                    <!--  已高亮部分（多人合唱第一行或单行歌词） - 用户自定义颜色  -->
                     <TextBlock
-                        x:Name="LyricsPrevious"
-                        Margin="0,0,0,16"
-                        HorizontalAlignment="Center"
-                        FontSize="18"
-                        FontWeight="Normal"
-                        Foreground="#60FFFFFF"
-                        Text="{x:Bind ViewModel.PreviousLyricText, Mode=OneWay, FallbackValue={x:Null}}"
+                        x:Name="LyricsHighlighted"
+                        FontSize="28"
+                        FontWeight="Bold"
+                        Foreground="{x:Bind ViewModel.LyricsHighlightColor, Converter={StaticResource UIntToColorBrushConverter}, Mode=OneWay}"
+                        Text="{x:Bind ViewModel.HighlightedText, Mode=OneWay, FallbackValue={x:Null}}"
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
-
-                    <!--  当前歌词 - 卡拉OK效果  -->
-                    <StackPanel
-                        x:Name="KaraokeContainer"
-                        Margin="0,0,0,16"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                        <!--  已高亮部分 - 用户自定义颜色  -->
-                        <TextBlock
-                            x:Name="LyricsHighlighted"
-                            FontSize="28"
-                            FontWeight="Bold"
-                            Foreground="{x:Bind ViewModel.LyricsHighlightColor, Converter={StaticResource UIntToColorBrushConverter}, Mode=OneWay}"
-                            Text="{x:Bind ViewModel.HighlightedText, Mode=OneWay, FallbackValue={x:Null}}"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                        <!--  未高亮部分 - 白色  -->
-                        <TextBlock
-                            x:Name="LyricsRemaining"
-                            FontSize="28"
-                            FontWeight="Bold"
-                            Foreground="White"
-                            Text="{x:Bind ViewModel.RemainingText, Mode=OneWay, FallbackValue={x:Null}}"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
-
-                    <!--  下一句歌词  -->
+                    <!--  未高亮部分（多人合唱第一行或单行歌词） - 白色  -->
                     <TextBlock
-                        x:Name="LyricsNext"
-                        HorizontalAlignment="Center"
-                        FontSize="18"
-                        FontWeight="Normal"
-                        Foreground="#60FFFFFF"
-                        Text="{x:Bind ViewModel.NextLyricText, Mode=OneWay, FallbackValue={x:Null}}"
+                        x:Name="LyricsRemaining"
+                        FontSize="28"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="{x:Bind ViewModel.RemainingText, Mode=OneWay, FallbackValue={x:Null}}"
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
-
-                    <!--  占位元素  -->
-                    <Rectangle Height="80" />
+                    <!--  多人合唱的其他歌词行 - 不带卡拉OK效果，较小字体  -->
+                    <ItemsControl
+                        x:Name="AdditionalLyricsLines"
+                        ItemsSource="{x:Bind ViewModel.AdditionalLyricLines}"
+                        HorizontalAlignment="Center">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <TextBlock
+                                    FontSize="20"
+                                    FontWeight="Normal"
+                                    Foreground="#FFAAAAAA"
+                                    Text="{x:Bind}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap"
+                                    Margin="0,8,0,0" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
-            </ScrollViewer>
+
+                <!--  下一句歌词  -->
+                <TextBlock
+                    x:Name="LyricsNext"
+                    HorizontalAlignment="Center"
+                    FontSize="18"
+                    FontWeight="Normal"
+                    Foreground="#60FFFFFF"
+                    Text="{x:Bind ViewModel.NextLyricText, Mode=OneWay, FallbackValue={x:Null}}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </StackPanel>
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="LyricsStates">
                     <VisualState x:Name="LyricsNormal" />

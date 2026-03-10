@@ -59,19 +59,26 @@ public sealed partial class PlayerPageViewModel : ObservableRecipient,
     [ObservableProperty] private bool _showVisualizer;
     [ObservableProperty] private bool _keyTipsVisible;
     [ObservableProperty] private bool _showLyrics;
-    [ObservableProperty] private bool _desktopLyricsMode;
     [ObservableProperty] private string? _currentLyricText;
     [ObservableProperty] private string? _previousLyricText;
     [ObservableProperty] private string? _nextLyricText;
     [ObservableProperty] private double _lyricProgress;
     [ObservableProperty] private Lyrics? _lyrics;
     [ObservableProperty] private int _currentLyricIndex;
-    
+
     // 卡拉OK逐字高亮相关
     [ObservableProperty] private int _highlightedCharCount;  // 当前行已高亮的字符数
     [ObservableProperty] private string? _highlightedText;   // 已高亮部分（卡拉OK效果）
     [ObservableProperty] private string? _remainingText;     // 未高亮部分
     [ObservableProperty] private uint _lyricsHighlightColor = 0xFF1DB954;  // 卡拉OK高亮颜色
+
+    // 用于多人合唱时显示的多歌词行
+    [ObservableProperty]
+    private List<string> _currentLyricLines = new();
+
+    // 多人合唱的其他歌词行（除第一行外的其余行，用于显示但不带卡拉OK效果）
+    [ObservableProperty]
+    private List<string> _additionalLyricLines = new();
 
     [ObservableProperty]
     [NotifyPropertyChangedRecipients]
@@ -869,16 +876,6 @@ public void Receive(SettingsChangedMessage message)
         ShowLyrics = !ShowLyrics;
     }
 
-    [RelayCommand]
-    private void ToggleDesktopLyricsMode()
-    {
-        DesktopLyricsMode = !DesktopLyricsMode;
-        if (DesktopLyricsMode)
-        {
-            ShowLyrics = true;
-        }
-    }
-    
 [RelayCommand]
 private void SetLyricsHighlightColor(string colorString)
 {
@@ -1101,7 +1098,7 @@ public void SetLyricsColor(uint color)
     {
         // Debug logging
         System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] UpdateLyricsPosition: position={position}, Lyrics={(Lyrics != null ? Lyrics.Lines.Count + " lines" : "null")}, ShowLyrics={ShowLyrics}");
-        
+
         if (Lyrics == null || Lyrics.Lines.Count == 0 || !ShowLyrics)
         {
             CurrentLyricText = null;
@@ -1109,15 +1106,22 @@ public void SetLyricsColor(uint color)
             NextLyricText = null;
             LyricProgress = 0;
             HighlightedCharCount = 0;
+            CurrentLyricLines = new List<string>();
+            AdditionalLyricLines = new List<string>();
             return;
         }
 
-        int newIndex = -1;
+        // 应用时间偏移（从LRC文件中的offset标签或用户设置）
+        TimeSpan adjustedPosition = position + TimeSpan.FromMilliseconds(Lyrics.DetectedOffsetMs + Lyrics.OffsetMs);
+
+        // 查找当前时间应该显示的所有歌词行
+        // 支持同一时间戳的多行歌词（多人合唱）
+        List<int> activeIndices = new();
         for (int i = 0; i < Lyrics.Lines.Count; i++)
         {
-            if (Lyrics.Lines[i].Time <= position)
+            if (Lyrics.Lines[i].Time <= adjustedPosition)
             {
-                newIndex = i;
+                activeIndices.Add(i);
             }
             else
             {
@@ -1125,26 +1129,63 @@ public void SetLyricsColor(uint color)
             }
         }
 
+        // 获取最后一行（主要歌词行）
+        int newIndex = activeIndices.Count > 0 ? activeIndices[activeIndices.Count - 1] : -1;
+
+        // 获取同一时间戳的所有歌词行（多人合唱）
+        List<string> newLyricLines = new();
+        if (newIndex >= 0)
+        {
+            TimeSpan currentTime = Lyrics.Lines[newIndex].Time;
+            // 查找所有具有相同时间戳的歌词行
+            foreach (int idx in activeIndices)
+            {
+                if (idx < Lyrics.Lines.Count && Lyrics.Lines[idx].Time == currentTime)
+                {
+                    newLyricLines.Add(Lyrics.Lines[idx].Text);
+                }
+            }
+
+            // 如果没有找到相同时间戳的多行（常规情况），至少显示当前行
+            if (newLyricLines.Count == 0)
+            {
+                newLyricLines.Add(Lyrics.Lines[newIndex].Text);
+            }
+        }
+
+        // 更新多行歌词显示
+        if (!CurrentLyricLines.SequenceEqual(newLyricLines))
+        {
+            CurrentLyricLines = newLyricLines;
+            // 额外的歌词行（不包含第一行，第一行使用卡拉OK效果）
+            AdditionalLyricLines = newLyricLines.Count > 1
+                ? newLyricLines.Skip(1).ToList()
+                : new List<string>();
+        }
+
         if (newIndex != CurrentLyricIndex)
         {
-            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] UpdateLyricsPosition: index changed {CurrentLyricIndex} -> {newIndex}");
+            System.Diagnostics.Debug.WriteLine($"[PlayerPageViewModel] UpdateLyricsPosition: index changed {CurrentLyricIndex} -> {newIndex}, active lines: {newLyricLines.Count}");
             CurrentLyricIndex = newIndex;
+
+            // 更新单行歌词显示（保持向后兼容）
             CurrentLyricText = newIndex >= 0 ? Lyrics.Lines[newIndex].Text : null;
             PreviousLyricText = newIndex > 0 ? Lyrics.Lines[newIndex - 1].Text : null;
             NextLyricText = newIndex >= 0 && newIndex < Lyrics.Lines.Count - 1
                 ? Lyrics.Lines[newIndex + 1].Text
                 : null;
+
             LyricProgress = 0;
             HighlightedCharCount = 0;
             HighlightedText = string.Empty;
             RemainingText = CurrentLyricText ?? string.Empty;
         }
-        
+
         // 计算卡拉OK逐字高亮
         if (newIndex >= 0 && newIndex < Lyrics.Lines.Count)
         {
             string currentText = Lyrics.Lines[newIndex].Text ?? string.Empty;
-            
+
             // 优先使用EnhancedLines的逐字时间戳
             if (Lyrics.EnhancedLines != null && Lyrics.EnhancedLines.Count > 0)
             {
@@ -1154,13 +1195,13 @@ public void SetLyricsColor(uint color)
                     int highlightedCount = 0;
                     foreach (var lyricChar in enhancedLine.Chars)
                     {
-                        if (position >= lyricChar.EndTime)
+                        if (adjustedPosition >= lyricChar.EndTime)
                             highlightedCount++;
                         else
                             break;
                     }
                     HighlightedCharCount = highlightedCount;
-                    
+
                     // 分割已高亮和未高亮的文本
                     if (highlightedCount > 0 && highlightedCount <= currentText.Length)
                     {
@@ -1181,40 +1222,39 @@ public void SetLyricsColor(uint color)
                 else
                 {
                     // 没有逐字时间戳，使用进度百分比
-                    CalculateKaraokeByProgress(newIndex, position);
+                    CalculateKaraokeByProgress(newIndex, adjustedPosition);
                 }
             }
             else
             {
                 // 没有EnhancedLines，使用进度百分比
-                CalculateKaraokeByProgress(newIndex, position);
+                CalculateKaraokeByProgress(newIndex, adjustedPosition);
             }
-}
-
-        // 发送消息更新桌面歌词窗口
-        WeakReferenceMessenger.Default.Send(new UpdateLyricsMessage(HighlightedText, RemainingText));
+        }
     }
 
     /// <summary>
     /// 根据进度计算卡拉OK效果（没有逐字时间戳时使用）
     /// </summary>
-    private void CalculateKaraokeByProgress(int newIndex, TimeSpan position)
+    private void CalculateKaraokeByProgress(int newIndex, TimeSpan adjustedPosition)
     {
         if (Lyrics == null || newIndex < 0 || newIndex >= Lyrics.Lines.Count)
             return;
-            
+
         string currentText = Lyrics.Lines[newIndex].Text ?? string.Empty;
         TimeSpan lineStartTime = Lyrics.Lines[newIndex].Time;
         TimeSpan lineEndTime = newIndex < Lyrics.Lines.Count - 1
             ? Lyrics.Lines[newIndex + 1].Time
             : lineStartTime + TimeSpan.FromSeconds(5);
-            
+
+        // 需要调整结束时间，因为它也应该包含偏移
         double totalDuration = (lineEndTime - lineStartTime).TotalMilliseconds;
         if (totalDuration > 0)
         {
-            double elapsed = (position - lineStartTime).TotalMilliseconds;
+            // adjustedPosition 已经包含了偏移，所以直接使用
+            double elapsed = (adjustedPosition - lineStartTime).TotalMilliseconds;
             LyricProgress = Math.Min(100, Math.Max(0, elapsed / totalDuration * 100));
-            
+
             // 根据进度分割文本
             int charCount = (int)(currentText.Length * LyricProgress / 100);
             if (charCount > 0 && charCount <= currentText.Length)

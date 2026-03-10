@@ -46,11 +46,22 @@ public class Lyrics
     public string? Artist { get; set; }
     public string? Album { get; set; }
     public List<LyricLine> Lines { get; set; } = new();
-    
+
     /// <summary>
     /// 逐字解析的歌词行（用于卡拉OK效果）
     /// </summary>
     public List<EnhancedLyricLine> EnhancedLines { get; set; } = new();
+
+    /// <summary>
+    /// 歌词时间偏移量（毫秒），用于微调同步
+    /// 正值表示歌词延后显示，负值表示提前显示
+    /// </summary>
+    public int OffsetMs { get; set; }
+
+    /// <summary>
+    /// 自动检测的时间偏移
+    /// </summary>
+    public int DetectedOffsetMs { get; set; }
 }
 
 public interface ILyricsService
@@ -105,6 +116,13 @@ public class LyricsService : ILyricsService
                     case "al":
                         lyrics.Album = value;
                         break;
+                    case "offset":
+                        if (int.TryParse(value, out int offsetMs))
+                        {
+                            lyrics.DetectedOffsetMs = offsetMs;
+                            System.Diagnostics.Debug.WriteLine($"[LyricsService] Found offset metadata: {offsetMs}ms");
+                        }
+                        break;
                 }
                 continue;
             }
@@ -125,17 +143,16 @@ public class LyricsService : ILyricsService
                     }
 
                     var millisecondsStr = match.Groups[3].Value;
-                    if (!int.TryParse(millisecondsStr.PadRight(3, '0'), out int milliseconds))
+                    // 正确解析毫秒数：如果是2位数则补0到3位，如果是3位数则直接使用
+                    string msPadded = millisecondsStr.PadRight(3, '0');
+                    if (!int.TryParse(msPadded, out int milliseconds))
                     {
                         continue;
                     }
 
-                    if (millisecondsStr.Length == 2)
-                        milliseconds *= 10;
-
                     var time = new TimeSpan(0, 0, minutes, seconds, milliseconds);
                     lyrics.Lines.Add(new LyricLine { Time = time, Text = text });
-                    
+
                     // 解析逐字时间戳
                     ParseEnhancedLine(lyrics, time, text, trimmedLine);
                 }

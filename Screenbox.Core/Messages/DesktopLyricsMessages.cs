@@ -5,32 +5,9 @@ using LibVLCSharp.Shared;
 
 namespace Screenbox.Core.Messages;
 
-public class UpdateLyricsMessage
-{
-    public string? HighlightedText { get; }
-    public string? RemainingText { get; }
-
-    public UpdateLyricsMessage(string? highlightedText, string? remainingText)
-    {
-        HighlightedText = highlightedText;
-        RemainingText = remainingText;
-    }
-}
-
-public class ToggleDesktopLyricsWindowMessage
-{
-    public bool IsVisible { get; }
-
-    public ToggleDesktopLyricsWindowMessage(bool isVisible)
-    {
-        IsVisible = isVisible;
-    }
-}
-
-public class DesktopLyricsWindowClosedMessage
-{
-}
-
+/// <summary>
+/// Message to toggle lyrics visibility in the player.
+/// </summary>
 public class ToggleLyricsMessage
 {
 }

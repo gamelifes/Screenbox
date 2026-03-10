@@ -36,7 +36,7 @@ namespace Screenbox.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PlayerPage : Page, IRecipient<ToggleDesktopLyricsWindowMessage>
+    public sealed partial class PlayerPage : Page
     {
         internal PlayerPageViewModel ViewModel => (PlayerPageViewModel)DataContext;
 
@@ -44,7 +44,6 @@ namespace Screenbox.Pages
         private readonly DispatcherQueue _dispatcherQueue;
         private CancellationTokenSource? _animationCancellationTokenSource;
         private bool _startup;
-        private DesktopLyricsControl? _desktopLyricsControl;
 
         public PlayerPage()
         {
@@ -72,32 +71,6 @@ namespace Screenbox.Pages
 
             var playerContext = Ioc.Default.GetRequiredService<PlayerContext>();
             playerContext.PropertyChanged += PlayerContext_PropertyChanged;
-
-            // 注册桌面歌词消息
-            WeakReferenceMessenger.Default.RegisterAll(this);
-        }
-
-        public void Receive(ToggleDesktopLyricsWindowMessage message)
-        {
-            if (message.IsVisible)
-            {
-                ShowDesktopLyrics();
-            }
-            else
-            {
-                HideDesktopLyrics();
-            }
-}
-
-    private void ShowDesktopLyrics()
-        {
-            _desktopLyricsControl ??= new DesktopLyricsControl();
-            _desktopLyricsControl.ShowPopup();
-        }
-
-        private void HideDesktopLyrics()
-        {
-            _desktopLyricsControl?.HidePopup();
         }
 
         private void PlayerContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -133,14 +106,11 @@ namespace Screenbox.Pages
             });
         }
         
-private void TriggerLyricsAnimation()
+ private void TriggerLyricsAnimation()
     {
         try
         {
             VisualStateManager.GoToState(this, "LyricsChanged", true);
-
-            // 自动滚动到当前歌词
-            ScrollToCurrentLyric();
 
             // Reset to normal after animation completes using existing timer
             _delayFlyoutOpenTimer.Interval = TimeSpan.FromMilliseconds(350);
@@ -158,23 +128,6 @@ private void TriggerLyricsAnimation()
         catch
         {
             // Animation may fail, ignore silently
-        }
-    }
-
-    private void ScrollToCurrentLyric()
-    {
-        try
-        {
-            var scrollViewer = GetTemplateChild("LyricsScrollViewer") as ScrollViewer;
-            if (scrollViewer == null) return;
-
-            // 滚动到当前歌词位置
-            // 当前歌词在第一个占位符(80px)之后
-            scrollViewer.ChangeView(null, 80.0, null, true);
-        }
-        catch
-        {
-            // Scroll may fail, ignore silently
         }
     }
 
