@@ -1,0 +1,37 @@
+{
+  "configurations": [
+    {
+      "name": "x64-Debug",
+      "generator": "Visual Studio 17 2022",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\build\\windows\\x64\\${name}",
+      "installRoot": "${projectDir}\\install\\${name}",
+      "cmakeCommandArgs": "-DFLUTTER_TARGET_PLATFORM=windows-x64",
+      "buildCommandArgs": "-m -v:minimal",
+      "ctestCommandArgs": ""
+    },
+    {
+      "name": "x64-Profile",
+      "generator": "Visual Studio 17 2022",
+      "configurationType": "MinSizeRel",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\build\\windows\\x64\\${name}",
+      "installRoot": "${projectDir}\\install\\${name}",
+      "cmakeCommandArgs": "-DFLUTTER_TARGET_PLATFORM=windows-x64",
+      "buildCommandArgs": "-m -v:minimal",
+      "ctestCommandArgs": ""
+    },
+    {
+      "name": "x64-Release",
+      "generator": "Visual Studio 17 2022",
+      "configurationType": "Release",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\build\\windows\\x64\\${name}",
+      "installRoot": "${projectDir}\\install\\${name}",
+      "cmakeCommandArgs": "-DFLUTTER_TARGET_PLATFORM=windows-x64",
+      "buildCommandArgs": "-m -v:minimal",
+      "ctestCommandArgs": ""
+    }
+  ]
+}
